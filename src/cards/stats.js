@@ -8,7 +8,7 @@ import { I18n } from "../common/I18n.js";
 import { icons, rankIcon } from "../common/icons.js";
 import { clampValue } from "../common/ops.js";
 import { flexLayout, measureText } from "../common/render.js";
-import { statCardLocales, wakatimeCardLocales } from "../translations.js";
+import { statCardLocales } from "../translations.js";
 
 const CARD_MIN_WIDTH = 287;
 const CARD_DEFAULT_WIDTH = 287;
@@ -19,8 +19,6 @@ const RANK_ONLY_CARD_DEFAULT_WIDTH = 290;
 
 /**
  * Long locales that need more space for text. Keep sorted alphabetically.
- *
- * @type {(keyof typeof wakatimeCardLocales["wakatimecard.title"])[]}
  */
 const LONG_LOCALES = [
   "az",
@@ -240,7 +238,7 @@ const getTotalCommitsYearLabel = (include_all_commits, commits_year, i18n) =>
     ? ""
     : commits_year
       ? ` (${commits_year})`
-      : ` (${i18n.t("wakatimecard.lastyear")})`;
+      : ``;
 
 /**
  * @typedef {import('../fetchers/types').StatsData} StatsData
@@ -314,10 +312,7 @@ const renderStatsCard = (stats, options = {}) => {
   const apostrophe = /s$/i.test(name.trim()) ? "" : "s";
   const i18n = new I18n({
     locale,
-    translations: {
-      ...statCardLocales({ name, apostrophe }),
-      ...wakatimeCardLocales,
-    },
+    translations: statCardLocales({ name, apostrophe }),
   });
 
   // Meta data for creating text nodes with createTextNode function

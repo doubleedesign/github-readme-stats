@@ -33,24 +33,10 @@
 <p align="center">Love the project? Please consider <a href="https://www.paypal.me/anuraghazra">donating</a> to support the original creator!</p>
 
 > [!CAUTION]
-> **This repository is no longer maintained. Please use the successor project [GitHub Stats Extended](https://github.com/stats-organization/github-stats-extended) instead! GitHub Stats Extended is an actively maintained fork of this repository with additional features and improved stability. Alternatively you can also use [GitHub Readme Stats Action](https://github.com/stats-organization/github-readme-stats-action).**
+> **This repository is no longer maintained by the original author. They recommend the successor project [GitHub Stats Extended](https://github.com/stats-organization/github-stats-extended) instead.**
 
 <details>
-<summary>Click here to view the outdated documentation. Kept for reference only.</summary>
-
-<br>
-
-<p align="center">
-  <a href="#all-demos">View Demo</a>
-  ·
-  <a href="https://github.com/anuraghazra/github-readme-stats/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
-  ·
-  <a href="https://github.com/anuraghazra/github-readme-stats/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml">Request Feature</a>
-  ·
-  <a href="https://github.com/anuraghazra/github-readme-stats/discussions/1770">FAQ</a>
-  ·
-  <a href="https://github.com/anuraghazra/github-readme-stats/discussions/new?category=q-a">Ask Question</a>
-</p>
+<summary>Documentation for this version</summary>
 
 <details>
 <summary>Table of contents (Click to show)</summary>
@@ -84,9 +70,6 @@
     - [Hide Progress Bars](#hide-progress-bars)
     - [Change format of language's stats](#change-format-of-languages-stats)
     - [Demo](#demo-2)
-- [WakaTime Stats Card](#wakatime-stats-card)
-    - [Options](#options-3)
-    - [Demo](#demo-3)
 - [All Demos](#all-demos)
   - [Quick Tip (Align The Cards)](#quick-tip-align-the-cards)
     - [Stats and top languages cards](#stats-and-top-languages-cards)
@@ -101,21 +84,8 @@
     - [Available environment variables](#available-environment-variables)
   - [Keep your fork up to date](#keep-your-fork-up-to-date)
 - [:sparkling\_heart: Support the project](#sparkling_heart-support-the-project)
+- [Local Development](#local-development)
 </details>
-
-# Important Notices <!-- omit in toc -->
-
-<table><tr><td>
-⚠️<b>Warning</b>
-
-The public Vercel instance at `https://github-readme-stats.vercel.app/api` is best-effort and can be unreliable due to rate limits and traffic spikes (see [#1471](https://github.com/anuraghazra/github-readme-stats/issues/1471)). We use caching to improve stability (see [common options](#common-options)), but for reliable cards we recommend [self-hosting](#deploy-on-your-own) (Vercel or other) or using the [GitHub Actions workflow](#github-actions-recommended) to generate cards in your [profile repository](https://docs.github.com/en/account-and-profile/how-tos/profile-customization/managing-your-profile-readme).
-</td></tr></table>
-
-<table><tr><td>
-⚠️<b>Warning</b>
-
-We're a small team, and to prioritize, we rely on upvotes :+1:. We use the Top Issues dashboard for tracking community demand (see [#1935](https://github.com/anuraghazra/github-readme-stats/issues/1935)). Do not hesitate to upvote the issues and pull requests you are interested in. We will work on the most upvoted first.
-</td></tr></table>
 
 # GitHub Stats Card
 
@@ -305,7 +275,7 @@ You can customize the appearance of all your cards however you wish with URL par
 <table><tr><td>
 ⚠️<b>Warning</b>
 
-We use caching to decrease the load on our servers (see <https://github.com/anuraghazra/github-readme-stats/issues/1471#issuecomment-1271551425>). Our cards have the following default cache hours: stats card - 24 hours, top languages card - 144 hours (6 days), pin card - 240 hours (10 days), gist card - 48 hours (2 days), and wakatime card - 24 hours. If you want the data on your cards to be updated more often you can [deploy your own instance](#deploy-on-your-own) and set [environment variable](#available-environment-variables) `CACHE_SECONDS` to a value of your choosing.
+We use caching to decrease the load on our servers (see <https://github.com/anuraghazra/github-readme-stats/issues/1471#issuecomment-1271551425>). Our cards have the following default cache hours: stats card - 24 hours, top languages card - 144 hours (6 days), pin card - 240 hours (10 days), gist card - 48 hours (2 days). If you want the data on your cards to be updated more often you can [deploy your own instance](#deploy-on-your-own) and set [environment variable](#available-environment-variables) `CACHE_SECONDS` to a value of your choosing.
 </td></tr></table>
 
 ##### Gradient in bg\_color
@@ -667,60 +637,6 @@ You can use the `&stats_format=bytes` option to display the stats in bytes inste
 
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra\&stats_format=bytes)
 
-# WakaTime Stats Card
-
-<table><tr><td>
-⚠️<b>Warning</b>
-
-Please be aware that we currently only show data from WakaTime profiles that are public. You therefore have to make sure that **BOTH** `Display code time publicly` and `Display languages, editors, os, categories publicly` are enabled.
-</td></tr></table>
-
-<table><tr><td>
-⚠️<b>Warning</b>
-
-In case you just created a new WakaTime account, then it might take up to 24 hours until your stats will become visible on the WakaTime stats card.
-</td></tr></table>
-
-Change the `?username=` value to your [WakaTime](https://wakatime.com) username.
-
-```md
-[![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs)](https://github.com/anuraghazra/github-readme-stats)
-```
-
-### Options
-
-You can customize the appearance and behavior of the WakaTime stats card using the [common options](#common-options) and exclusive options listed in the table below.
-
-| Name | Description | Type | Default value |
-| --- | --- | --- | --- |
-| `hide` | Hides the languages specified from the card. | string (comma-separated values) | `null` |
-| `hide_title` | Hides the title of your card. | boolean | `false` |
-| `card_width` | Sets the card's width manually. | number | `495` |
-| `line_height` | Sets the line height between text. | integer | `25` |
-| `hide_progress` | Hides the progress bar and percentage. | boolean | `false` |
-| `custom_title` | Sets a custom title for the card. | string | `WakaTime Stats` |
-| `layout` | Switches between two available layouts `default` & `compact`. | enum | `default` |
-| `langs_count` | Limits the number of languages on the card, defaults to all reported languages. | integer | `null` |
-| `api_domain` | Sets a custom API domain for the card, e.g. to use services like [Hakatime](https://github.com/mujx/hakatime) or [Wakapi](https://github.com/muety/wakapi) | string | `wakatime.com` |
-| `display_format` | Sets the WakaTime stats display format. Choose `time` to display time-based stats or `percent` to show percentages. | enum | `time` |
-| `disable_animations` | Disables all animations in the card. | boolean | `false` |
-
-<table><tr><td>
-⚠️<b>Warning</b>
-
-Custom title should be URI-escaped, as specified in [Percent Encoding](https://en.wikipedia.org/wiki/Percent-encoding) (i.e: `WakaTime Stats` should become `WakaTime%20Stats`). You can use [urlencoder.org](https://www.urlencoder.org/) to help you do this automatically.
-</td></tr></table>
-
-### Demo
-
-![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs)
-
-![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs\&hide_progress=true)
-
-*   Compact layout
-
-![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs\&layout=compact)
-
 ***
 
 # All Demos
@@ -791,9 +707,6 @@ Choose from any of the [default themes](#themes)
 
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra)
 
-*   WakaTime card
-
-![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=ffflabs)
 
 ***
 
@@ -1072,3 +985,21 @@ Contributions are welcome! <3
 Made with :heart: and JavaScript.
 
 </details>
+
+
+---
+## Local Development
+
+To run & test github-readme-stats, you need to follow a few simple steps:-
+_(make sure you already have a [Vercel](https://vercel.com/) account)_
+
+1.  Install [Vercel CLI](https://vercel.com/download).
+2.  Fork the repository and clone the code to your local machine.
+3.  Run `npm install` in the repository root.
+4.  Run the command `vercel` in the root and follow the steps there.
+5.  Run the command `vercel dev` to start a development server at <http://localhost:3000>.
+6.  Create a `.env` file in the root and add the following line `NODE_ENV=development`, this will disable caching for local development.
+7.  The cards will then be available from this local endpoint (i.e. `http://localhost:3000/api?username=anuraghazra`).
+
+> [!NOTE]
+> You can debug the package code in [Vscode](https://code.visualstudio.com/) by using the [Node.js: Attach to process](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_setting-up-an-attach-configuration) debug option. You can also debug any tests using the [VSCode Jest extension](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest). For more information, see https://github.com/jest-community/vscode-jest/issues/912.

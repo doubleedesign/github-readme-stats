@@ -12,7 +12,7 @@ Use `?theme=THEME_NAME` parameter like so:
 
 ## Stats
 
-> These themes work with all five of our cards: Stats Card, Repo Card, Gist Card, Top Languages Card, and WakaTime Card.
+> These themes work with all of our cards: Stats Card, Repo Card, Gist Card, Top Languages Card.
 
 | | | |
 | :--: | :--: | :--: |
@@ -44,7 +44,7 @@ Use `?theme=THEME_NAME` parameter like so:
 
 ## Repo Card
 
-> These themes work with all five of our cards: Stats Card, Repo Card, Gist Card, Top Languages Card, and WakaTime Card.
+> These themes work with all of our cards: Stats Card, Repo Card, Gist Card, Top Languages Card.
 
 | | | |
 | :--: | :--: | :--: |
