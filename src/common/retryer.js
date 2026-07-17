@@ -9,7 +9,7 @@ import { logger } from "./log.js";
 const PATs = Object.keys(process.env).filter((key) =>
   /PAT_\d*$/.exec(key),
 ).length;
-const RETRIES = process.env.NODE_ENV === "test" ? 7 : PATs;
+const RETRIES = process.env.NODE_ENV === "test" ? 7 : (process.env.NODE_ENV === 'development' ? process.env.GITHUB_TOKEN : PATs);
 
 /**
  * @typedef {import("axios").AxiosResponse} AxiosResponse Axios response.
@@ -37,14 +37,26 @@ const retryer = async (fetcher, variables, retries = 0) => {
   }
 
   try {
-    // try to fetch with the first token since RETRIES is 0 index i'm adding +1
-    let response = await fetcher(
-      variables,
-      // @ts-ignore
-      process.env[`PAT_${retries + 1}`],
-      // used in tests for faking rate limit
-      retries,
-    );
+    let response;
+
+    if (process.env.NODE_ENV === "development") {
+      response = await fetcher(
+        variables,
+        // @ts-ignore
+        process.env['GITHUB_TOKEN'],
+        // used in tests for faking rate limit
+        retries,
+      );
+    } else {
+      // try to fetch with the first token since RETRIES is 0 index i'm adding +1
+      response = await fetcher(
+        variables,
+        // @ts-ignore
+        process.env[`PAT_${retries + 1}`],
+        // used in tests for faking rate limit
+        retries,
+      );
+    }
 
     // react on both type and message-based rate-limit signals.
     // https://github.com/anuraghazra/github-readme-stats/issues/4425

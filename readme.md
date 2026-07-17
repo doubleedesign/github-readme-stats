@@ -990,6 +990,19 @@ Made with :heart: and JavaScript.
 ---
 ## Local Development
 
+### Basic + Storybook
+
+1. Clone the repo to your local machine
+2. Run `npm install` in the repository root
+3. Create `.env` file and update the token values
+    ```dotenv
+    NODE_ENV=development
+    GITHUB_TOKEN=YOUR_TOKEN_HERE
+    ```
+4. Run `npm run server` to start the server
+5. Run `npm run storybook` to start Storybook in your default browser.
+
+### With Vercel CLI
 To run & test github-readme-stats, you need to follow a few simple steps:-
 _(make sure you already have a [Vercel](https://vercel.com/) account)_
 

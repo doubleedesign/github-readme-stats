@@ -4,9 +4,12 @@ import repoCard from "./api/pin.js";
 import langCard from "./api/top-langs.js";
 import gistCard from "./api/gist.js";
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const router = express.Router();
+
+app.use(cors({ origin: "*", }));
 
 router.get("/", statsCard);
 router.get("/pin", repoCard);
