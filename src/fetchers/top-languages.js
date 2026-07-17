@@ -29,7 +29,7 @@ const fetcher = (variables, token) => {
           ) {
             nodes {
               name
-              languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+              languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
                 edges {
                   size
                   node {
@@ -156,12 +156,55 @@ const fetchTopLanguages = async (
   const topLangs = Object.keys(repoNodes)
     .sort((a, b) => repoNodes[b].size - repoNodes[a].size)
     .reduce((result, key) => {
-      result[key] = repoNodes[key];
+      // eslint-disable-next-line no-use-before-define
+      result = maybeMergeResults(
+        ["JavaScript", "TypeScript"],
+        key,
+        repoNodes,
+        result,
+      );
+      // eslint-disable-next-line no-use-before-define
+      result = maybeMergeResults(["CSS", "SCSS"], key, repoNodes, result);
+
+      if (!['JavaScript', 'TypeScript', 'CSS', 'SCSS'].includes(key)) {
+        result[key] = repoNodes[key];
+      }
+
       return result;
     }, {});
 
   return topLangs;
 };
+
+function maybeMergeResults(keysToMerge, key, repoNodes, result) {
+  if (keysToMerge.includes(key)) {
+    const newKey = keysToMerge.join('/');
+
+    const ColourMap = {
+      // Give JS/TS the JS yellow for better contrast when sitting next to PHP
+      JavaScript: repoNodes.JavaScript.color,
+      TypeScript: repoNodes.JavaScript.color,
+      // Similar for CSS/SCSS - use SCSS's pink because it's less likely to be similar to adjacent languages
+      CSS: repoNodes.SCSS.color,
+      SCSS: repoNodes.SCSS.color
+    }
+
+    if (!result[newKey]) {
+      result[newKey] = {
+        name: newKey,
+        color: ColourMap[key],
+        size: repoNodes[key].size,
+        count: repoNodes[key].count
+      };
+    }
+    else {
+      result[newKey].size += repoNodes[key].size;
+      result[newKey].count += repoNodes[key].count;
+    }
+  }
+
+  return result;
+}
 
 export { fetchTopLanguages };
 export default fetchTopLanguages;

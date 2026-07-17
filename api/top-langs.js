@@ -124,6 +124,7 @@ export default async (req, res) => {
       size_weight,
       count_weight,
     );
+
     const cacheSeconds = resolveCacheSeconds({
       requested: parseInt(cache_seconds, 10),
       def: CACHE_TTL.TOP_LANGS_CARD.DEFAULT,
