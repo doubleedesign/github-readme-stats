@@ -1,6 +1,8 @@
 {
-  "trailingComma": "all",
-  "useTabs": false,
-  "endOfLine": "auto",
-  "proseWrap": "always"
+	"trailingComma": "all",
+	"useTabs": true,
+	"tabWidth": 4,
+	"endOfLine": "auto",
+	"proseWrap": "always",
+	"printWidth": 160
 }

@@ -2,11 +2,10 @@ const meta = {
   args: {
     username: 'doubleedesign',
     repo: 'fey-factor',
-    show_owner: true,
+    show_owner: false,
     show_language: true,
     show_stars: true,
     show_forks: true,
-    disable_animations: false
   },
 }
 

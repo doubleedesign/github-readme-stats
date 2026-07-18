@@ -387,7 +387,6 @@ export {
   fallbackColor,
   request,
   flexLayout,
-  getCardColors,
   wrapTextMultiline,
   logger,
   CONSTANTS,

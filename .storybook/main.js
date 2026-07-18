@@ -4,7 +4,7 @@ import { loadEnv } from "vite";
 const config = {
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [],
-  framework: "@storybook/html-vite",
+  framework: "@storybook/web-components-vite",
   viteFinal: async (config, { configType }) => {
     // Will load system env variables as well as .env file from project root
     const env = loadEnv(

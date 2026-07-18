@@ -5,7 +5,6 @@ const meta = {
     langs_count: 10,
     layout: 'compact',
     card_width: 300,
-    disable_animations: false,
     hide: 'shell,blade,hack',
     algorithm: 'byte_count'
   },

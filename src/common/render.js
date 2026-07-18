@@ -95,7 +95,7 @@ const createProgressNode = ({
  * @param {number} iconSize The size of the icon.
  * @returns {string} Icon with label SVG object.
  */
-const iconWithLabel = (icon, label, testid, iconSize) => {
+const iconWithLabel = (icon, label, testid, iconSize = 16) => {
   if (typeof label === "number" && label <= 0) {
     return "";
   }

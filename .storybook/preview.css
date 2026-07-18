@@ -1,0 +1,12 @@
+#storybook-root {
+    container-name: storybook-root;
+    container-type: inline-size;
+}
+
+/** GitHub's default theme backgrounds (it adds this attribute to its body tag) */
+[data-color-mode="dark"] {
+    background-color: #0D1117;
+}
+[data-color-mode="light"] {
+    background-color: #FFFFFF;
+}

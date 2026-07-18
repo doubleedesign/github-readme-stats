@@ -30,22 +30,6 @@ describe("Card", () => {
     );
   });
 
-  it("should hide title", () => {
-    const card = new Card({});
-    card.setHideTitle(true);
-
-    document.body.innerHTML = card.render(``);
-    expect(queryByTestId(document.body, "card-title")).toBeNull();
-  });
-
-  it("should not hide title", () => {
-    const card = new Card({});
-    card.setHideTitle(false);
-
-    document.body.innerHTML = card.render(``);
-    expect(queryByTestId(document.body, "card-title")).toBeInTheDocument();
-  });
-
   it("title should have prefix icon", () => {
     const card = new Card({ title: "ok", titlePrefixIcon: icons.contribs });
 

@@ -1,13 +1,9 @@
 // @ts-check
-import { renderGistCard } from "../src/cards/gist.js";
-import { fetchGist } from "../src/fetchers/gist.js";
-import {
-	CACHE_TTL,
-	resolveCacheSeconds,
-	setCacheHeaders,
-} from "../src/common/cache.js";
+import { renderRepoCard } from "../src/cards/repo.js";
 import { guardAccess } from "../src/common/access.js";
+import { CACHE_TTL, resolveCacheSeconds, setCacheHeaders } from "../src/common/cache.js";
 import { parseBoolean } from "../src/common/ops.js";
+import { fetchRepo } from "../src/fetchers/repo.js";
 import { handleError } from "../src/common/handle-error.js";
 
 // @ts-ignore
@@ -17,23 +13,24 @@ export default async (req, res) => {
 		return access.result;
 	}
 
-	const { id, cache_seconds, show_owner } = req.query;
+	const { username, repo, show_owner, cache_seconds, colorMode } = req.query;
 
 	try {
-		const gistData = await fetchGist(id);
+		const repoData = await fetchRepo(username, repo);
 		const cacheSeconds = resolveCacheSeconds({
 			requested: parseInt(cache_seconds, 10),
-			def: CACHE_TTL.GIST_CARD.DEFAULT,
-			min: CACHE_TTL.GIST_CARD.MIN,
-			max: CACHE_TTL.GIST_CARD.MAX,
+			def: CACHE_TTL.PIN_CARD.DEFAULT,
+			min: CACHE_TTL.PIN_CARD.MIN,
+			max: CACHE_TTL.PIN_CARD.MAX,
 		});
 
 		setCacheHeaders(res, cacheSeconds);
 		res.setHeader("Content-Type", "image/svg+xml");
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-		const html = renderGistCard(gistData, {
+		const html = renderRepoCard(repoData, {
 			show_owner: parseBoolean(show_owner),
+			colorMode: colorMode || "light",
 		});
 
 		return res.send(html);
