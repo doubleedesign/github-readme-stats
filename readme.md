@@ -1002,7 +1002,7 @@ Made with :heart: and JavaScript.
     NODE_ENV=development
     GITHUB_TOKEN=YOUR_TOKEN_HERE
     ```
-4. Run `npm run server` to start the server
+4. Run `npm run server` to start the server in dev mode
 5. Run `npm run storybook` to start Storybook in your default browser.
 
 ### With Vercel CLI
