@@ -30,9 +30,6 @@ export default meta;
 export const TopLanguages = {
   title: "Top Languages",
   render: (args) => {
-    const container = document.createElement("div");
-    container.innerHTML = "Loading...";
-
     let algorithmParams = {};
     switch (args.algorithm) {
       case 'byte_count':
@@ -58,18 +55,6 @@ export const TopLanguages = {
     const queryParams = new URLSearchParams({...args, ...algorithmParams}).toString();
     const apiUrl = `http://localhost:9000/api/top-langs?${queryParams}`;
 
-    console.log('Top languages query URL:', apiUrl)
-
-    fetch(apiUrl)
-      .then((response) => response.text())
-      .then((svg) => {
-        container.innerHTML = svg;
-      })
-      .catch((error) => {
-        console.error("Error fetching top languages:", error);
-        container.innerHTML = "Error fetching top languages";
-      });
-
-    return container; // returned synchronously, populated later
+    return `<img src="${apiUrl}" />`;
   },
 };
