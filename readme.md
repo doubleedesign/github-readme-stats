@@ -990,6 +990,9 @@ Made with :heart: and JavaScript.
 ---
 ## Local Development
 
+>[!IMPORTANT]
+> To include your Gists and/or private repositories you don't own, you need to use a _classic_ personal access token (PAT) with all `repo` scopes enabled. Fine-grained access tokens won't work.
+
 ### Basic + Storybook
 
 1. Clone the repo to your local machine
