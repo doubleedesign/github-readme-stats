@@ -211,7 +211,7 @@ const renderCompactLayout = (langs, width, totalLanguageSize, hideProgress) => {
       ${createLanguageTextNode({
         langs,
         totalSize: totalLanguageSize,
-        hideProgress: hideProgress,
+        hideProgress,
       })}
     </g>
   `;
@@ -348,7 +348,7 @@ const renderTopLanguages = (topLangs, options = {}) => {
     colors,
   });
 
-  if (disable_animations) card.disableAnimations();
+  if (disable_animations) {card.disableAnimations();}
 
   card.setHideBorder(hide_border);
   card.setHideTitle(hide_title);

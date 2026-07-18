@@ -19,7 +19,7 @@ const fetcher = (variables, token) => {
   return request(
     {
       query: `
-      query userInfo($login: String!) {
+      query userInfo($login: String!) { 
         user(login: $login) {
           # fetch only owner repos & not forks
           repositories(ownerAffiliations: OWNER, isFork: false, first: 100) {
@@ -29,7 +29,7 @@ const fetcher = (variables, token) => {
                 edges {
                   size
                   node {
-                    color
+                    color 
                     name
                   }
                 }
@@ -55,7 +55,7 @@ const fetcher = (variables, token) => {
  * @returns {Promise<import("./types").TopLangData>} Top languages data.
  */
 const fetchTopLanguages = async (username, exclude_repo = []) => {
-  if (!username) throw new MissingParamError(["username"]);
+  if (!username) {throw new MissingParamError(["username"]);}
 
   const res = await retryer(fetcher, { login: username });
 

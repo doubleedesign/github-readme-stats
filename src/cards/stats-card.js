@@ -258,7 +258,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
   card.setHideTitle(hide_title);
   card.setCSS(cssStyles);
 
-  if (disable_animations) card.disableAnimations();
+  if (disable_animations) {card.disableAnimations();}
 
   /**
    * Calculates the right rank circle translation values such that the rank circle

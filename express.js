@@ -9,7 +9,9 @@ import cors from "cors";
 const app = express();
 const router = express.Router();
 
-app.use(cors({ origin: "*", }));
+if (process.env.NODE_ENV === "development") {
+  app.use(cors({ origin: "*" }));
+}
 
 router.get("/", statsCard);
 router.get("/pin", repoCard);

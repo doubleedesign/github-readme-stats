@@ -176,6 +176,9 @@ const fetchTopLanguages = async (
   return topLangs;
 };
 
+/**
+ *
+ */
 function maybeMergeResults(keysToMerge, key, repoNodes, result) {
   if (keysToMerge.includes(key)) {
     const newKey = keysToMerge.join('/');
