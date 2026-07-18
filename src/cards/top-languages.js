@@ -782,20 +782,13 @@ const getDefaultLanguagesCountByLayout = ({ layout, hide_progress }) => {
 const renderTopLanguages = (topLangs, options = {}) => {
   const {
     hide_title = false,
-    hide_border = false,
     card_width,
-    title_color,
-    text_color,
-    bg_color,
     hide,
     hide_progress,
-    theme,
     layout,
     custom_title,
     locale,
     langs_count = getDefaultLanguagesCountByLayout({ layout, hide_progress }),
-    border_radius,
-    border_color,
     disable_animations,
     stats_format = "percentages",
   } = options;
@@ -820,14 +813,7 @@ const renderTopLanguages = (topLangs, options = {}) => {
     : DEFAULT_CARD_WIDTH;
   let height = calculateNormalLayoutHeight(langs.length);
 
-  // returns theme based colors with proper overrides and defaults
-  const colors = getCardColors({
-    title_color,
-    text_color,
-    bg_color,
-    border_color,
-    theme,
-  });
+  const colors = getCardColors({});
 
   let finalLayout = "";
   if (langs.length === 0) {
@@ -881,15 +867,12 @@ const renderTopLanguages = (topLangs, options = {}) => {
     defaultTitle: i18n.t("langcard.title"),
     width,
     height,
-    border_radius,
-    colors,
   });
 
   if (disable_animations) {
     card.disableAnimations();
   }
 
-  card.setHideBorder(hide_border);
   card.setHideTitle(hide_title);
   card.setCSS(
     `
@@ -910,7 +893,7 @@ const renderTopLanguages = (topLangs, options = {}) => {
       }
     }
     .stat {
-      font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${colors.textColor};
+      font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${colors.text_color};
     }
     @supports(-moz-appearance: auto) {
       /* Selector detects Firefox */
@@ -919,7 +902,7 @@ const renderTopLanguages = (topLangs, options = {}) => {
     .bold { font-weight: 700 }
     .lang-name {
       font: 400 11px "Segoe UI", Ubuntu, Sans-Serif;
-      fill: ${colors.textColor};
+      fill: ${colors.text_color};
     }
     .stagger {
       opacity: 0;

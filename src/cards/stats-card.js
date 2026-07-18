@@ -5,12 +5,11 @@ import { icons } from "../common/icons.js";
 import {
   clampValue,
   flexLayout,
-  getCardColors,
   kFormatter,
   measureText,
 } from "../common/utils.js";
-import { getStyles } from "../getStyles.js";
 import { statCardLocales } from "../translations.js";
+import { getCardColors } from "../common/color.js";
 
 const CARD_MIN_WIDTH = 287;
 const CARD_DEFAULT_WIDTH = 287;
@@ -27,7 +26,6 @@ const RANK_CARD_DEFAULT_WIDTH = 450;
  * @param {number} createTextNodeParams.index The index of the stat.
  * @param {boolean} createTextNodeParams.showIcons Whether to show icons.
  * @param {number} createTextNodeParams.shiftValuePos Number of pixels the value has to be shifted to the right.
- * @param {boolean} createTextNodeParams.bold Whether to bold the label.
  * @returns
  */
 const createTextNode = ({
@@ -38,7 +36,6 @@ const createTextNode = ({
   index,
   showIcons,
   shiftValuePos,
-  bold,
 }) => {
   const kValue = kFormatter(value);
   const staggerDelay = (index + 3) * 150;
@@ -54,11 +51,9 @@ const createTextNode = ({
   return `
     <g class="stagger" style="animation-delay: ${staggerDelay}ms" transform="translate(25, 0)">
       ${iconSvg}
-      <text class="stat ${
-        bold ? " bold" : "not_bold"
-      }" ${labelOffset} y="12.5">${label}:</text>
+      <text class="stat" ${labelOffset} y="12.5">${label}:</text>
       <text
-        class="stat ${bold ? " bold" : "not_bold"}"
+        class="stat"
         x="${(showIcons ? 140 : 120) + shiftValuePos}"
         y="12.5"
         data-testid="${id}"
@@ -87,39 +82,18 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
   const {
     hide = [],
     show_icons = false,
-    hide_title = false,
-    hide_border = false,
     card_width,
     hide_rank = false,
     include_all_commits = false,
-    line_height = 25,
-    title_color,
-    ring_color,
-    icon_color,
-    text_color,
-    text_bold = true,
-    bg_color,
-    theme = "default",
     custom_title,
-    border_radius,
-    border_color,
     locale,
     disable_animations = false,
   } = options;
 
-  const lheight = parseInt(String(line_height), 10);
 
   // returns theme based colors with proper overrides and defaults
   const { titleColor, iconColor, textColor, bgColor, borderColor, ringColor } =
-    getCardColors({
-      title_color,
-      text_color,
-      icon_color,
-      bg_color,
-      border_color,
-      ring_color,
-      theme,
-    });
+    getCardColors({});
 
   const apostrophe = ["x", "s"].includes(name.slice(-1).toLocaleLowerCase())
     ? ""
@@ -191,28 +165,19 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
         index,
         showIcons: show_icons,
         shiftValuePos: 79.01 + (isLongLocale ? 50 : 0),
-        bold: text_bold,
       }),
     );
 
   // Calculate the card height depending on how many items there are
   // but if rank circle is visible clamp the minimum height to `150`
   let height = Math.max(
-    45 + (statItems.length + 1) * lheight,
+    45 + (statItems.length + 1) * 25,
     hide_rank ? 0 : 150,
   );
 
   // the better user's score the the rank will be closer to zero so
   // subtracting 100 to get the progress in 100%
   const progress = 100 - rank.score;
-  const cssStyles = getStyles({
-    titleColor,
-    ringColor,
-    textColor,
-    iconColor,
-    show_icons,
-    progress,
-  });
 
   const calculateTextWidth = () => {
     return measureText(custom_title ? custom_title : i18n.t("statcard.title"));
@@ -244,19 +209,18 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     defaultTitle: i18n.t("statcard.title"),
     width,
     height,
-    border_radius,
-    colors: {
-      titleColor,
-      textColor,
-      iconColor,
-      bgColor,
-      borderColor,
-    },
   });
 
-  card.setHideBorder(hide_border);
-  card.setHideTitle(hide_title);
-  card.setCSS(cssStyles);
+  const colors = getCardColors({});
+
+  card.setCSS(`
+    .description { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .stat { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .icon { fill: ${colors.icon_color} }
+    .badge { font: 600 11px 'Segoe UI', Ubuntu, Sans-Serif; }
+    .badge rect { opacity: 0.2 }
+  `);
+
 
   if (disable_animations) {card.disableAnimations();}
 
@@ -283,10 +247,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
   // Conditionally rendered elements
   const rankCircle = hide_rank
     ? ""
-    : `<g data-testid="rank-circle"
-          transform="translate(${calculateRankXTranslation()}, ${
-        height / 2 - 50
-      })">
+    : `<g data-testid="rank-circle" transform="translate(${calculateRankXTranslation()}, ${height / 2 - 50})">
         <circle class="rank-circle-rim" cx="-10" cy="8" r="40" />
         <circle class="rank-circle" cx="-10" cy="8" r="40" />
         <g class="rank-text">
@@ -325,7 +286,6 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     <svg x="0" y="0">
       ${flexLayout({
         items: statItems,
-        gap: lheight,
         direction: "column",
       }).join("")}
     </svg>

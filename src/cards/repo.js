@@ -65,15 +65,7 @@ const renderRepoCard = (repo, options = {}) => {
     forkCount,
   } = repo;
   const {
-    hide_border = false,
-    title_color,
-    icon_color,
-    text_color,
-    bg_color,
     show_owner = false,
-    theme = "default_repocard",
-    border_radius,
-    border_color,
     locale,
     description_lines_count,
   } = options;
@@ -109,15 +101,8 @@ const renderRepoCard = (repo, options = {}) => {
     translations: repoCardLocales,
   });
 
-  // returns theme based colors with proper overrides and defaults
-  const colors = getCardColors({
-    title_color,
-    icon_color,
-    text_color,
-    bg_color,
-    border_color,
-    theme,
-  });
+  const colors = getCardColors({});
+
 
   const svgLanguage = primaryLanguage
     ? createLanguageNode(langName, langColor)
@@ -152,18 +137,15 @@ const renderRepoCard = (repo, options = {}) => {
     defaultTitle: header.length > 35 ? `${header.slice(0, 35)}...` : header,
     titlePrefixIcon: icons.contribs,
     width: 400,
-    height,
-    border_radius,
-    colors,
+    height
   });
 
   card.disableAnimations();
-  card.setHideBorder(hide_border);
   card.setHideTitle(false);
   card.setCSS(`
-    .description { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.textColor} }
-    .gray { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.textColor} }
-    .icon { fill: ${colors.iconColor} }
+    .description { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .gray { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .icon { fill: ${colors.icon_color} }
     .badge { font: 600 11px 'Segoe UI', Ubuntu, Sans-Serif; }
     .badge rect { opacity: 0.2 }
   `);
@@ -172,10 +154,10 @@ const renderRepoCard = (repo, options = {}) => {
     ${
       isTemplate
         ? // @ts-ignore
-          getBadgeSVG(i18n.t("repocard.template"), colors.textColor)
+          getBadgeSVG(i18n.t("repocard.template"), colors.text_color)
         : isArchived
           ? // @ts-ignore
-            getBadgeSVG(i18n.t("repocard.archived"), colors.textColor)
+            getBadgeSVG(i18n.t("repocard.archived"), colors.text_color)
           : ""
     }
 

@@ -164,12 +164,6 @@ describe("Test /api/", () => {
         username: "anuraghazra",
         hide: "issues,prs,contribs",
         show_icons: true,
-        hide_border: true,
-        line_height: 100,
-        title_color: "fff",
-        icon_color: "fff",
-        text_color: "fff",
-        bg_color: "fff",
       },
       data_stats,
     );
@@ -181,12 +175,6 @@ describe("Test /api/", () => {
       renderStatsCard(stats, {
         hide: ["issues", "prs", "contribs"],
         show_icons: true,
-        hide_border: true,
-        line_height: 100,
-        title_color: "fff",
-        icon_color: "fff",
-        text_color: "fff",
-        bg_color: "fff",
       }),
     );
   });
@@ -327,13 +315,6 @@ describe("Test /api/", () => {
         username: "anuraghazra",
         hide: "issues,prs,contribs",
         show_icons: true,
-        hide_border: true,
-        line_height: 100,
-        title_color: "fff",
-        ring_color: "0000ff",
-        icon_color: "fff",
-        text_color: "fff",
-        bg_color: "fff",
       },
       data_stats,
     );
@@ -345,13 +326,6 @@ describe("Test /api/", () => {
       renderStatsCard(stats, {
         hide: ["issues", "prs", "contribs"],
         show_icons: true,
-        hide_border: true,
-        line_height: 100,
-        title_color: "fff",
-        ring_color: "0000ff",
-        icon_color: "fff",
-        text_color: "fff",
-        bg_color: "fff",
       }),
     );
   });

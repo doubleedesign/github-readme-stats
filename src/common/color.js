@@ -1,6 +1,13 @@
-// @ts-check
-
-import { themes } from "../../themes/index.js";
+const themes = {
+  default: {
+    title_color: "#2f80ed",
+    icon_color: "#4c71f2",
+    text_color: "#434d58",
+    bg_color: "#fffefe",
+    border_color: "#e4e2e2",
+    ring_color: "#0000ff",
+  },
+};
 
 /**
  * Checks if a string is a valid hex color.
@@ -49,96 +56,10 @@ const fallbackColor = (color, fallbackColor) => {
 };
 
 /**
- * Object containing card colors.
- * @typedef {{
- *  titleColor: string;
- *  iconColor: string;
- *  textColor: string;
- *  bgColor: string | string[];
- *  borderColor: string;
- *  ringColor: string;
- * }} CardColors
- */
-
-/**
  * Returns theme based colors with proper overrides and defaults.
- *
- * @param {Object} args Function arguments.
- * @param {string=} args.title_color Card title color.
- * @param {string=} args.text_color Card text color.
- * @param {string=} args.icon_color Card icon color.
- * @param {string=} args.bg_color Card background color.
- * @param {string=} args.border_color Card border color.
- * @param {string=} args.ring_color Card ring color.
- * @param {string=} args.theme Card theme.
- * @returns {CardColors} Card colors.
  */
-const getCardColors = ({
-  title_color,
-  text_color,
-  icon_color,
-  bg_color,
-  border_color,
-  ring_color,
-  theme,
-}) => {
-  const defaultTheme = themes["default"];
-  const isThemeProvided = theme !== null && theme !== undefined;
-
-  // @ts-ignore
-  const selectedTheme = isThemeProvided ? themes[theme] : defaultTheme;
-
-  const defaultBorderColor =
-    "border_color" in selectedTheme
-      ? selectedTheme.border_color
-      : // @ts-ignore
-        defaultTheme.border_color;
-
-  // get the color provided by the user else the theme color
-  // finally if both colors are invalid fallback to default theme
-  const titleColor = fallbackColor(
-    title_color || selectedTheme.title_color,
-    "#" + defaultTheme.title_color,
-  );
-
-  // get the color provided by the user else the theme color
-  // finally if both colors are invalid we use the titleColor
-  const ringColor = fallbackColor(
-    // @ts-ignore
-    ring_color || selectedTheme.ring_color,
-    titleColor,
-  );
-  const iconColor = fallbackColor(
-    icon_color || selectedTheme.icon_color,
-    "#" + defaultTheme.icon_color,
-  );
-  const textColor = fallbackColor(
-    text_color || selectedTheme.text_color,
-    "#" + defaultTheme.text_color,
-  );
-  const bgColor = fallbackColor(
-    bg_color || selectedTheme.bg_color,
-    "#" + defaultTheme.bg_color,
-  );
-
-  const borderColor = fallbackColor(
-    border_color || defaultBorderColor,
-    "#" + defaultBorderColor,
-  );
-
-  if (
-    typeof titleColor !== "string" ||
-    typeof textColor !== "string" ||
-    typeof ringColor !== "string" ||
-    typeof iconColor !== "string" ||
-    typeof borderColor !== "string"
-  ) {
-    throw new Error(
-      "Unexpected behavior, all colors except background should be string.",
-    );
-  }
-
-  return { titleColor, iconColor, textColor, bgColor, borderColor, ringColor };
+const getCardColors = ({}) => {
+  return themes.default;
 };
 
 export { isValidHexColor, isValidGradient, getCardColors };

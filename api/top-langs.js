@@ -23,12 +23,6 @@ export default async (req, res) => {
     username,
     hide,
     hide_title,
-    hide_border,
-    card_width,
-    title_color,
-    text_color,
-    bg_color,
-    theme,
     cache_seconds,
     layout,
     langs_count,
@@ -37,8 +31,6 @@ export default async (req, res) => {
     count_weight,
     custom_title,
     locale,
-    border_radius,
-    border_color,
     disable_animations,
     hide_progress,
     stats_format,
@@ -49,13 +41,6 @@ export default async (req, res) => {
     res,
     id: username,
     type: "username",
-    colors: {
-      title_color,
-      text_color,
-      bg_color,
-      border_color,
-      theme,
-    },
   });
   if (!access.isPassed) {
     return access.result;
@@ -67,11 +52,6 @@ export default async (req, res) => {
         message: "Something went wrong",
         secondaryMessage: "Locale not found",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );
@@ -87,11 +67,6 @@ export default async (req, res) => {
         message: "Something went wrong",
         secondaryMessage: "Incorrect layout input",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );
@@ -107,11 +82,6 @@ export default async (req, res) => {
         message: "Something went wrong",
         secondaryMessage: "Incorrect stats_format input",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );
@@ -138,17 +108,9 @@ export default async (req, res) => {
       renderTopLanguages(topLangs, {
         custom_title,
         hide_title: parseBoolean(hide_title),
-        hide_border: parseBoolean(hide_border),
-        card_width: parseInt(card_width, 10),
         hide: parseArray(hide),
-        title_color,
-        text_color,
-        bg_color,
-        theme,
         layout,
         langs_count,
-        border_radius,
-        border_color,
         locale: locale ? locale.toLowerCase() : null,
         disable_animations: parseBoolean(disable_animations),
         hide_progress: parseBoolean(hide_progress),
@@ -163,11 +125,6 @@ export default async (req, res) => {
           message: err.message,
           secondaryMessage: retrieveSecondaryMessage(err),
           renderOptions: {
-            title_color,
-            text_color,
-            bg_color,
-            border_color,
-            theme,
             show_repo_link: !(err instanceof MissingParamError),
           },
         }),
@@ -177,11 +134,6 @@ export default async (req, res) => {
       renderError({
         message: "An unknown error occurred",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );

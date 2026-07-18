@@ -7,7 +7,6 @@ import {
   createLanguageNode,
 } from "../common/render.js";
 import Card from "../common/Card.js";
-import { getCardColors } from "../common/color.js";
 import { kFormatter, wrapTextMultiline } from "../common/fmt.js";
 import { encodeHTML } from "../common/html.js";
 import { icons } from "../common/icons.js";
@@ -21,6 +20,7 @@ import { parseEmojis } from "../common/ops.js";
  * --experimental-json-modules flag.
  */
 import { createRequire } from "module";
+import { getCardColors } from "../common/color.js";
 const require = createRequire(import.meta.url);
 const languageColors = require("../common/languageColors.json"); // now works
 
@@ -44,27 +44,8 @@ const renderGistCard = (gistData, options = {}) => {
   const { name, nameWithOwner, description, language, starsCount, forksCount } =
     gistData;
   const {
-    title_color,
-    icon_color,
-    text_color,
-    bg_color,
-    theme,
-    border_radius,
-    border_color,
     show_owner = false,
-    hide_border = false,
   } = options;
-
-  // returns theme based colors with proper overrides and defaults
-  const { titleColor, textColor, iconColor, bgColor, borderColor } =
-    getCardColors({
-      title_color,
-      icon_color,
-      text_color,
-      bg_color,
-      border_color,
-      theme,
-    });
 
   const lineWidth = 59;
   const linesLimit = 10;
@@ -120,22 +101,17 @@ const renderGistCard = (gistData, options = {}) => {
     titlePrefixIcon: icons.gist,
     width: CARD_DEFAULT_WIDTH,
     height,
-    border_radius,
-    colors: {
-      titleColor,
-      textColor,
-      iconColor,
-      bgColor,
-      borderColor,
-    },
   });
 
+  const colors = getCardColors({});
+
   card.setCSS(`
-    .description { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${textColor} }
-    .gray { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${textColor} }
-    .icon { fill: ${iconColor} }
+    .description { font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .gray { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color} }
+    .icon { fill: ${colors.icon_color} }
+    .badge { font: 600 11px 'Segoe UI', Ubuntu, Sans-Serif; }
+    .badge rect { opacity: 0.2 }
   `);
-  card.setHideBorder(hide_border);
 
   return card.render(`
     <text class="description" x="25" y="-5">

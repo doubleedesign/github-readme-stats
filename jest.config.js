@@ -3,6 +3,7 @@ export default {
   transform: {},
   testEnvironment: "jsdom",
   coverageProvider: "v8",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/tests/e2e/"],
   modulePathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/tests/e2e/"],
   coveragePathIgnorePatterns: [

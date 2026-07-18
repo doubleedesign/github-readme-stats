@@ -1,5 +1,4 @@
 const meta = {
-  title: "Stats Card",
   args: {
     username: "doubleedesign",
   },
@@ -8,10 +7,18 @@ const meta = {
 export default meta;
 
 export const StatsCard = {
-  title: "Stats Card",
   render: (args) => {
     const queryParams = new URLSearchParams(args).toString();
     const apiUrl = `http://localhost:9000/api/?${queryParams}`;
+
+    // For debugging the source SVG
+    fetch(apiUrl)
+      .then((response) => {
+        return response.text();
+      })
+      .then((svg) => {
+        console.log(svg);
+      });
 
     return `<img src="${apiUrl}" />`;
   },

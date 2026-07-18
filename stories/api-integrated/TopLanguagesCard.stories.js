@@ -1,5 +1,4 @@
 const meta = {
-  title: "Top Languages Card",
   args: {
     username: 'doubleedesign',
     exclude_repo: '',
@@ -28,7 +27,6 @@ export default meta;
 
 
 export const TopLanguagesCard = {
-  title: "Top Languages Card",
   render: (args) => {
     let algorithmParams = {};
     switch (args.algorithm) {

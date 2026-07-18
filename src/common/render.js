@@ -130,11 +130,6 @@ const UPSTREAM_API_ERRORS = [
  * @param {string} args.message Main error message.
  * @param {string} [args.secondaryMessage=""] The secondary error message.
  * @param {object} [args.renderOptions={}] Render options.
- * @param {string=} args.renderOptions.title_color Card title color.
- * @param {string=} args.renderOptions.text_color Card text color.
- * @param {string=} args.renderOptions.bg_color Card background color.
- * @param {string=} args.renderOptions.border_color Card border color.
- * @param {Parameters<typeof getCardColors>[0]["theme"]=} args.renderOptions.theme Card theme.
  * @param {boolean=} args.renderOptions.show_repo_link Whether to show repo link or not.
  * @returns {string} The SVG markup.
  */
@@ -144,24 +139,11 @@ const renderError = ({
   renderOptions = {},
 }) => {
   const {
-    title_color,
-    text_color,
-    bg_color,
-    border_color,
-    theme = "default",
     show_repo_link = true,
   } = renderOptions;
 
   // returns theme based colors with proper overrides and defaults
-  const { titleColor, textColor, bgColor, borderColor } = getCardColors({
-    title_color,
-    text_color,
-    icon_color: "",
-    bg_color,
-    border_color,
-    ring_color: "",
-    theme,
-  });
+  const { titleColor, textColor, bgColor, borderColor } = getCardColors({});
 
   return `
     <svg width="${ERROR_CARD_LENGTH}"  height="120" viewBox="0 0 ${ERROR_CARD_LENGTH} 120" fill="${bgColor}" xmlns="http://www.w3.org/2000/svg">

@@ -2,7 +2,6 @@
 import axios from "axios";
 import toEmoji from "emoji-name-map";
 import wrap from "word-wrap";
-import { themes } from "../../themes/index.js";
 
 // Script parameters.
 const ERROR_CARD_LENGTH = 576.5;
@@ -189,68 +188,6 @@ const flexLayout = ({ items, gap, direction, sizes = [] }) => {
     lastSize += size + gap;
     return `<g transform="${transform}">${item}</g>`;
   });
-};
-
-/**
- * Returns theme based colors with proper overrides and defaults.
- *
- * @param {Object[]} args Function arguments.
- * @param {string} args.title_color Card title color.
- * @param {string} args.text_color Card text color.
- * @param {string} args.icon_color Card icon color.
- * @param {string} args.bg_color Card background color.
- * @param {string} args.border_color Card border color.
- * @param {string} args.theme Card theme.
- * @param {string} args.fallbackTheme Fallback theme.
- *
- */
-const getCardColors = ({
-  title_color,
-  text_color,
-  icon_color,
-  bg_color,
-  border_color,
-  ring_color,
-  theme,
-  fallbackTheme = "default",
-}) => {
-  const defaultTheme = themes[fallbackTheme];
-  const selectedTheme = themes[theme] || defaultTheme;
-  const defaultBorderColor =
-    selectedTheme.border_color || defaultTheme.border_color;
-
-  // get the color provided by the user else the theme color
-  // finally if both colors are invalid fallback to default theme
-  const titleColor = fallbackColor(
-    title_color || selectedTheme.title_color,
-    "#" + defaultTheme.title_color,
-  );
-
-  // get the color provided by the user else the theme color
-  // finally if both colors are invalid we use the titleColor
-  const ringColor = fallbackColor(
-    ring_color || selectedTheme.ring_color,
-    titleColor,
-  );
-  const iconColor = fallbackColor(
-    icon_color || selectedTheme.icon_color,
-    "#" + defaultTheme.icon_color,
-  );
-  const textColor = fallbackColor(
-    text_color || selectedTheme.text_color,
-    "#" + defaultTheme.text_color,
-  );
-  const bgColor = fallbackColor(
-    bg_color || selectedTheme.bg_color,
-    "#" + defaultTheme.bg_color,
-  );
-
-  const borderColor = fallbackColor(
-    border_color || defaultBorderColor,
-    "#" + defaultBorderColor,
-  );
-
-  return { titleColor, iconColor, textColor, bgColor, borderColor, ringColor };
 };
 
 /**

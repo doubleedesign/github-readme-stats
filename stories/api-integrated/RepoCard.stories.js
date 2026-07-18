@@ -1,10 +1,7 @@
 const meta = {
-  title: "Repo Card",
   args: {
     username: 'doubleedesign',
     repo: 'fey-factor',
-    theme: 'default',
-    hide_border: false,
     show_owner: true,
     show_language: true,
     show_stars: true,
@@ -16,10 +13,16 @@ const meta = {
 export default meta;
 
 export const RepoCard = {
-  title: "Repo Card",
   render: (args) => {
     const queryParams = new URLSearchParams(args).toString();
     const apiUrl = `http://localhost:9000/api/pin/?${queryParams}`;
+
+    // For debugging the source SVG
+    fetch(apiUrl).then((response => {
+      return response.text();
+    })).then((svg) => {
+      console.log(svg);
+    });
 
     return `<img src="${apiUrl}" />`;
   }

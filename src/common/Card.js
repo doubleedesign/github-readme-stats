@@ -10,36 +10,21 @@ class Card {
    * @param {object} args Card arguments.
    * @param {number=} args.width Card width.
    * @param {number=} args.height Card height.
-   * @param {number=} args.border_radius Card border radius.
    * @param {string=} args.customTitle Card custom title.
    * @param {string=} args.defaultTitle Card default title.
    * @param {string=} args.titlePrefixIcon Card title prefix icon.
-   * @param {object} [args.colors={}] Card colors arguments.
-   * @param {string=} args.colors.titleColor Card title color.
-   * @param {string=} args.colors.textColor Card text color.
-   * @param {string=} args.colors.iconColor Card icon color.
-   * @param {string|string[]=} args.colors.bgColor Card background color.
-   * @param {string=} args.colors.borderColor Card border color.
    */
   constructor({
     width = 100,
     height = 100,
-    border_radius = 4.5,
-    colors = {},
     customTitle,
     defaultTitle = "",
     titlePrefixIcon,
   }) {
     this.width = width;
     this.height = height;
-
     this.hideBorder = false;
     this.hideTitle = false;
-
-    this.border_radius = border_radius;
-
-    // returns theme based colors with proper overrides and defaults
-    this.colors = colors;
     this.title =
       customTitle === undefined
         ? encodeHTML(defaultTitle)
@@ -79,14 +64,6 @@ class Card {
    */
   setCSS(value) {
     this.css = value;
-  }
-
-  /**
-   * @param {boolean} value Whether to hide the border or not.
-   * @returns {void}
-   */
-  setHideBorder(value) {
-    this.hideBorder = value;
   }
 
   /**
@@ -148,33 +125,6 @@ class Card {
   }
 
   /**
-   * @returns {string} The rendered card gradient.
-   */
-  renderGradient() {
-    if (typeof this.colors.bgColor !== "object") {
-      return "";
-    }
-
-    const gradients = this.colors.bgColor.slice(1);
-    return typeof this.colors.bgColor === "object"
-      ? `
-        <defs>
-          <linearGradient
-            id="gradient"
-            gradientTransform="rotate(${this.colors.bgColor[0]})"
-            gradientUnits="userSpaceOnUse"
-          >
-            ${gradients.map((grad, index) => {
-              let offset = (index * 100) / (gradients.length - 1);
-              return `<stop offset="${offset}%" stop-color="#${grad}" />`;
-            })}
-          </linearGradient>
-        </defs>
-        `
-      : "";
-  }
-
-  /**
    * Retrieves css animations for a card.
    *
    * @returns {string} Animation css.
@@ -221,7 +171,7 @@ class Card {
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
-            fill: ${this.colors.titleColor};
+            fill: #2f80ed;
             animation: fadeInAnimation 0.8s ease-in-out forwards;
           }
           @supports(-moz-appearance: auto) {
@@ -238,21 +188,14 @@ class Card {
           }
         </style>
 
-        ${this.renderGradient()}
-
         <rect
           data-testid="card-bg"
           x="0.5"
           y="0.5"
-          rx="${this.border_radius}"
           height="99%"
-          stroke="${this.colors.borderColor}"
+          stroke="#e4e2e2"
           width="${this.width - 1}"
-          fill="${
-            typeof this.colors.bgColor === "object"
-              ? "url(#gradient)"
-              : this.colors.bgColor
-          }"
+          fill="#FFF"
           stroke-opacity="${this.hideBorder ? 0 : 1}"
         />
 

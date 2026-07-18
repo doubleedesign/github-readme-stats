@@ -1,6 +1,5 @@
 .devcontainer
 .github
-.husky
 .vscode
 benchmarks
 coverage

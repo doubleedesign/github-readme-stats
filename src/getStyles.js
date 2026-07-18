@@ -1,4 +1,6 @@
 // @ts-check
+import { getCardColors } from "./common/color.js";
+
 /**
  * Calculates progress along the boundary of the circle i.e it's circumference.
  *
@@ -64,23 +66,13 @@ const getAnimations = () => {
 
 /**
  * Retrieves CSS styles for a card.
- *
- * @param {Object[]} colors The colors to use for the card.
- * @param {string} colors.titleColor The title color.
- * @param {string} colors.textColor The text color.
- * @param {string} colors.iconColor The icon color.
- * @param {boolean} colors.show_icons Whether to show icons.
- * @param {number} colors.progress The progress value to animate to.
- * @returns {string} Card CSS styles.
  */
 const getStyles = ({
-  titleColor,
-  textColor,
-  iconColor,
-  ringColor,
   show_icons,
   progress,
 }) => {
+  const { textColor, iconColor, ringColor } = getCardColors({});
+
   return `
     .stat {
       font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${textColor};

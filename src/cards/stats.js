@@ -18,38 +18,6 @@ const RANK_ONLY_CARD_MIN_WIDTH = 290;
 const RANK_ONLY_CARD_DEFAULT_WIDTH = 290;
 
 /**
- * Long locales that need more space for text. Keep sorted alphabetically.
- */
-const LONG_LOCALES = [
-  "az",
-  "bg",
-  "cs",
-  "de",
-  "el",
-  "es",
-  "fil",
-  "fi",
-  "fr",
-  "hu",
-  "id",
-  "ja",
-  "ml",
-  "my",
-  "nl",
-  "pl",
-  "pt-br",
-  "pt-pt",
-  "ru",
-  "sr",
-  "sr-latn",
-  "sw",
-  "ta",
-  "uk-ua",
-  "uz",
-  "zh-tw",
-];
-
-/**
  * Create a stats card text item.
  *
  * @param {object} params Object that contains the createTextNode parameters.
@@ -75,7 +43,6 @@ const createTextNode = ({
   index,
   showIcons,
   shiftValuePos,
-  bold,
   numberFormat,
   numberPrecision,
 }) => {
@@ -100,11 +67,9 @@ const createTextNode = ({
   return `
     <g class="stagger" style="animation-delay: ${staggerDelay}ms" transform="translate(25, 0)">
       ${iconSvg}
-      <text class="stat ${
-        bold ? " bold" : "not_bold"
-      }" ${labelOffset} y="12.5">${label}:</text>
+      <text class="stat ${labelOffset}" y="12.5">${label}:</text>
       <text
-        class="stat ${bold ? " bold" : "not_bold"}"
+        class="stat"
         x="${(showIcons ? 140 : 120) + shiftValuePos}"
         y="12.5"
         data-testid="${id}"
@@ -157,26 +122,19 @@ const getProgressAnimation = ({ progress }) => {
  * Retrieves CSS styles for a card.
  *
  * @param {Object} colors The colors to use for the card.
- * @param {string} colors.titleColor The title color.
- * @param {string} colors.textColor The text color.
- * @param {string} colors.iconColor The icon color.
- * @param {string} colors.ringColor The ring color.
  * @param {boolean} colors.show_icons Whether to show icons.
  * @param {number} colors.progress The progress value to animate to.
  * @returns {string} Card CSS styles.
  */
 const getStyles = ({
-  // eslint-disable-next-line no-unused-vars
-  titleColor,
-  textColor,
-  iconColor,
-  ringColor,
   show_icons,
   progress,
 }) => {
+  const colors = getCardColors({});
+
   return `
     .stat {
-      font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${textColor};
+      font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${colors.text_color};
     }
     @supports(-moz-appearance: auto) {
       /* Selector detects Firefox */
@@ -187,7 +145,7 @@ const getStyles = ({
       animation: fadeInAnimation 0.3s ease-in-out forwards;
     }
     .rank-text {
-      font: 800 24px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${textColor};
+      font: 800 24px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${colors.text_color};
       animation: scaleInAnimation 0.3s ease-in-out forwards;
     }
     .rank-percentile-header {
@@ -197,21 +155,19 @@ const getStyles = ({
       font-size: 16px;
     }
     
-    .not_bold { font-weight: 400 }
-    .bold { font-weight: 700 }
     .icon {
-      fill: ${iconColor};
+      fill: ${colors.icon_color};
       display: ${show_icons ? "block" : "none"};
     }
 
     .rank-circle-rim {
-      stroke: ${ringColor};
+      stroke: ${colors.ring_color};
       fill: none;
       stroke-width: 6;
       opacity: 0.2;
     }
     .rank-circle {
-      stroke: ${ringColor};
+      stroke: ${colors.ring_color};
       stroke-dasharray: 250;
       fill: none;
       stroke-width: 6;
@@ -270,23 +226,11 @@ const renderStatsCard = (stats, options = {}) => {
   const {
     hide = [],
     show_icons = false,
-    hide_title = false,
-    hide_border = false,
     card_width,
     hide_rank = false,
     include_all_commits = false,
     commits_year,
-    line_height = 25,
-    title_color,
-    ring_color,
-    icon_color,
-    text_color,
-    text_bold = true,
-    bg_color,
-    theme = "default",
     custom_title,
-    border_radius,
-    border_color,
     number_format = "short",
     number_precision,
     locale,
@@ -295,19 +239,9 @@ const renderStatsCard = (stats, options = {}) => {
     show = [],
   } = options;
 
-  const lheight = parseInt(String(line_height), 10);
-
   // returns theme based colors with proper overrides and defaults
-  const { titleColor, iconColor, textColor, bgColor, borderColor, ringColor } =
-    getCardColors({
-      title_color,
-      text_color,
-      icon_color,
-      bg_color,
-      border_color,
-      ring_color,
-      theme,
-    });
+  const { titleColor, iconColor, textColor, ringColor } =
+    getCardColors({});
 
   const apostrophe = /s$/i.test(name.trim()) ? "" : "s";
   const i18n = new I18n({
@@ -404,9 +338,6 @@ const renderStatsCard = (stats, options = {}) => {
     id: "contribs",
   };
 
-  // @ts-ignore
-  const isLongLocale = locale ? LONG_LOCALES.includes(locale) : false;
-
   // filter out hidden stats defined by user & create the text nodes
   const statItems = Object.keys(STATS)
     .filter((key) => !hide.includes(key))
@@ -423,8 +354,7 @@ const renderStatsCard = (stats, options = {}) => {
         unitSymbol: stats.unitSymbol,
         index,
         showIcons: show_icons,
-        shiftValuePos: 79.01 + (isLongLocale ? 50 : 0),
-        bold: text_bold,
+        shiftValuePos: 79.01,
         numberFormat: number_format,
         numberPrecision: number_precision,
       });
@@ -440,7 +370,7 @@ const renderStatsCard = (stats, options = {}) => {
   // Calculate the card height depending on how many items there are
   // but if rank circle is visible clamp the minimum height to `150`
   let height = Math.max(
-    45 + (statItems.length + 1) * lheight,
+    45 + (statItems.length + 1) * 25,
     hide_rank ? 0 : statItems.length ? 150 : 180,
   );
 
@@ -503,18 +433,8 @@ const renderStatsCard = (stats, options = {}) => {
       : i18n.t("statcard.ranktitle"),
     width,
     height,
-    border_radius,
-    colors: {
-      titleColor,
-      textColor,
-      iconColor,
-      bgColor,
-      borderColor,
-    },
   });
 
-  card.setHideBorder(hide_border);
-  card.setHideTitle(hide_title);
   card.setCSS(cssStyles);
 
   if (disable_animations) {
@@ -586,7 +506,7 @@ const renderStatsCard = (stats, options = {}) => {
     <svg x="0" y="0">
       ${flexLayout({
         items: statItems,
-        gap: lheight,
+        gap: 25,
         direction: "column",
       }).join("")}
     </svg>

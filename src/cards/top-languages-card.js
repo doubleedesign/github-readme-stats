@@ -6,11 +6,11 @@ import {
   chunkArray,
   clampValue,
   flexLayout,
-  getCardColors,
   lowercaseTrim,
   measureText,
 } from "../common/utils.js";
 import { langCardLocales } from "../translations.js";
+import { getCardColors } from "../common/color.js";
 
 const DEFAULT_CARD_WIDTH = 300;
 const MIN_CARD_WIDTH = 280;
@@ -280,20 +280,13 @@ const useLanguages = (topLangs, hide, langs_count) => {
 const renderTopLanguages = (topLangs, options = {}) => {
   const {
     hide_title = false,
-    hide_border,
     card_width,
-    title_color,
-    text_color,
-    bg_color,
     hide,
     hide_progress,
-    theme,
     layout,
     custom_title,
     locale,
     langs_count = DEFAULT_LANGS_COUNT,
-    border_radius,
-    border_color,
     disable_animations,
   } = options;
 
@@ -330,27 +323,17 @@ const renderTopLanguages = (topLangs, options = {}) => {
     finalLayout = renderNormalLayout(langs, width, totalLanguageSize);
   }
 
-  // returns theme based colors with proper overrides and defaults
-  const colors = getCardColors({
-    title_color,
-    text_color,
-    bg_color,
-    border_color,
-    theme,
-  });
+  const colors = getCardColors({});
 
   const card = new Card({
     customTitle: custom_title,
     defaultTitle: i18n.t("langcard.title"),
     width,
     height,
-    border_radius,
-    colors,
   });
 
   if (disable_animations) {card.disableAnimations();}
 
-  card.setHideBorder(hide_border);
   card.setHideTitle(hide_title);
   card.setCSS(
     `
@@ -372,7 +355,7 @@ const renderTopLanguages = (topLangs, options = {}) => {
     }
     .lang-name {
       font: 400 11px "Segoe UI", Ubuntu, Sans-Serif;
-      fill: ${colors.textColor};
+      fill: ${colors.text_color};
     }
     .stagger {
       opacity: 0;

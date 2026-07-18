@@ -22,17 +22,9 @@ export default async (req, res) => {
   const {
     username,
     repo,
-    hide_border,
-    title_color,
-    icon_color,
-    text_color,
-    bg_color,
-    theme,
     show_owner,
     cache_seconds,
     locale,
-    border_radius,
-    border_color,
     description_lines_count,
   } = req.query;
 
@@ -42,13 +34,6 @@ export default async (req, res) => {
     res,
     id: username,
     type: "username",
-    colors: {
-      title_color,
-      text_color,
-      bg_color,
-      border_color,
-      theme,
-    },
   });
   if (!access.isPassed) {
     return access.result;
@@ -60,11 +45,6 @@ export default async (req, res) => {
         message: "Something went wrong",
         secondaryMessage: "Language not found",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );
@@ -83,14 +63,6 @@ export default async (req, res) => {
 
     return res.send(
       renderRepoCard(repoData, {
-        hide_border: parseBoolean(hide_border),
-        title_color,
-        icon_color,
-        text_color,
-        bg_color,
-        theme,
-        border_radius,
-        border_color,
         show_owner: parseBoolean(show_owner),
         locale: locale ? locale.toLowerCase() : null,
         description_lines_count,
@@ -104,11 +76,6 @@ export default async (req, res) => {
           message: err.message,
           secondaryMessage: retrieveSecondaryMessage(err),
           renderOptions: {
-            title_color,
-            text_color,
-            bg_color,
-            border_color,
-            theme,
             show_repo_link: !(err instanceof MissingParamError),
           },
         }),
@@ -118,11 +85,6 @@ export default async (req, res) => {
       renderError({
         message: "An unknown error occurred",
         renderOptions: {
-          title_color,
-          text_color,
-          bg_color,
-          border_color,
-          theme,
         },
       }),
     );
