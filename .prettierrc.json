@@ -1,8 +1,0 @@
-{
-	"trailingComma": "all",
-	"useTabs": true,
-	"tabWidth": 4,
-	"endOfLine": "auto",
-	"proseWrap": "always",
-	"printWidth": 160
-}
