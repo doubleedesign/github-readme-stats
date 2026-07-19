@@ -9,7 +9,7 @@ import { kFormatter } from "../common/fmt.js";
 import { icons } from "../common/icons.js";
 import { parseEmojis } from "../common/ops.js";
 import { createRequire } from "module";
-import { Card } from "../components/ssr.js";
+import { Card } from "../components/Card/ssr.js";
 
 const require = createRequire(import.meta.url);
 const languageColors = require("../common/languageColors.json");

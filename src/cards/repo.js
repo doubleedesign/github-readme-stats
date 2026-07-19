@@ -1,7 +1,7 @@
 // @ts-check
 import { icons } from "../common/icons.js";
 import { flexLayout, kFormatter, parseEmojis } from "../common/utils.js";
-import { Card } from "../components/ssr.js";
+import { Card } from "../components/Card/ssr.js";
 import { createLanguageNode, iconWithLabel } from "../common/render.js";
 
 /**

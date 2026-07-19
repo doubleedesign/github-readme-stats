@@ -1,36 +1,10 @@
-import { icons } from "../common/icons.js";
-
-function css(strings, ...values) {
-	return String.raw({ raw: strings }, ...values);
-}
-
-const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-
-// A safe reference to HTMLElement that won't throw in the Node environment
-const BaseElement = typeof window !== "undefined" ? window.HTMLElement : Object;
+import { icons } from "../../common/icons.js";
+import { SVG_NAMESPACE, css } from "../constants.js";
+import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
 		return ["heading", "description", "width", "height", "colorMode", "icon", "footer"];
-	}
-
-	// Get correct document environment - Node or browser
-	get localDocument() {
-		return this.ownerDocument || (typeof document !== "undefined" ? document : null);
-	}
-
-	connectedCallback() {
-		// Only hook up Shadow DOM in the browser
-		if (typeof window !== "undefined" && this.ownerDocument === window.document) {
-			this.attachShadow({ mode: "open" });
-			this.render();
-			if (this.firstChild) {
-				this.shadowRoot.appendChild(this.firstChild);
-			}
-		} else {
-			// Server-side (Happy DOM / Node)
-			this.render();
-		}
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -268,13 +242,6 @@ export class Card extends BaseElement {
 		return wrapper;
 	}
 
-	render() {
-		return this.compile();
-	}
-
-	toString() {
-		return this.compile().outerHTML;
-	}
 }
 
 if (typeof window !== "undefined" && "customElements" in window && !window.customElements.get("x-card")) {

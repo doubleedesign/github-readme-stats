@@ -1,4 +1,4 @@
-import "../../src/components/Card.js";
+import "../../src/components/Card/Card.js";
 import icons from "../../src/common/icons.js";
 
 const meta = {
