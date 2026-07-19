@@ -17,9 +17,17 @@ export type RepositoryData = {
   description: string;
   primaryLanguage: {
     color: string;
-    id: string;
     name: string;
   };
+  languages: {
+    edges: {
+      size: number;
+      node: {
+        color: string;
+        name: string;
+      }
+    }
+  }
   forkCount: number;
   starCount: number;
 };

@@ -1,4 +1,5 @@
 import { withGithubCodeBox } from "../../.storybook/decorators/with-github-code-box.js";
+import { withRequestUrl } from "../../.storybook/decorators/with-request-url.js";
 
 const meta = {
 	args: {
@@ -6,7 +7,8 @@ const meta = {
 		id: "6ff3645f081ae219edbf5d5d2e7f3dd1",
 	},
 	decorators: [
-		withGithubCodeBox
+		withRequestUrl({base: 'http://localhost:9000/api/gist/'}),
+		withGithubCodeBox,
 	],
 };
 

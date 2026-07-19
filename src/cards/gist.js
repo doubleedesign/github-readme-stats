@@ -1,18 +1,7 @@
 // @ts-check
-
-import {
-	flexLayout,
-	iconWithLabel,
-	createLanguageNode,
-} from "../common/render.js";
-import { kFormatter } from "../common/fmt.js";
-import { icons } from "../common/icons.js";
 import { parseEmojis } from "../common/ops.js";
-import { createRequire } from "module";
-import { Card } from "../components/Card/ssr.js";
-
-const require = createRequire(import.meta.url);
-const languageColors = require("../common/languageColors.json");
+import { Card } from "../components/Card/Card.ssr.js";
+import { get_forks_badge_html, get_stars_badge_html, get_language_badge_html } from "../common/badges.js";
 
 /**
  * Render gist card.
@@ -22,29 +11,24 @@ const languageColors = require("../common/languageColors.json");
  * @returns {string} Gist card.
  */
 export const renderGistCard = (gistData, options = {}) => {
-	const { name, nameWithOwner, description, language, starsCount, forksCount } =
-		gistData;
+	const { name, nameWithOwner, description, language, starCount, forkCount } = gistData;
+	const { show_stars = true, show_forks = true } = options;
+	let footerHtml = get_language_badge_html(language, []);
 
-	const langName = language || "Unspecified";
-	const langColor = languageColors[langName] || "#858585";
-	const svgLanguage = createLanguageNode(langName, langColor);
+	if (show_stars && starCount > 0) {
+		footerHtml += get_stars_badge_html(starCount);
+	}
 
-	const totalStars = kFormatter(starsCount);
-	const totalForks = kFormatter(forksCount);
-	const svgStars = iconWithLabel(icons.star, totalStars, "starsCount");
-	const svgForks = iconWithLabel(icons.fork, totalForks, "forksCount");
-
-	const footer = flexLayout({
-		items: [svgLanguage, svgStars, svgForks],
-		gap: 25,
-	}).join("");
+	if (show_forks && forkCount > 0) {
+		footerHtml +=  get_forks_badge_html(forkCount);
+	}
 
 	const card = new Card();
 	card.heading = options.show_owner ? nameWithOwner : name;
 	card.description = parseEmojis(description || "No description provided");
 	card.colorMode = options.colorMode ?? "light";
 	card.icon = "gist";
-	card.footer = footer;
+	card.footer = footerHtml;
 
-	return card.toString().trim();
+	return card.toString();
 };

@@ -1,8 +1,12 @@
 // @ts-check
-import { icons } from "../common/icons.js";
-import { flexLayout, kFormatter, parseEmojis } from "../common/utils.js";
-import { Card } from "../components/Card/ssr.js";
-import { createLanguageNode, iconWithLabel } from "../common/render.js";
+import { parseEmojis } from "../common/utils.js";
+import { Card } from "../components/Card/Card.ssr.js";
+import {
+	get_language_bar_html,
+	get_forks_badge_html,
+	get_stars_badge_html,
+	get_language_badge_html,
+} from "../common/badges.js";
 
 /**
  * Renders repository card details.
@@ -13,28 +17,24 @@ import { createLanguageNode, iconWithLabel } from "../common/render.js";
  */
 export const renderRepoCard = (repo, options = {}) => {
 	const { name, nameWithOwner, description, primaryLanguage, starCount, forkCount } = repo;
-	const { show_owner = false } = options;
+	const { show_owner = false, show_stars = true, show_forks = true } = options;
+	let footerHtml = get_language_badge_html(primaryLanguage?.name, repo?.languages?.edges, repo.name);
 
-	const langName = (primaryLanguage && primaryLanguage.name) || "Unspecified";
-	const langColor = (primaryLanguage && primaryLanguage.color) || "#333";
-	const svgLanguage = primaryLanguage ? createLanguageNode(langName, langColor) : "";
+	if (show_stars && starCount > 0) {
+		footerHtml += get_stars_badge_html(starCount);
+	}
 
-	const totalStars = kFormatter(starCount);
-	const totalForks = kFormatter(forkCount);
-	const svgStars = iconWithLabel(icons.star, totalStars, "stargazers");
-	const svgForks = iconWithLabel(icons.fork, totalForks, "forkcount");
-
-	const footer = flexLayout({
-		items: [svgLanguage, svgStars, svgForks],
-		gap: 25,
-	}).join("");
+	if (show_forks && forkCount > 0) {
+		footerHtml +=  get_forks_badge_html(forkCount);
+	}
 
 	const card = new Card();
+	card.beforeContent = repo?.languages?.edges ? get_language_bar_html(repo.languages.edges) : "";
 	card.heading = show_owner ? nameWithOwner : name;
 	card.description = parseEmojis(description || "No description provided");
 	card.colorMode = options.colorMode ?? "light";
 	card.icon = "contribs";
-	card.footer = footer;
+	card.footer = footerHtml;
 
-	return card.toString().trim();
+	return card.toString();
 };

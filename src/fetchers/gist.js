@@ -105,8 +105,8 @@ const fetchGist = async (id) => {
     }`,
     description: data.description,
     language: calculatePrimaryLanguage(data.files),
-    starsCount: data.stargazerCount,
-    forksCount: data.forks.totalCount,
+    starCount: data.stargazerCount,
+    forkCount: data.forks.totalCount,
   };
 };
 

@@ -27,8 +27,16 @@ const fetcher = (variables, token) => {
         description
         primaryLanguage {
           color
-          id
           name
+        }
+        languages(first: 10) {
+          edges {
+            size
+            node {
+              name
+              color
+            }
+          }
         }
         forkCount
       }

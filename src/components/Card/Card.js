@@ -4,70 +4,62 @@ import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
-		return ["heading", "description", "width", "height", "colorMode", "icon", "footer"];
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		if (oldValue !== newValue) {
-			this.render();
-		}
+		return ["heading", "description", "width", "height", "colorMode", "icon", "beforeContent", "footer"];
 	}
 
 	getCss() {
 		return css`
-			@keyframes scaleInAnimation {
-				from {
-					transform: translate(-5px, 5px) scale(0);
-				}
-				to {
-					transform: translate(-5px, 5px) scale(1);
-				}
-			}
-			@keyframes fadeInAnimation {
-				from {
-					opacity: 0;
-				}
-				to {
-					opacity: 1;
-				}
-			}
+			/* Note: Host works for shadow DOM, root works for SSR */
+            :host, :root {
+                font-family: "Segoe UI", system-ui, sans-serif;
+                --background-color: #fffefe;
+                --border-color: #e4e2e2;
+                --heading-color: #845ec2;
+                --body-color: #434d58;
 
+                [data-color-mode="dark"] {
+                    --border-color: #434d58;
+                    --background-color: #1e1e1e;
+                }
+            }
+			
 			.card {
-				--background-color: #fffefe;
-				--border-color: #e4e2e2;
-				--heading-color: #845ec2;
-				--body-color: #434d58;
-
-				display: inline-block;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
 				border: 1px solid var(--border-color);
+				border-radius: 0.25rem;
 				background-color: var(--background-color);
 				width: ${this.width}px;
 				max-width: 100%;
 				height: ${this.height}px;
 				box-sizing: border-box;
-				padding: 1rem 1.5rem;
-			}
-
-			.card[data-color-mode="dark"] {
-				--border-color: #434d58;
-				--background-color: #1e1e1e;
+				padding: 1.25rem 1.5rem 1rem;
+				position: relative;
 			}
 
 			text,
 			span {
-				font-family: "Segoe UI", system-ui, sans-serif;
 				display: block;
 				color: var(--body-color);
 				line-height: 1.4;
 			}
+			
+			.card__before-content {
+				width: 100%;
+				position: absolute;
+				top: 0;
+                left: 0;
+				right: 0;
+			}
 
-			.card-title {
+			.card__title {
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
 				margin-block-end: 0.5rem;
 
-				.card-title__icon {
+				.card__title__icon {
 					width: 1rem;
 					height: 1rem;
 
@@ -75,7 +67,7 @@ export class Card extends BaseElement {
 						fill: var(--body-color);
 					}
 				}
-				.card-title__label {
+				.card__title__label {
 					font-size: 1rem;
 					font-weight: 600;
 					color: var(--heading-color);
@@ -85,13 +77,30 @@ export class Card extends BaseElement {
 
 			.card__description {
 				font-size: 0.85rem;
+				/** Truncate text to 2 lines with ellipsis */
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
 			}
 			
 			.card__footer {
 				width: 100%;
-				margin-block-start: 1rem;
+                margin-block-start: auto;
+				padding-block-start: 0.5rem;
+				box-sizing: content-box;
+				display: flex;
+				gap: 1rem;
 			}
 		`;
+	}
+
+	get beforeContent() {
+		return this.getAttribute("beforeContent") || "";
+	}
+
+	set beforeContent(value) {
+		this.setAttribute("beforeContent", value);
 	}
 
 	get heading() {
@@ -111,7 +120,7 @@ export class Card extends BaseElement {
 	}
 
 	get width() {
-		return this.getAttribute("width") || "400";
+		return this.getAttribute("width") || "420";
 	}
 
 	set width(value) {
@@ -119,7 +128,7 @@ export class Card extends BaseElement {
 	}
 
 	get height() {
-		return this.getAttribute("height") || "125"; // SVG viewbox doesn't support auto height
+		return this.getAttribute("height") || "140"; // SVG viewbox doesn't support auto height
 	}
 
 	set height(value) {
@@ -175,11 +184,11 @@ export class Card extends BaseElement {
 
 		return shouldShowTitle
 			? `
-			<span class="card-title" data-testid="card-title">
-				<svg xmlns="${SVG_NAMESPACE}" class="card-title__icon" viewBox="0 0 16 16">
+			<span class="card__title" data-testid="card__title">
+				<svg xmlns="${SVG_NAMESPACE}" class="card__title__icon" viewBox="0 0 16 16">
 					${this.prefixIcon}
 				</svg>
-				<span class="card-title__label">${this.heading}</span>
+				<span class="card__title__label">${this.heading}</span>
 			</span>
 		`
 			: "";
@@ -187,6 +196,11 @@ export class Card extends BaseElement {
 
 	renderDescription() {
 		return `<span id="card-description" class="card__description">${this.description}</span>`;
+	}
+
+	renderBeforeContent() {
+		const content = this.getAttribute("beforeContent");
+		return content ? `<div class="card__before-content">${content}</div>` : "";
 	}
 
 	renderFooter() {
@@ -228,6 +242,7 @@ export class Card extends BaseElement {
 		content.setAttribute("data-color-mode", this.getAttribute("colorMode") || "light");
 		content.classList.add("card");
 		content.innerHTML = `
+			${this.renderBeforeContent()}
 			${this.renderTitle()}
 			${this.renderDescription()}
 			${this.renderFooter()}
@@ -241,7 +256,6 @@ export class Card extends BaseElement {
 
 		return wrapper;
 	}
-
 }
 
 if (typeof window !== "undefined" && "customElements" in window && !window.customElements.get("x-card")) {

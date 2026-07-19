@@ -13,7 +13,9 @@ function htmlToString(html) {
 export const withGithubCodeBox = (Story, context) => {
 	const colorMode = context.globals.theme || 'light';
 	const queryParams = new URLSearchParams({...context.args, colorMode}).toString();
-	const apiUrl = `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`;
+	const apiUrl = context.args.repo
+		? `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`
+		: `https://github-readme-stats-doubleedesign.vercel.app/api/gist/?${queryParams}`;
 	const linkUrl = context.args.repo
 		? `https://github.com/${context.args.username}/${context.args.repo}`
 		: `https://gist.github.com/${context.args.username}/${context.args.id}`;
