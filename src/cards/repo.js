@@ -1,24 +1,8 @@
 // @ts-check
 import { icons } from "../common/icons.js";
-import { flexLayout, kFormatter, measureText, parseEmojis } from "../common/utils.js";
+import { flexLayout, kFormatter, parseEmojis } from "../common/utils.js";
 import { Card } from "../components/ssr.js";
-import { iconWithLabel } from "../common/render.js";
-
-/**
- * Creates a node to display the primary programming language of the repository.
- *
- * @param {string} langName Language name.
- * @param {string} langColor Language color.
- * @returns {string} Language display SVG object.
- */
-const createLanguageNode = (langName, langColor) => {
-	return `
-  <g data-testid="primary-lang">
-    <circle data-testid="lang-color" cx="0" cy="-5" r="6" fill="${langColor}" />
-    <text data-testid="lang-name" class="gray" x="15">${langName}</text>
-  </g>
-  `;
-};
+import { createLanguageNode, iconWithLabel } from "../common/render.js";
 
 /**
  * Renders repository card details.
