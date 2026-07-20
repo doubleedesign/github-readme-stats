@@ -1,6 +1,6 @@
 import "dotenv/config";
 import statsCard from "./api/index.js";
-import repoCard from "./api/repo.js";
+import repoCard from "./api/pin.js";
 import langCard from "./api/top-langs.js";
 import gistCard from "./api/gist.js";
 import express from "express";
