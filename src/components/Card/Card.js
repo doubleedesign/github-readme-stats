@@ -4,7 +4,7 @@ import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
-		return ["heading", "description", "width", "height", "colorMode", "icon", "beforeContent", "footer"];
+		return ["heading", "description", "width", "height", "color_mode", "icon", "beforeContent", "footer"];
 	}
 
 	getCss() {
@@ -135,12 +135,12 @@ export class Card extends BaseElement {
 		this.setAttribute("height", value);
 	}
 
-	get colorMode() {
-		return this.getAttribute("colorMode") || "light";
+	get color_mode() {
+		return this.getAttribute("color_mode") || "light";
 	}
 
-	set colorMode(value) {
-		this.setAttribute("colorMode", value);
+	set color_mode(value) {
+		this.setAttribute("color_mode", value);
 	}
 
 	get icon() {
@@ -239,7 +239,7 @@ export class Card extends BaseElement {
 		// Put the content inside a normal HTML fragment so we can use things like flexbox layout
 		const content = doc.createElement("div");
 		content.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-		content.setAttribute("data-color-mode", this.getAttribute("colorMode") || "light");
+		content.setAttribute("data-color-mode", this.getAttribute("color_mode") || "light");
 		content.classList.add("card");
 		content.innerHTML = `
 			${this.renderBeforeContent()}

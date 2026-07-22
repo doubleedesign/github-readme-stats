@@ -32,7 +32,7 @@ export const renderRepoCard = (repo, options = {}) => {
 	card.beforeContent = repo?.languages?.edges ? get_language_bar_html(repo.languages.edges) : "";
 	card.heading = show_owner ? nameWithOwner : name;
 	card.description = parseEmojis(description || "No description provided");
-	card.colorMode = options.colorMode ?? "light";
+	card.color_mode = options.color_mode ?? "light";
 	card.icon = "contribs";
 	card.footer = footerHtml;
 

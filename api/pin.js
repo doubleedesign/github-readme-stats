@@ -13,7 +13,7 @@ export default async (req, res) => {
 		return access.result;
 	}
 
-	const { username, repo, show_owner, cache_seconds, colorMode } = req.query;
+	const { username, repo, show_owner, cache_seconds, color_mode } = req.query;
 
 	try {
 		const repoData = await fetchRepo(username, repo);
@@ -30,7 +30,7 @@ export default async (req, res) => {
 
 		const html = renderRepoCard(repoData, {
 			show_owner: parseBoolean(show_owner),
-			colorMode: colorMode || "light",
+			color_mode: color_mode || "light",
 		});
 
 		return res.send(html);

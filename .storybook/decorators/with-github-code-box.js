@@ -11,8 +11,8 @@ function htmlToString(html) {
 }
 
 export const withGithubCodeBox = (Story, context) => {
-	const colorMode = context.globals.theme || 'light';
-	const queryParams = new URLSearchParams({...context.args, colorMode}).toString();
+  const filtered = Object.fromEntries(Object.entries(context.args).filter(([key]) => key !== 'color_mode'));
+	const queryParams = new URLSearchParams(filtered).toString();
 	const apiUrl = context.args.repo
 		? `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`
 		: `https://github-readme-stats-doubleedesign.vercel.app/api/gist/?${queryParams}`;
@@ -23,8 +23,8 @@ export const withGithubCodeBox = (Story, context) => {
 	const code = htmlToString(`
 		<a href="${linkUrl}">
 			<picture>
-			   <source media="(prefers-color-scheme: dark)" srcset="${apiUrl}&colorMode=dark">
-			   <img src="${apiUrl}&colorMode=light" />
+			   <source media="(prefers-color-scheme: dark)" srcset="${apiUrl}&color_mode=dark">
+			   <img alt="${context.args.repo}" src="${apiUrl}&color_mode=light" />
 			</picture>
 		</a>
 	`);
@@ -37,7 +37,7 @@ export const withGithubCodeBox = (Story, context) => {
 	}, 0);
 
 	return `
-		${Story({...context, args: {...context.args, colorMode}})}
+		${Story(context)}
 		<figure class="github-code prismjs language-html">
 			<figcaption>GitHub README code</figcaption>
 			<code>
