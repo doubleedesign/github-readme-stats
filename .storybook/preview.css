@@ -1,0 +1,952 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "Copernicus New Cond";
+  src: url("https://doublee.dev/fonts/CopernicusNewCond-090.woff2") format("woff2");
+  font-weight: 300 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Copernicus New Cond";
+  src: url("https://doublee.dev/fonts/CopernicusNewCond-110.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Copernicus New Cond";
+  src: url("https://doublee.dev/fonts/CopernicusNewCond-130.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-feature-settings: "ss01";
+  /*! Custom adjustments to suit the combination of fonts */
+  ascent-override: 85%;
+  src: url("https://doublee.dev/fonts/PPNeueMontreal-Light.woff2") format("woff2");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-feature-settings: "ss01";
+  /*! Custom adjustments to suit the combination of fonts */
+  ascent-override: 85%;
+  src: url("https://doublee.dev/fonts/PPNeueMontreal-Book.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-feature-settings: "ss01";
+  /*! Custom adjustments to suit the combination of fonts */
+  ascent-override: 85%;
+  src: url("https://doublee.dev/fonts/PPNeueMontreal-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-feature-settings: "ss01";
+  /*! Custom adjustments to suit the combination of fonts */
+  ascent-override: 85%;
+  src: url("https://doublee.dev/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-feature-settings: "ss01";
+  /*! Custom adjustments to suit the combination of fonts */
+  ascent-override: 85%;
+  src: url("https://doublee.dev/fonts/PPNeueMontreal-SemiBold.woff2") format("woff2");
+  font-weight: 600 700;
+}
+@font-face {
+  font-family: "Fira Code";
+  font-weight: 300;
+  src: url("https://doublee.dev/fonts/FiraCode-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fira Code";
+  font-weight: 400;
+  src: url("https://doublee.dev/fonts/FiraCode-Regular.woff2") format("woff2");
+}
+/**
+ * @license
+ * MyFonts Webfont Build ID 3867246, 2020-12-16T11:57:38-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: ITC Berkeley Old Style Pro Book Italic by ITC
+ * URL: https://www.myfonts.com/collections/itc-foundry
+
+ * Webfont: ITC Berkeley Old Style Pro Book by ITC
+ * URL: https://www.myfonts.com/collections/itc-foundry
+
+ * Webfont: ITC Berkeley Old Style Pro Bold by ITC
+ * URL: https://www.myfonts.com/collections/itc-foundry
+
+ * © 2026 MyFonts Inc. */
+@font-face {
+  font-family: "Berkeley Old Style";
+  /*! Custom adjustments to suit the combination of fonts */
+  size-adjust: 115%;
+  src: local("BerkeleyPro-Book"), url("https://doublee.dev/fonts/BerkeleyOldStyleBook.woff2") format("woff2");
+  font-weight: 300 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Berkeley Old Style";
+  /*! Custom adjustments to suit the combination of fonts */
+  size-adjust: 115%;
+  src: local("BerkeleyPro-BookItalic"), url("https://doublee.dev/fonts/BerkeleyOldStyleBookItalic.woff2") format("woff2");
+  font-weight: 300 400;
+  font-style: italic;
+}
+@media screen and (min-resolution: 150dpi) {
+  @font-face {
+    font-family: "Berkeley Old Style";
+    /*! Custom adjustments to suit the combination of fonts */
+    size-adjust: 115%;
+    src: local("BerkeleyPro-Medium"), url("https://doublee.dev/fonts/BerkeleyOldStyleMedium.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Berkeley Old Style";
+    /*! Custom adjustments to suit the combination of fonts */
+    size-adjust: 115%;
+    src: local("BerkeleyPro-MediumItalic"), url("https://doublee.dev/fonts/BerkeleyOldStyleMediumItalic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+  }
+}
+@font-face {
+  font-family: "Berkeley Old Style";
+  /*! Custom adjustments to suit the combination of fonts */
+  size-adjust: 115%;
+  src: local("BerkeleyPro-Bold"), url("https://doublee.dev/fonts/BerkeleyOldStyleBold.woff2") format("woff2");
+  font-weight: 600 700;
+}
+@layer doublee-common {
+  html {
+    font-size: var(--font-size-base);
+  }
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+    color: var(--color-body-text);
+    font: var(--font-body);
+    line-height: var(--line-height-base);
+    --letter-spacing: body;
+  }
+  [data-typography-mode=docs] {
+    font: var(--font-body);
+    line-height: var(--line-height-base);
+    font-size-adjust: ex-height 0.53;
+  }
+  @container style(--letter-spacing: body) {
+    letter-spacing: var(--letter-spacing-body);
+  }
+  @container style(--background-color: dark) {
+    * {
+      background: var(--color-dark);
+      color: white;
+      font-weight: var(--font-weight-light);
+    }
+  }
+  h1, h2, h3, h4, h5, h6, p, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    --letter-spacing: normal;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0;
+  }
+  h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+    margin-block-start: 0;
+  }
+  h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+    font-weight: var(--font-weight-normal);
+  }
+  h1, h2 {
+    margin-block-end: var(--spacing-sm);
+  }
+  h3, h4, h5, h6 {
+    margin-block: var(--spacing-md);
+  }
+  h1 {
+    font: var(--font-xxl);
+  }
+  h2 {
+    font: var(--font-xl);
+    margin-block-start: var(--spacing-xl);
+  }
+  @container style(--background-color: dark) {
+    h2 {
+      font-weight: var(--font-weight-medium);
+    }
+  }
+  h3 {
+    font: var(--font-lg);
+    font-weight: var(--font-weight-medium);
+    margin-block-start: var(--spacing-lg);
+  }
+  [data-typography-mode=docs] h3 {
+    font-weight: var(--font-weight-semibold);
+  }
+  h4, h5, h6 {
+    font: var(--font-md);
+    font-size: var(--font-size-base);
+  }
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+  @container style(--letter-spacing: body) {
+    strong {
+      letter-spacing: var(--letter-spacing-tight);
+    }
+  }
+  p, ul, ol {
+    margin-block: var(--spacing-md);
+  }
+  ul, ol {
+    margin-inline-start: var(--spacing-md);
+  }
+  a, button {
+    text-decoration: underline;
+    transition: all 0.2s ease-in-out;
+  }
+  a:hover, a:focus, a:active, button:hover, button:focus, button:active {
+    text-decoration-color: currentColor;
+  }
+  a {
+    color: currentColor;
+  }
+  a:hover, a:focus, a:active {
+    color: var(--color-accent);
+  }
+  button {
+    font: var(--font-labels);
+    background: var(--color-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    line-height: 1;
+    border: 1px solid color-mix(in srgb, var(--color-light) 90%, black);
+    border-radius: var(--border-radius-sm);
+    display: inline-flex;
+    gap: var(--spacing-xs);
+    align-items: center;
+    cursor: pointer;
+    text-decoration-color: transparent;
+  }
+  button svg {
+    height: 1em;
+    width: auto;
+  }
+  button:hover, button:focus, button:active {
+    background: color-mix(in srgb, var(--color-light) 95%, black);
+  }
+  pre, code,
+  textarea:has(+ pre) {
+    background: var(--color-light);
+    font-family: var(--font-family-code);
+    font-size-adjust: ex-height 0.45;
+    display: inline-block;
+    padding-inline: var(--spacing-xs);
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+  blockquote {
+    font: var(--font-md);
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    margin: var(--spacing-lg) 0;
+    color: var(--color-body-text-muted);
+    border-block: 1px dotted currentColor;
+    position: relative;
+  }
+  blockquote:before, blockquote:after {
+    font-size: var(--font-size-display);
+    position: absolute;
+    line-height: 1;
+    height: 0.5em;
+    font-family: var(--font-family-headings);
+    color: var(--color-body-text-muted);
+    background: var(--body-background, white);
+  }
+  blockquote:before {
+    content: "“";
+    top: 0;
+    left: 0;
+    transform: translateX(-50%) translateY(-25%);
+  }
+  blockquote:after {
+    content: "”";
+    bottom: 0;
+    right: 0;
+    transform: translateX(50%) translateY(65%);
+  }
+  figure {
+    margin: var(--spacing-lg) 0;
+  }
+  figure figcaption {
+    font: var(--font-captions);
+    color: var(--color-body-text-muted);
+    text-align: center;
+    margin-block-start: var(--spacing-sm);
+  }
+  figure:has(> blockquote) {
+    font: var(--font-md);
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    margin: var(--spacing-lg) 0;
+    color: var(--color-body-text-muted);
+    border-block: 1px dotted currentColor;
+    position: relative;
+  }
+  figure:has(> blockquote):before, figure:has(> blockquote):after {
+    font-size: var(--font-size-display);
+    position: absolute;
+    line-height: 1;
+    height: 0.5em;
+    font-family: var(--font-family-headings);
+    color: var(--color-body-text-muted);
+    background: var(--body-background, white);
+  }
+  figure:has(> blockquote):before {
+    content: "“";
+    top: 0;
+    left: 0;
+    transform: translateX(-50%) translateY(-25%);
+  }
+  figure:has(> blockquote):after {
+    content: "”";
+    bottom: 0;
+    right: 0;
+    transform: translateX(50%) translateY(65%);
+  }
+  figure:has(> blockquote) blockquote {
+    border: 0;
+    margin: 0;
+    padding-block: 0;
+    margin-block-end: var(--spacing-xs);
+  }
+  figure:has(> blockquote) blockquote:before, figure:has(> blockquote) blockquote:after {
+    content: none;
+  }
+  hr {
+    color: var(--color-body-text-muted);
+    opacity: 0.4;
+    margin: var(--spacing-lg) 0;
+  }
+  mfrac {
+    font-feature-settings: "frac";
+  }
+}
+@layer doublee-tokens {
+  :root {
+    --font-family-body: 'Berkeley Old Style', 'Californian FB', Georgia, serif;
+    --font-family-headings: 'Copernicus New Cond', sans-serif;
+    --font-family-accent: 'Neue Montreal', 'Neue Helvetica', Helvetica, Arial, sans-serif;
+    --font-family-labels: 'Neue Montreal', 'Neue Helvetica', Helvetica, Arial, sans-serif;
+    --font-family-code: 'Fira Code', Consolas, system-ui-monospace, monospace;
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --line-height-base: 1.6;
+    --line-height-headings: 1.2;
+    --letter-spacing-body: -0.01em;
+    --letter-spacing-tight: -0.02em;
+    --typescale: 1.2;
+    --spacing-step-size: 3;
+  }
+  @media (min-width: 768px) {
+    :root {
+      --typescale: 1.25;
+    }
+  }
+  :root {
+    --font-size-base: 1rem;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --font-size-base: calc(17 / 16 * 100%);
+    }
+  }
+  :root {
+    --font-size-sm: 0.9rem;
+    --font-size-body: 1rem;
+    --font-size-md: calc(1rem * pow(var(--typescale), 1));
+    --font-size-lg: calc(1rem * pow(var(--typescale), 2));
+    --font-size-xl: calc(1rem * pow(var(--typescale), 3));
+    --font-size-xxl: calc(1rem * pow(var(--typescale), 4));
+    --font-size-display: calc(1rem * pow(var(--typescale), 6));
+    --font-sm: var(--font-weight-normal) var(--font-size-sm) var(--font-family-labels);
+    --font-body: var(--font-weight-normal) var(--font-size-body) var(--font-family-body);
+    --font-md: var(--font-weight-medium) var(--font-size-md)/var(--line-height-headings) var(--font-family-accent);
+    --font-lg: var(--font-weight-semibold) var(--font-size-lg)/var(--line-height-headings) var(--font-family-headings);
+    --font-xl: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-headings) var(--font-family-headings);
+    --font-xxl: var(--font-weight-semibold) var(--font-size-xxl)/var(--line-height-headings) var(--font-family-headings);
+    --font-display: var(--font-weight-semibold) var(--font-size-display)/var(--line-height-headings) var(--font-family-headings);
+    --font-labels: var(--font-weight-medium) var(--font-size-sm) var(--font-family-labels);
+    --font-captions: var(--font-weight-normal) var(--font-size-sm) var(--font-family-labels);
+    --spacing-xs: calc(1rem / pow(var(--typescale), 2 * var(--spacing-step-size)));
+    --spacing-sm: calc(1rem / pow(var(--typescale), 1 * var(--spacing-step-size)));
+    --spacing-md: 1rem;
+    --spacing-lg: calc(1rem * pow(var(--typescale), 1 * var(--spacing-step-size)));
+    --spacing-xl: calc(1rem * pow(var(--typescale), 2 * var(--spacing-step-size)));
+    --spacing-xxl: calc(1rem * pow(var(--typescale), 3 * var(--spacing-step-size)));
+    --border-radius-sm: var(--spacing-xs);
+    --border-radius-md: var(--spacing-sm);
+    --border-radius-round: 100px;
+    --color-primary: #502595;
+    --color-secondary: #845ec2;
+    --color-accent: #b01b87;
+    --color-info: #24a8e1;
+    --color-warning: #ffc75f;
+    --color-success: #0abfa0;
+    --color-error: #ff775f;
+    --color-light: ghostwhite;
+    --color-dark: color-mix(in srgb, var(--color-primary) 40%, black);
+    --color-white: #ffffff;
+    --color-body-text: #181825;
+    --color-body-text-muted: oklch(from color-mix(in srgb, var(--color-body-text) 85%, gray 15%) calc(l + 0.35) calc(c * 0.8) calc(h));
+    --gradient-primary-secondary: linear-gradient(to bottom, var(--color-primary) 50%, var(--color-secondary) 50%);
+    --gradient-primary-accent: linear-gradient(to bottom, var(--color-primary) 50%, var(--color-accent) 50%);
+    --gradient-primary-light: linear-gradient(to bottom, var(--color-primary) 50%, var(--color-light) 50%);
+    --gradient-primary-dark: linear-gradient(to bottom, var(--color-primary) 50%, var(--color-dark) 50%);
+    --gradient-primary-white: linear-gradient(to bottom, var(--color-primary) 50%, var(--color-white) 50%);
+    --gradient-secondary-primary: linear-gradient(to bottom, var(--color-secondary) 50%, var(--color-primary) 50%);
+    --gradient-secondary-accent: linear-gradient(to bottom, var(--color-secondary) 50%, var(--color-accent) 50%);
+    --gradient-secondary-light: linear-gradient(to bottom, var(--color-secondary) 50%, var(--color-light) 50%);
+    --gradient-secondary-dark: linear-gradient(to bottom, var(--color-secondary) 50%, var(--color-dark) 50%);
+    --gradient-secondary-white: linear-gradient(to bottom, var(--color-secondary) 50%, var(--color-white) 50%);
+    --gradient-accent-primary: linear-gradient(to bottom, var(--color-accent) 50%, var(--color-primary) 50%);
+    --gradient-accent-secondary: linear-gradient(to bottom, var(--color-accent) 50%, var(--color-secondary) 50%);
+    --gradient-accent-light: linear-gradient(to bottom, var(--color-accent) 50%, var(--color-light) 50%);
+    --gradient-accent-dark: linear-gradient(to bottom, var(--color-accent) 50%, var(--color-dark) 50%);
+    --gradient-accent-white: linear-gradient(to bottom, var(--color-accent) 50%, var(--color-white) 50%);
+    --gradient-light-primary: linear-gradient(to bottom, var(--color-light) 50%, var(--color-primary) 50%);
+    --gradient-light-secondary: linear-gradient(to bottom, var(--color-light) 50%, var(--color-secondary) 50%);
+    --gradient-light-accent: linear-gradient(to bottom, var(--color-light) 50%, var(--color-accent) 50%);
+    --gradient-light-dark: linear-gradient(to bottom, var(--color-light) 50%, var(--color-dark) 50%);
+    --gradient-light-white: linear-gradient(to bottom, var(--color-light) 50%, var(--color-white) 50%);
+    --gradient-dark-primary: linear-gradient(to bottom, var(--color-dark) 50%, var(--color-primary) 50%);
+    --gradient-dark-secondary: linear-gradient(to bottom, var(--color-dark) 50%, var(--color-secondary) 50%);
+    --gradient-dark-accent: linear-gradient(to bottom, var(--color-dark) 50%, var(--color-accent) 50%);
+    --gradient-dark-light: linear-gradient(to bottom, var(--color-dark) 50%, var(--color-light) 50%);
+    --gradient-dark-white: linear-gradient(to bottom, var(--color-dark) 50%, var(--color-white) 50%);
+    --gradient-white-primary: linear-gradient(to bottom, var(--color-white) 50%, var(--color-primary) 50%);
+    --gradient-white-secondary: linear-gradient(to bottom, var(--color-white) 50%, var(--color-secondary) 50%);
+    --gradient-white-accent: linear-gradient(to bottom, var(--color-white) 50%, var(--color-accent) 50%);
+    --gradient-white-light: linear-gradient(to bottom, var(--color-white) 50%, var(--color-light) 50%);
+    --gradient-white-dark: linear-gradient(to bottom, var(--color-white) 50%, var(--color-dark) 50%);
+  }
+  [data-typography-mode=docs] {
+    --font-family-headings: 'Neue Montreal', 'Neue Helvetica', Helvetica, Arial, sans-serif;
+    --font-family-body: 'Neue Montreal', 'Neue Helvetica', Helvetica, Arial, sans-serif;
+    --font-size-base: 1rem;
+    --line-height-base: 1.7;
+    --typescale: 1.2;
+    --font-body: var(--font-weight-normal) var(--font-size-body) var(--font-family-body);
+    --font-md: var(--font-weight-medium) var(--font-size-body) var(--font-family-accent);
+    --font-lg: var(--font-weight-semibold) var(--font-size-md) var(--font-family-headings);
+    --font-xl: var(--font-weight-semibold) var(--font-size-lg) var(--font-family-headings);
+    --font-xxl: var(--font-weight-semibold) var(--font-size-xl) var(--font-family-headings);
+  }
+}
+@layer doublee-prism-theme {
+  .prismjs {
+    background: #181825;
+    color: white;
+    tab-size: 2;
+  }
+  .prismjs * {
+    font-family: "Fira Code", monospace;
+    font-weight: var(--font-weight-light, 300);
+    font-size: var(--font-size-body);
+    line-height: 1.4;
+  }
+  .prismjs {
+    /** Based on Catpuccin Mocha - https://prismjs.catppuccin.com/mocha.css */
+  }
+  .prismjs code[class*=language-],
+  .prismjs pre[class*=language-] {
+    color: #cdd6f4;
+  }
+  .prismjs :not(pre) > code[class*=language-],
+  .prismjs pre[class*=language-] {
+    background: #181825;
+  }
+  .prismjs {
+    /* https://prismjs.com/tokens.html */
+  }
+  .prismjs .token.keyword {
+    color: #cba6f7;
+  }
+  .prismjs .token.builtin {
+    color: #f38ba8;
+  }
+  .prismjs .token.maybe-class-name,
+  .prismjs .token.class-name {
+    color: #f9e2af;
+  }
+  .prismjs .token.function {
+    color: #89b4fa;
+  }
+  .prismjs .token.boolean,
+  .prismjs .token.number {
+    color: #fab387;
+  }
+  .prismjs .token.string,
+  .prismjs .token.char {
+    color: #a6e3a1;
+  }
+  .prismjs .token.symbol {
+    color: #f9e2af;
+  }
+  .prismjs .token.regex {
+    color: #f5c2e7;
+  }
+  .prismjs .token.url {
+    color: #a6e3a1;
+  }
+  .prismjs .token.operator {
+    color: #89dceb;
+  }
+  .prismjs .token.variable {
+    color: #cdd6f4;
+  }
+  .prismjs .token.dom.variable,
+  .prismjs .token.constant {
+    color: #fab387;
+  }
+  .prismjs .token.property {
+    color: #89b4fa;
+  }
+  .prismjs .token.punctuation {
+    color: #9399b2;
+  }
+  .prismjs .token.important {
+    color: #cba6f7;
+  }
+  .prismjs .token.comment {
+    color: #9399b2;
+  }
+  .prismjs .token.tag {
+    color: #89b4fa;
+  }
+  .prismjs .token.attr-name {
+    color: #f9e2af;
+  }
+  .prismjs .token.attr-value {
+    color: #a6e3a1;
+  }
+  .prismjs .token.namespace {
+    color: #f9e2af;
+  }
+  .prismjs .token.prolog,
+  .prismjs .token.doctype {
+    color: #cba6f7;
+  }
+  .prismjs .token.cdata {
+    color: #94e2d5;
+  }
+  .prismjs .token.entity {
+    color: #f38ba8;
+  }
+  .prismjs .token.atrule {
+    color: #cba6f7;
+  }
+  .prismjs .token.selector {
+    color: #89b4fa;
+  }
+  .prismjs {
+    /* Diff */
+  }
+  .prismjs .token.deleted {
+    color: #f38ba8;
+  }
+  .prismjs .token.inserted {
+    color: #a6e3a1;
+  }
+  .prismjs {
+    /* Other */
+  }
+  .prismjs .token.important,
+  .prismjs .token.bold {
+    font-weight: bold;
+  }
+  .prismjs .token.italic {
+    font-style: italic;
+  }
+}
+.docblock-source,
+.docs-story + div,
+[id*="tabpanel-storybook/html/panel"] {
+  background: #181825 !important;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  background: #181825;
+  color: white;
+  tab-size: 2;
+}
+.docblock-source .prismjs *,
+.docs-story + div .prismjs *,
+[id*="tabpanel-storybook/html/panel"] .prismjs * {
+  font-family: "Fira Code", monospace;
+  font-weight: var(--font-weight-light, 300);
+  font-size: var(--font-size-body);
+  line-height: 1.4;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /** Based on Catpuccin Mocha - https://prismjs.catppuccin.com/mocha.css */
+}
+.docblock-source .prismjs code[class*=language-],
+.docblock-source .prismjs pre[class*=language-],
+.docs-story + div .prismjs code[class*=language-],
+.docs-story + div .prismjs pre[class*=language-],
+[id*="tabpanel-storybook/html/panel"] .prismjs code[class*=language-],
+[id*="tabpanel-storybook/html/panel"] .prismjs pre[class*=language-] {
+  color: #cdd6f4;
+}
+.docblock-source .prismjs :not(pre) > code[class*=language-],
+.docblock-source .prismjs pre[class*=language-],
+.docs-story + div .prismjs :not(pre) > code[class*=language-],
+.docs-story + div .prismjs pre[class*=language-],
+[id*="tabpanel-storybook/html/panel"] .prismjs :not(pre) > code[class*=language-],
+[id*="tabpanel-storybook/html/panel"] .prismjs pre[class*=language-] {
+  background: #181825;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* https://prismjs.com/tokens.html */
+}
+.docblock-source .prismjs .token.keyword,
+.docs-story + div .prismjs .token.keyword,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.keyword {
+  color: #cba6f7;
+}
+.docblock-source .prismjs .token.builtin,
+.docs-story + div .prismjs .token.builtin,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.builtin {
+  color: #f38ba8;
+}
+.docblock-source .prismjs .token.maybe-class-name,
+.docblock-source .prismjs .token.class-name,
+.docs-story + div .prismjs .token.maybe-class-name,
+.docs-story + div .prismjs .token.class-name,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.maybe-class-name,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.class-name {
+  color: #f9e2af;
+}
+.docblock-source .prismjs .token.function,
+.docs-story + div .prismjs .token.function,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.function {
+  color: #89b4fa;
+}
+.docblock-source .prismjs .token.boolean,
+.docblock-source .prismjs .token.number,
+.docs-story + div .prismjs .token.boolean,
+.docs-story + div .prismjs .token.number,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.boolean,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.number {
+  color: #fab387;
+}
+.docblock-source .prismjs .token.string,
+.docblock-source .prismjs .token.char,
+.docs-story + div .prismjs .token.string,
+.docs-story + div .prismjs .token.char,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.string,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.char {
+  color: #a6e3a1;
+}
+.docblock-source .prismjs .token.symbol,
+.docs-story + div .prismjs .token.symbol,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.symbol {
+  color: #f9e2af;
+}
+.docblock-source .prismjs .token.regex,
+.docs-story + div .prismjs .token.regex,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.regex {
+  color: #f5c2e7;
+}
+.docblock-source .prismjs .token.url,
+.docs-story + div .prismjs .token.url,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.url {
+  color: #a6e3a1;
+}
+.docblock-source .prismjs .token.operator,
+.docs-story + div .prismjs .token.operator,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.operator {
+  color: #89dceb;
+}
+.docblock-source .prismjs .token.variable,
+.docs-story + div .prismjs .token.variable,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.variable {
+  color: #cdd6f4;
+}
+.docblock-source .prismjs .token.dom.variable,
+.docblock-source .prismjs .token.constant,
+.docs-story + div .prismjs .token.dom.variable,
+.docs-story + div .prismjs .token.constant,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.dom.variable,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.constant {
+  color: #fab387;
+}
+.docblock-source .prismjs .token.property,
+.docs-story + div .prismjs .token.property,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.property {
+  color: #89b4fa;
+}
+.docblock-source .prismjs .token.punctuation,
+.docs-story + div .prismjs .token.punctuation,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.punctuation {
+  color: #9399b2;
+}
+.docblock-source .prismjs .token.important,
+.docs-story + div .prismjs .token.important,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.important {
+  color: #cba6f7;
+}
+.docblock-source .prismjs .token.comment,
+.docs-story + div .prismjs .token.comment,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.comment {
+  color: #9399b2;
+}
+.docblock-source .prismjs .token.tag,
+.docs-story + div .prismjs .token.tag,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.tag {
+  color: #89b4fa;
+}
+.docblock-source .prismjs .token.attr-name,
+.docs-story + div .prismjs .token.attr-name,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.attr-name {
+  color: #f9e2af;
+}
+.docblock-source .prismjs .token.attr-value,
+.docs-story + div .prismjs .token.attr-value,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.attr-value {
+  color: #a6e3a1;
+}
+.docblock-source .prismjs .token.namespace,
+.docs-story + div .prismjs .token.namespace,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.namespace {
+  color: #f9e2af;
+}
+.docblock-source .prismjs .token.prolog,
+.docblock-source .prismjs .token.doctype,
+.docs-story + div .prismjs .token.prolog,
+.docs-story + div .prismjs .token.doctype,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.prolog,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.doctype {
+  color: #cba6f7;
+}
+.docblock-source .prismjs .token.cdata,
+.docs-story + div .prismjs .token.cdata,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.cdata {
+  color: #94e2d5;
+}
+.docblock-source .prismjs .token.entity,
+.docs-story + div .prismjs .token.entity,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.entity {
+  color: #f38ba8;
+}
+.docblock-source .prismjs .token.atrule,
+.docs-story + div .prismjs .token.atrule,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.atrule {
+  color: #cba6f7;
+}
+.docblock-source .prismjs .token.selector,
+.docs-story + div .prismjs .token.selector,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.selector {
+  color: #89b4fa;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* Diff */
+}
+.docblock-source .prismjs .token.deleted,
+.docs-story + div .prismjs .token.deleted,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.deleted {
+  color: #f38ba8;
+}
+.docblock-source .prismjs .token.inserted,
+.docs-story + div .prismjs .token.inserted,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.inserted {
+  color: #a6e3a1;
+}
+.docblock-source .prismjs,
+.docs-story + div .prismjs,
+[id*="tabpanel-storybook/html/panel"] .prismjs {
+  /* Other */
+}
+.docblock-source .prismjs .token.important,
+.docblock-source .prismjs .token.bold,
+.docs-story + div .prismjs .token.important,
+.docs-story + div .prismjs .token.bold,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.important,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.bold {
+  font-weight: bold;
+}
+.docblock-source .prismjs .token.italic,
+.docs-story + div .prismjs .token.italic,
+[id*="tabpanel-storybook/html/panel"] .prismjs .token.italic {
+  font-style: italic;
+}
+.docblock-source .prismjs *,
+.docs-story + div .prismjs *,
+[id*="tabpanel-storybook/html/panel"] .prismjs * {
+  font-family: "Fira Code", monospace !important;
+}
+
+@layer doublee-storybook-preview {
+  .sbdocs-content h2, .sbdocs-content h3 {
+    border: 0;
+    margin: revert-layer !important;
+    padding: revert-layer;
+  }
+  .sbdocs-content code {
+    font-size: inherit !important;
+    font-family: var(--font-family-code) !important;
+  }
+  .sbdocs-content p, .sbdocs-content li {
+    font-size: var(--font-size-body);
+  }
+  .sbdocs-content a {
+    font-family: inherit !important;
+    color: currentColor;
+  }
+  .sbdocs-content a:hover, .sbdocs-content a:focus, .sbdocs-content a:active {
+    color: var(--color-accent);
+  }
+  .sbdocs-content pre:has(.prismjs) {
+    margin: 0;
+    padding: 0;
+  }
+  .sbdocs-content .docblock-argstable-body {
+    font-size: var(--font-size-sm);
+  }
+  .sbdocs-content pre:has(.docblock-source) {
+    width: 100%;
+  }
+  .sbdocs-content div:has(.prismjs) {
+    font-size: 1rem;
+  }
+  .sbdocs-content .docblock-source {
+    margin: 0 !important;
+  }
+  .sbdocs-content .docblock-source div:has(button) {
+    background: transparent;
+  }
+  .sbdocs-content .docblock-source button {
+    color: var(--color-light);
+    background: rgba(255, 255, 255, 0.15);
+    font-weight: var(--font-weight-medium);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.2s ease-in-out;
+  }
+  .sbdocs-content .docblock-source button:hover, .sbdocs-content .docblock-source button:focus, .sbdocs-content .docblock-source button:active {
+    text-decoration-color: currentColor;
+    background: var(--color-accent);
+  }
+}
+#storybook-root {
+  container-name: storybook-root;
+  container-type: inline-size;
+}
+
+/** GitHub's theme backgrounds (it adds these attributes to its body tag) */
+[data-color-mode=light] {
+  background-color: #FFFFFF;
+}
+
+[data-color-mode=dark] {
+  background-color: #0D1117;
+}
+
+[data-dark-theme=dark_dimmed] {
+  background-color: #212830;
+}
+
+.language-html {
+  display: block;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding: 1rem;
+  padding-block-end: 1.5rem;
+}
+.language-html > .tag {
+  display: block;
+  margin-inline-start: 3rem;
+  text-wrap: nowrap;
+}
+.language-html > .tag:first-child, .language-html > .tag:last-child {
+  margin-inline-start: 0;
+}
+.language-html > .tag:nth-child(2), .language-html > .tag:nth-last-child(2) {
+  margin-inline-start: 1.5rem;
+}
+
+.request-url {
+  margin: 0;
+  margin-block-end: 2rem;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  background: #F8F8F8;
+  padding: 1rem 0.5rem;
+  overflow-x: scroll;
+}
+.request-url figcaption, .request-url a {
+  text-wrap: nowrap;
+  font-family: var(--font-family-labels);
+  font-size: 0.875rem;
+}
+.prismjs {
+  background: transparent;
+}
+
+.github-code {
+  max-width: 100%;
+  font-size: 0.875rem;
+  margin: 0;
+  margin-block-start: 2rem;
+  padding: 0;
+}
+.github-code figcaption {
+  font-family: var(--font-family-labels);
+  text-align: start;
+  margin-block-end: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #757575;
+}
+.github-code code {
+  padding: 1rem !important;
+  box-sizing: border-box;
+  background: revert-layer;
+}
+[data-color-mode=dark] .github-code code {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/*# sourceMappingURL=preview.css.map */

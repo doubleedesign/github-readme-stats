@@ -1,0 +1,94 @@
+@use '../node_modules/@doubleedesign/doublee-site-style/doublee-fonts.scss';
+@use '../node_modules/@doubleedesign/doublee-site-style/doublee-common.scss';
+@use '../node_modules/@doubleedesign/doublee-site-style/doublee-storybook-preview.scss';
+
+#storybook-root {
+    container-name: storybook-root;
+    container-type: inline-size;
+}
+
+/** GitHub's theme backgrounds (it adds these attributes to its body tag) */
+[data-color-mode="light"] {
+	background-color: #FFFFFF;
+}
+[data-color-mode="dark"] {
+    background-color: #0D1117;
+}
+[data-dark-theme="dark_dimmed"] {
+	background-color: #212830;
+}
+
+.language-html {
+	display: block;
+	max-width: 100%;
+	overflow-x: scroll;
+	padding: 1rem;
+	padding-block-end: 1.5rem;
+
+	> .tag {
+		display: block;
+		margin-inline-start: 3rem;
+		text-wrap: nowrap;
+
+		&:first-child,
+		&:last-child {
+			margin-inline-start: 0;
+		}
+
+		&:nth-child(2),
+		&:nth-last-child(2) {
+			margin-inline-start: 1.5rem;
+		}
+	}
+}
+
+.request-url {
+    margin: 0;
+    margin-block-end: 2rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    background: #F8F8F8;
+    padding: 1rem 0.5rem;
+    overflow-x: scroll;
+
+    figcaption, a {
+        text-wrap: nowrap;
+        font-family: var(--font-family-labels);
+        font-size: 0.875rem;
+    }
+
+    a {
+    }
+}
+
+.prismjs {
+	background: transparent;
+}
+
+.github-code {
+    max-width: 100%;
+    font-size: 0.875rem;
+    margin: 0;
+    margin-block-start: 2rem;
+	padding: 0;
+
+    figcaption {
+        font-family: var(--font-family-labels);
+	    text-align: start;
+        margin-block-end: 0.5rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #757575;
+    }
+
+	code {
+		padding: 1rem !important;
+		box-sizing: border-box;
+		background: revert-layer;
+
+		[data-color-mode="dark"] & {
+			background: rgba(255,255,255,0.05);
+		}
+	}
+}

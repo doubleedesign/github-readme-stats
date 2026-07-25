@@ -16,7 +16,7 @@ const preview = {
 			toolbar: {
 				title: "GitHub theme colour mode",
 				icon: "sun",
-				items: ["light", "dark"],
+				items: ["light", "dark", "soft-dark"],
 				dynamicTitle: true,
 			},
 		},
@@ -25,9 +25,8 @@ const preview = {
 		(Story, context) => {
 			const theme = context.globals.theme;
 			const wrapper = document.querySelector(".sb-show-main");
-			if (wrapper) {
-				wrapper.setAttribute("data-color-mode", theme);
-			}
+			wrapper?.setAttribute("data-color-mode", theme === 'light' ? 'light' : 'dark');
+			wrapper?.setAttribute('data-dark-theme', theme === 'light' ? '' : (theme === 'soft-dark' ? 'dark_dimmed' : 'dark'));
 
 			return Story(context);
 		},
