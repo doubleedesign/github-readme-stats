@@ -20,7 +20,6 @@ export type StatCardOptions = CommonOptions & {
 
 export type RepoCardOptions = CommonOptions & {
   show_owner: boolean;
-  color_mode?: "light" | "dark";
 };
 
 export type GistCardOptions = RepoCardOptions;

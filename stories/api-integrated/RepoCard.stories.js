@@ -9,7 +9,6 @@ const meta = {
     show_language: true,
     show_stars: true,
     show_forks: true,
-    color_mode: "light",
   },
   argTypes: {
     repo: {
@@ -27,10 +26,6 @@ const meta = {
         "simple-document-portal",
       ],
     },
-    color_mode: {
-      control: { type: "select" },
-      options: ["light", "dark"],
-    },
   },
   decorators: [
     withRequestUrl({ base: "http://localhost:9000/api/pin/" }),
@@ -42,8 +37,7 @@ export default meta;
 
 export const RepoCard = {
   render: (args) => {
-    const filtered = Object.fromEntries(Object.entries(args).filter(([key]) => key !== "color_mode"));
-    const queryParams = new URLSearchParams(filtered).toString();
+    const queryParams = new URLSearchParams(args).toString();
     const apiUrl = `http://localhost:9000/api/pin/?${queryParams}`;
 
     //For debugging the source SVG response

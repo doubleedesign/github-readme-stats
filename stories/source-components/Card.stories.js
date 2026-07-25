@@ -5,7 +5,6 @@ import icons from "../../src/common/icons.js";
 const meta = {
 	component: "x-card",
 	args: {
-		color_mode: "light",
 		icon: 'contribs',
 		heading: "card-example",
 		description: "I understand why Superman is here, but why is there a porcupine at the Easter Bunny's funeral?",
@@ -14,10 +13,6 @@ const meta = {
 		height: 140,
 	},
 	argTypes: {
-		color_mode: {
-			control: { type: "select" },
-			options: ["light", "dark"],
-		},
 		icon: {
 			control: { type: 'select' },
 			options: Object.keys(icons)

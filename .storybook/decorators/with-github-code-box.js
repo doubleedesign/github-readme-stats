@@ -1,5 +1,4 @@
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
 
 function htmlToString(html) {
 	return html
@@ -11,8 +10,7 @@ function htmlToString(html) {
 }
 
 export const withGithubCodeBox = (Story, context) => {
-  const filtered = Object.fromEntries(Object.entries(context.args).filter(([key]) => key !== 'color_mode'));
-	const queryParams = new URLSearchParams(filtered).toString();
+	const queryParams = new URLSearchParams(context.args).toString();
 	const apiUrl = context.args.repo
 		? `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`
 		: `https://github-readme-stats-doubleedesign.vercel.app/api/gist/?${queryParams}`;
@@ -22,10 +20,7 @@ export const withGithubCodeBox = (Story, context) => {
 
 	const code = htmlToString(`
 		<a href="${linkUrl}">
-			<picture>
-			   <source media="(prefers-color-scheme: dark)" srcset="${apiUrl}&color_mode=dark">
-			   <img alt="${context.args.repo}" src="${apiUrl}&color_mode=light" />
-			</picture>
+			<img alt="${context.args.repo}" src="${apiUrl}" />
 		</a>
 	`);
 

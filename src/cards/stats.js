@@ -8,7 +8,6 @@ import {
   measureText,
 } from "../common/utils.js";
 import { statCardLocales } from "../translations.js";
-import { getCardColors } from "../common/color.js";
 
 const CARD_MIN_WIDTH = 287;
 const CARD_DEFAULT_WIDTH = 287;

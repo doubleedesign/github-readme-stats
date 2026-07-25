@@ -12,7 +12,7 @@ export class Badge extends BaseElement {
             /* Note: Host works for shadow DOM, root works for SSR */
 			:host, :root {
                 font-family: "Segoe UI", system-ui, sans-serif;
-                --body-color: #434d58;
+                --body-color: #767486;
             }
 			
 			.badge {

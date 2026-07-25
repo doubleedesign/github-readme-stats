@@ -4,25 +4,21 @@ import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
-		return ["heading", "description", "width", "height", "color_mode", "icon", "beforeContent", "footer"];
+		return ["heading", "description", "width", "height", "icon", "beforeContent", "footer"];
 	}
 
 	getCss() {
 		return css`
 			/* Note: Host works for shadow DOM, root works for SSR */
-            :host, :root {
-                font-family: "Segoe UI", system-ui, sans-serif;
-                --background-color: #fffefe;
-                --border-color: #e4e2e2;
-                --heading-color: #845ec2;
-                --body-color: #434d58;
 
-                [data-color-mode="dark"] {
-                    --border-color: #434d58;
-                    --background-color: #1e1e1e;
-                }
-            }
-			
+			:host, :root {
+				font-family: "Segoe UI", system-ui, sans-serif;
+				--background-color: rgb(220 220 240 / 0.05);
+				--border-color: rgb(100 100 100 / 0.3);
+				--heading-color: #845ec2;
+				--body-color: #767486;
+			}
+
 			.card {
 				display: flex;
 				flex-direction: column;
@@ -44,12 +40,12 @@ export class Card extends BaseElement {
 				color: var(--body-color);
 				line-height: 1.4;
 			}
-			
+
 			.card__before-content {
 				width: 100%;
 				position: absolute;
 				top: 0;
-                left: 0;
+				left: 0;
 				right: 0;
 			}
 
@@ -67,6 +63,7 @@ export class Card extends BaseElement {
 						fill: var(--body-color);
 					}
 				}
+
 				.card__title__label {
 					font-size: 1rem;
 					font-weight: 600;
@@ -83,10 +80,10 @@ export class Card extends BaseElement {
 				-webkit-box-orient: vertical;
 				overflow: hidden;
 			}
-			
+
 			.card__footer {
 				width: 100%;
-                margin-block-start: auto;
+				margin-block-start: auto;
 				padding-block-start: 0.5rem;
 				box-sizing: content-box;
 				display: flex;
@@ -133,14 +130,6 @@ export class Card extends BaseElement {
 
 	set height(value) {
 		this.setAttribute("height", value);
-	}
-
-	get color_mode() {
-		return this.getAttribute("color_mode") || "light";
-	}
-
-	set color_mode(value) {
-		this.setAttribute("color_mode", value);
 	}
 
 	get icon() {
@@ -239,7 +228,6 @@ export class Card extends BaseElement {
 		// Put the content inside a normal HTML fragment so we can use things like flexbox layout
 		const content = doc.createElement("div");
 		content.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-		content.setAttribute("data-color-mode", this.getAttribute("color_mode") || "light");
 		content.classList.add("card");
 		content.innerHTML = `
 			${this.renderBeforeContent()}

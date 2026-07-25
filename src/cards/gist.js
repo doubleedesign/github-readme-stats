@@ -26,7 +26,6 @@ export const renderGistCard = (gistData, options = {}) => {
 	const card = new Card();
 	card.heading = options.show_owner ? nameWithOwner : name;
 	card.description = parseEmojis(description || "No description provided");
-	card.color_mode = options.color_mode ?? "light";
 	card.icon = "gist";
 	card.footer = footerHtml;
 
