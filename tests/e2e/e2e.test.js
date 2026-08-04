@@ -8,27 +8,11 @@ import { beforeAll, describe, expect, test } from "@jest/globals";
 import axios from "axios";
 import { renderGistCard } from "../../src/cards/gist.js";
 import { renderRepoCard } from "../../src/cards/repo.js";
-import { renderStatsCard } from "../../src/cards/stats.js";
 import { renderTopLanguages } from "../../src/cards/top-languages.js";
 
 const REPO = "curly-fiesta";
 const USER = "catelinemnemosyne";
-const STATS_CARD_USER = "e2eninja";
 const GIST_ID = "372cef55fd897b31909fdeb3a7262758";
-
-const STATS_DATA = {
-  name: "CodeNinja",
-  totalPRs: 1,
-  totalReviews: 0,
-  totalCommits: 3,
-  totalIssues: 1,
-  totalStars: 1,
-  contributedTo: 0,
-  rank: {
-    level: "C",
-    percentile: 98.73972605284538,
-  },
-};
 
 const LANGS_DATA = {
   HTML: {
@@ -93,28 +77,6 @@ describe("Fetch Cards", () => {
     process.env.NODE_ENV = "development";
     VERCEL_PREVIEW_URL = process.env.VERCEL_PREVIEW_URL;
   });
-
-  test("retrieve stats card", async () => {
-    expect(VERCEL_PREVIEW_URL).toBeDefined();
-
-    // Check if the Vercel preview instance stats card function is up and running.
-    await expect(
-      axios.get(`${VERCEL_PREVIEW_URL}/api?username=${STATS_CARD_USER}`),
-    ).resolves.not.toThrow();
-
-    // Get local stats card.
-    const localStatsCardSVG = renderStatsCard(STATS_DATA, {
-      include_all_commits: true,
-    });
-
-    // Get the Vercel preview stats card response.
-    const serverStatsSvg = await axios.get(
-      `${VERCEL_PREVIEW_URL}/api?username=${STATS_CARD_USER}&include_all_commits=true&${CACHE_BURST_STRING}`,
-    );
-
-    // Check if stats card from deployment matches the stats card from local.
-    expect(serverStatsSvg.data).toEqual(localStatsCardSVG);
-  }, 15000);
 
   test("retrieve language card", async () => {
     expect(VERCEL_PREVIEW_URL).toBeDefined();

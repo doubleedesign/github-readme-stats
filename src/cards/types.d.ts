@@ -1,21 +1,4 @@
-type RankIcon = "default" | "github" | "percentile";
-
 export type CommonOptions = {
-  locale: string;
-};
-
-export type StatCardOptions = CommonOptions & {
-  hide: string[];
-  show_icons: boolean;
-  card_width: number;
-  hide_rank: boolean;
-  include_all_commits: boolean;
-  commits_year: number;
-  custom_title: string;
-  number_format: string;
-  number_precision: number;
-  rank_icon: RankIcon;
-  show: string[];
 };
 
 export type RepoCardOptions = CommonOptions & {
@@ -25,13 +8,9 @@ export type RepoCardOptions = CommonOptions & {
 export type GistCardOptions = RepoCardOptions;
 
 export type TopLangOptions = CommonOptions & {
-  hide_title: boolean;
-  card_width: number;
   hide: string[];
-  layout: "compact" | "normal" | "donut" | "donut-vertical" | "pie";
-  custom_title: string;
+  layout: "default" | "compact" | "donut" | "donut-vertical" | "pie";
+  heading: string;
   langs_count: number;
-  disable_animations: boolean;
-  hide_progress: boolean;
   stats_format: "percentages" | "bytes";
 };

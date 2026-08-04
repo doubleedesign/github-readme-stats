@@ -1,5 +1,4 @@
 import "dotenv/config";
-import statsCard from "./api/index.js";
 import repoCard from "./api/pin.js";
 import langCard from "./api/top-langs.js";
 import gistCard from "./api/gist.js";
@@ -13,7 +12,6 @@ if (process.env.NODE_ENV === "development") {
 	app.use(cors({ origin: "*" }));
 }
 
-router.get("/", statsCard);
 router.get("/pin", repoCard);
 router.get("/top-langs", langCard);
 router.get("/gist", gistCard);
