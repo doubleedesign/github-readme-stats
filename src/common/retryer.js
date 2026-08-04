@@ -1,7 +1,6 @@
 // @ts-check
 
 import { CustomError } from "./error.js";
-import { logger } from "./log.js";
 
 // Script variables.
 
@@ -69,7 +68,7 @@ const retryer = async (fetcher, variables, retries = 0) => {
     // if rate limit is hit increase the RETRIES and recursively call the retryer
     // with username, and current RETRIES
     if (isRateLimited) {
-      logger.log(`PAT_${retries + 1} Failed`);
+      console.log(`PAT_${retries + 1} Failed`);
       retries++;
       // directly return from the function
       return retryer(fetcher, variables, retries);
@@ -94,7 +93,7 @@ const retryer = async (fetcher, variables, retries = 0) => {
       e?.response?.data?.message === "Sorry. Your account was suspended.";
 
     if (isBadCredential || isAccountSuspended) {
-      logger.log(`PAT_${retries + 1} Failed`);
+      console.log(`PAT_${retries + 1} Failed`);
       retries++;
       // directly return from the function
       return retryer(fetcher, variables, retries);

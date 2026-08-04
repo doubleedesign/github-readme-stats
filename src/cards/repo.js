@@ -1,5 +1,4 @@
 // @ts-check
-import { parseEmojis } from "../common/utils.js";
 import { Card } from "../components/Card/Card.ssr.js";
 import {
 	get_language_bar_html,
@@ -7,6 +6,7 @@ import {
 	get_stars_badge_html,
 	get_language_badge_html,
 } from "../common/badges.js";
+import { parseEmojis } from "../common/ops.js";
 
 /**
  * Renders repository card details.

@@ -1,8 +1,8 @@
 import { Badge } from "../components/Badge/Badge.js";
 import { LanguageBar } from "../components/LanguageBar/LanguageBar.js";
 import languageColors from "../common/languageColors.json" with { type: "json" };
-import { kFormatter } from "./fmt.js";
 import { EXCLUDED_LANGUAGES } from "../components/constants.js";
+import { kFormatter } from "./utils.js";
 
 export const get_language_bar_html = (languages) => {
 	if (!languages || languages.length === 0 || !Array.isArray(languages)) {

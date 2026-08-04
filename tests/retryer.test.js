@@ -3,10 +3,9 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { RETRIES, retryer } from "../src/common/retryer.js";
-import { logger } from "../src/common/log.js";
 
 const fetcher = jest.fn((variables, token) => {
-  logger.log(variables, token);
+  console.log(variables, token);
   return new Promise((res) => res({ data: "ok" }));
 });
 

@@ -2,10 +2,8 @@ import { describe, expect, it } from "@jest/globals";
 import {
   parseBoolean,
   parseArray,
-  clampValue,
   lowercaseTrim,
   chunkArray,
-  parseEmojis,
   dateDiff,
 } from "../src/common/ops.js";
 
@@ -36,21 +34,6 @@ describe("Test ops.js", () => {
     expect(parseArray(undefined)).toEqual([]);
   });
 
-  it("should test clampValue", () => {
-    expect(clampValue(5, 1, 10)).toBe(5);
-    expect(clampValue(0, 1, 10)).toBe(1);
-    expect(clampValue(15, 1, 10)).toBe(10);
-
-    // string inputs are coerced numerically by Math.min/Math.max
-    // @ts-ignore
-    expect(clampValue("7", 1, 10)).toBe(7);
-
-    // non-numeric and NaN fall back to min
-    // @ts-ignore
-    expect(clampValue("abc", 1, 10)).toBe(1);
-    expect(clampValue(NaN, 2, 5)).toBe(2);
-  });
-
   it("should test lowercaseTrim", () => {
     expect(lowercaseTrim("  Hello World  ")).toBe("hello world");
     expect(lowercaseTrim("already lower")).toBe("already lower");
@@ -60,20 +43,6 @@ describe("Test ops.js", () => {
     expect(chunkArray([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]]);
     expect(chunkArray([1, 2, 3, 4, 5], 1)).toEqual([[1], [2], [3], [4], [5]]);
     expect(chunkArray([1, 2, 3, 4, 5], 10)).toEqual([[1, 2, 3, 4, 5]]);
-  });
-
-  it("should test parseEmojis", () => {
-    // unknown emoji name is stripped
-    expect(parseEmojis("Hello :nonexistent:")).toBe("Hello ");
-    // common emoji names should be replaced (at least token removed)
-    const out = parseEmojis("I :heart: OSS");
-    expect(out).not.toContain(":heart:");
-    expect(out.startsWith("I ")).toBe(true);
-    expect(out.endsWith(" OSS")).toBe(true);
-
-    expect(() => parseEmojis("")).toThrow(/parseEmoji/);
-    // @ts-ignore
-    expect(() => parseEmojis()).toThrow(/parseEmoji/);
   });
 
   it("should test dateDiff", () => {

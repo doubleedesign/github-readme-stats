@@ -1,4 +1,4 @@
-import { renderError } from "./utils.js";
+import { renderError } from "./render.js";
 import { MissingParamError, retrieveSecondaryMessage } from "./error.js";
 import { setErrorCacheHeaders } from "./cache.js";
 

@@ -8,7 +8,6 @@
  */
 
 import { request } from "../../src/common/http.js";
-import { logger } from "../../src/common/log.js";
 import { dateDiff } from "../../src/common/ops.js";
 
 export const RATE_LIMIT_SECONDS = 60 * 5; // 1 request per 5 minutes
@@ -152,7 +151,7 @@ export default async (_, res) => {
     res.send(JSON.stringify(PATsInfo, null, 2));
   } catch (err) {
     // Throw error if something went wrong.
-    logger.error(err);
+    console.error(err);
     res.setHeader("Cache-Control", "no-store");
     res.send("Something went wrong: " + err.message);
   }
