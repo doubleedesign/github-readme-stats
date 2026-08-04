@@ -30,7 +30,6 @@ export default async (req, res) => {
 
 		setCacheHeaders(res, cacheSeconds);
 		res.setHeader("Content-Type", "image/svg+xml");
-		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
 		const html = renderGistCard(gistData, {
 			show_owner: parseBoolean(show_owner),

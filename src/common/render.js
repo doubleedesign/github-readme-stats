@@ -78,7 +78,6 @@ const createProgressNode = ({
             fill="${color}"
             rx="5" ry="5" x="0" y="0"
             class="lang-progress"
-            style="animation-delay: ${delay}ms;"
         />
       </svg>
     </svg>
@@ -141,26 +140,19 @@ const renderError = ({
     show_repo_link = true,
   } = renderOptions;
 
-  // returns theme based colors with proper overrides and defaults
-  const { titleColor, textColor, bgColor, borderColor } = getCardColors({});
-
   return `
-    <svg width="${ERROR_CARD_LENGTH}"  height="120" viewBox="0 0 ${ERROR_CARD_LENGTH} 120" fill="${bgColor}" xmlns="http://www.w3.org/2000/svg">
-    <style>
-    .text { font: 600 16px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${titleColor} }
-    .small { font: 600 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: ${textColor} }
-    .gray { fill: #858585 }
-    </style>
+    <svg width="${ERROR_CARD_LENGTH}"  height="120" viewBox="0 0 ${ERROR_CARD_LENGTH} 120"  xmlns="http://www.w3.org/2000/svg">
+  
     <rect x="0.5" y="0.5" width="${
       ERROR_CARD_LENGTH - 1
-    }" height="99%" rx="4.5" fill="${bgColor}" stroke="${borderColor}"/>
+    }" height="99%" rx="4.5"/>
     <text x="25" y="45" class="text">Something went wrong!${
       UPSTREAM_API_ERRORS.includes(secondaryMessage) || !show_repo_link
         ? ""
         : " file an issue at https://tiny.one/readme-stats"
     }</text>
     <text data-testid="message" x="25" y="55" class="text small">
-      <tspan x="25" dy="18">${message instanceof 'string' ? encodeHTML(message) : ""}</tspan>
+      <tspan x="25" dy="18">${typeof message === 'string' ? encodeHTML(message) : ""}</tspan>
       <tspan x="25" dy="18" class="gray">${secondaryMessage}</tspan>
     </text>
     </svg>
