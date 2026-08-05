@@ -893,6 +893,7 @@
   overflow-x: scroll;
   padding: 1rem;
   padding-block-end: 1.5rem;
+  background: #181825;
 }
 .language-html > .tag {
   display: block;
@@ -911,6 +912,7 @@
   margin-block-end: 2rem;
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
   gap: 0.5rem;
   background: #F8F8F8;
   padding: 1rem 0.5rem;
@@ -920,6 +922,9 @@
   text-wrap: nowrap;
   font-family: var(--font-family-labels);
   font-size: 0.875rem;
+}
+.request-url figcaption {
+  margin: 0;
 }
 .prismjs {
   background: transparent;
@@ -943,7 +948,6 @@
 .github-code code {
   padding: 1rem !important;
   box-sizing: border-box;
-  background: revert-layer;
 }
 [data-color-mode=dark] .github-code code {
   background: rgba(255, 255, 255, 0.05);
