@@ -85,10 +85,7 @@ const resolveCacheSeconds = ({ requested, def, min, max }) => {
  */
 const disableCaching = (res) => {
   // Disable caching for browsers, shared caches/CDNs, and GitHub Camo.
-  res.setHeader(
-    "Cache-Control",
-    "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0",
-  );
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0");
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
 };
@@ -119,13 +116,8 @@ const setCacheHeaders = (res, cacheSeconds) => {
  * @param {any} res The response object.
  */
 const setErrorCacheHeaders = (res) => {
-  const envCacheSeconds = process.env.CACHE_SECONDS
-    ? parseInt(process.env.CACHE_SECONDS, 10)
-    : NaN;
-  if (
-    (!isNaN(envCacheSeconds) && envCacheSeconds < 1) ||
-    process.env.NODE_ENV === "development"
-  ) {
+  const envCacheSeconds = process.env.CACHE_SECONDS ? parseInt(process.env.CACHE_SECONDS, 10) : NaN;
+  if ((!isNaN(envCacheSeconds) && envCacheSeconds < 1) || process.env.NODE_ENV === "development") {
     disableCaching(res);
     return;
   }

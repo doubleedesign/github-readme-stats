@@ -8,10 +8,7 @@ import { handleError } from "../src/common/handle-error.js";
 
 // @ts-ignore
 export default async (req, res) => {
-	const access = guardAccess({ req, res });
-	if (!access.isPassed) {
-		return access.result;
-	}
+	guardAccess({ req, res });
 
 	const { username, repo, show_owner, cache_seconds } = req.query;
 
