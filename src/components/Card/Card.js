@@ -4,7 +4,7 @@ import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
-		return ["heading", "description", "width", "height", "icon", "beforeContent", "footer"];
+		return ["heading", "description", "width", "height", "icon", "beforeContent", "footer", "theme"];
 	}
 
 	getCss() {
@@ -15,7 +15,7 @@ export class Card extends BaseElement {
 				font-family: "Segoe UI", system-ui, sans-serif;
 				--background-color: rgb(220 220 240 / 0.05);
 				--border-color: rgb(100 100 100 / 0.3);
-				--heading-color: #845ec2;
+				--heading-color: ${this.theme === "colorful" ? "#845ec2" : "#767486"};
 				--body-color: #767486;
 			}
 
@@ -90,6 +90,14 @@ export class Card extends BaseElement {
 				gap: 1rem;
 			}
 		`;
+	}
+
+	get theme() {
+		return this.getAttribute("theme") || "colorful";
+	}
+
+	set theme(value) {
+		this.setAttribute("theme", value);
 	}
 
 	get beforeContent() {

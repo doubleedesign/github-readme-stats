@@ -11,11 +11,16 @@ const meta = {
 		footer: "<span style='font-size:0.85rem'>Some footer content</span>",
 		width: 420,
 		height: 140,
+		theme: 'colorful'
 	},
 	argTypes: {
 		icon: {
 			control: { type: 'select' },
 			options: Object.keys(icons)
+		},
+		theme: {
+			control: { type: 'select' },
+			options: ['colorful', 'mono']
 		}
 	},
 };
@@ -23,6 +28,17 @@ const meta = {
 export default meta;
 
 export const Basic = {};
+
+export const MonoTheme = {
+	args: {
+		theme: "mono"
+	},
+	parameters: {
+		controls: {
+			exclude: ["theme"]
+		}
+	}
+}
 
 export const NoHeading = {
 	args: {

@@ -89,6 +89,7 @@ const renderError = ({ message, secondaryMessage = "" }) => {
 	card.heading = message;
 	card.description = secondaryMessage;
 	card.icon = "issues";
+	card.theme = "mono";
 
 	return card.toString();
 };
