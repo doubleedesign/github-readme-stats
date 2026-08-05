@@ -1,6 +1,6 @@
 import { BaseElement } from "../BaseElement.js";
-import { css } from "../constants.js";
-import { icons } from "../../common/index.js";
+import { css, SVG_NAMESPACE } from "../constants.js";
+import { icons } from "../../common/icons.js";
 
 export class Badge extends BaseElement {
 	static get observedAttributes() {
@@ -93,7 +93,7 @@ export class Badge extends BaseElement {
 		const content = doc.createElement('span');
 		content.classList.add('badge');
 		content.innerHTML = `
-			<svg xmlns="http://www.w3.org/2000/svg" class="badge__icon" viewBox="0 0 16 16" fill="${this.color}">
+			<svg xmlns="${SVG_NAMESPACE}" class="badge__icon" viewBox="0 0 16 16" fill="${this.color}">
 				${this.iconSvg}
 			</svg>
 			<span class="badge__label">${this.label}</span>

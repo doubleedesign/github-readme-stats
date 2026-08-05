@@ -1,5 +1,5 @@
 import "../../src/components/Badge/Badge.js";
-import icons from "../../src/common/icons.js";
+import { icons } from "../../src/common/icons.js";
 
 const meta = {
 	component: "x-badge",
