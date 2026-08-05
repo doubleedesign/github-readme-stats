@@ -32,14 +32,9 @@ const DURATIONS = {
  * Common cache TTL values in seconds.
  */
 const CACHE_TTL = {
-  STATS_CARD: {
-    DEFAULT: DURATIONS.ONE_DAY,
-    MIN: DURATIONS.TWELVE_HOURS,
-    MAX: DURATIONS.TWO_DAY,
-  },
   TOP_LANGS_CARD: {
-    DEFAULT: DURATIONS.SIX_DAY,
-    MIN: DURATIONS.TWO_DAY,
+    DEFAULT: DURATIONS.ONE_DAY,
+    MIN: DURATIONS.ONE_DAY,
     MAX: DURATIONS.TEN_DAY,
   },
   PIN_CARD: {
@@ -65,7 +60,7 @@ const CACHE_TTL = {
  * @param {number} args.max The maximum cache seconds.
  * @returns {number} The resolved cache seconds.
  */
-const resolveCacheSeconds = ({ requested, def, min, max }) => {
+const resolveCacheSeconds = ({ requested = 86400, def, min, max }) => {
   let cacheSeconds = clampValue(isNaN(requested) ? def : requested, min, max);
 
   if (process.env.CACHE_SECONDS) {
