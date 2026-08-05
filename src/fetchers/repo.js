@@ -1,8 +1,9 @@
 // @ts-check
 
-import { MissingParamError } from "../common/error.js";
+import { CustomError, MissingParamError } from "../common/error.js";
 import { request } from "../common/http.js";
 import { retryer } from "../common/retryer.js";
+import { USERNAME } from "../constants.js";
 
 /**
  * Repo data fetcher.
@@ -70,22 +71,15 @@ const urlExample = "/api/pin?username=USERNAME&amp;repo=REPO_NAME";
 /**
  * Fetch repository data.
  *
- * @param {string} username GitHub username.
  * @param {string} reponame GitHub repository name.
  * @returns {Promise<RepositoryData>} Repository data.
  */
-const fetchRepo = async (username, reponame) => {
-  if (!username && !reponame) {
-    throw new MissingParamError(["username", "repo"], urlExample);
-  }
-  if (!username) {
-    throw new MissingParamError(["username"], urlExample);
-  }
+const fetchRepo = async (reponame) => {
   if (!reponame) {
     throw new MissingParamError(["repo"], urlExample);
   }
 
-  let res = await retryer(fetcher, { login: username, repo: reponame });
+  let res = await retryer(fetcher, { login: USERNAME, repo: reponame });
 
   const data = res.data.data;
 
@@ -98,7 +92,7 @@ const fetchRepo = async (username, reponame) => {
 
   if (isUser) {
     if (!data.user.repository || data.user.repository.isPrivate) {
-      throw new Error("Repository not found");
+      throw new CustomError("Repository not found", `The repository <em>${reponame}</em> could not be found. It may be private, or may not exist at all.`);
     }
     return {
       ...data.user.repository,

@@ -3,6 +3,7 @@ import { retryer } from "../common/retryer.js";
 import { CustomError, MissingParamError } from "../common/error.js";
 import { request } from "../common/http.js";
 import { gql } from 'graphql-tag';
+import { USERNAME } from "../constants.js";
 
 
 /**
@@ -58,17 +59,12 @@ const fetcher = (variables, token) => {
  * @returns {Promise<TopLangData>} Top languages data.
  */
 const fetchTopLanguages = async ({
-     username,
      exclude_repos = [],
      exclude_langs = [],
      size_weight = 1,
      count_weight = 0,
 }) => {
-	if (!username) {
-		throw new MissingParamError(["username"]);
-	}
-
-	const res = await retryer(fetcher, { login: username });
+	const res = await retryer(fetcher, { login: USERNAME });
 
 	if (res.data.errors) {
 		console.error(res.data.errors);

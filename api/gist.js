@@ -5,7 +5,6 @@ import {
 	resolveCacheSeconds,
 	setCacheHeaders,
 } from "../src/common/cache.js";
-import { guardAccess } from "../src/common/access.js";
 import { handleError } from "../src/common/handle-error.js";
 import { parseEmojis } from "../src/common/ops.js";
 import { Card } from "../src/components/Card/Card.ssr.js";
@@ -36,8 +35,6 @@ export const getHtml = (gistData) => {
 
 // @ts-ignore
 export default async (req, res) => {
-	guardAccess({ req, res });
-
 	const { id, cache_seconds } = req.query;
 
 	try {

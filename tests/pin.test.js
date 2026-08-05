@@ -210,7 +210,7 @@ describe("Test /api/pin", () => {
     expect(res.send).toHaveBeenCalledWith(
       renderError({
         message:
-          'Missing params "username", "repo" make sure you pass the parameters in URL',
+          'Missing params "repo" make sure you pass the parameters in URL',
         secondaryMessage: "/api/pin?username=USERNAME&amp;repo=REPO_NAME",
         renderOptions: { show_repo_link: false },
       }),

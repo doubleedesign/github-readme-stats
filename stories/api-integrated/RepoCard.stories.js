@@ -3,7 +3,6 @@ import { withRequestUrl } from "../../.storybook/decorators/with-request-url.js"
 
 const meta = {
 	args: {
-		username: "doubleedesign",
 		repo: "storybook-addon-accessibility-tree"
 	},
 	argTypes: {

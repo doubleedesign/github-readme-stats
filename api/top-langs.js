@@ -1,5 +1,4 @@
 // @ts-check
-import { guardAccess } from "../src/common/access.js";
 import { CACHE_TTL, resolveCacheSeconds, setCacheHeaders } from "../src/common/cache.js";
 import { parseArray } from "../src/common/ops.js";
 import { CustomError } from "../src/common/error.js";
@@ -20,8 +19,6 @@ const getHtml = (data, options) => {
 
 // @ts-ignore
 export default async (req, res) => {
-	guardAccess({ req, res });
-
 	const {
 		username,
 		heading,

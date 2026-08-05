@@ -1,6 +1,5 @@
 const meta = {
 	args: {
-		username: "doubleedesign",
 		langs_count: 10,
 		exclude_langs: "shell,blade,hack",
 		exclude_repos: "",

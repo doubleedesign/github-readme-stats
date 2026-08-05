@@ -1,5 +1,4 @@
 // @ts-check
-import { guardAccess } from "../src/common/access.js";
 import { CACHE_TTL, resolveCacheSeconds, setCacheHeaders } from "../src/common/cache.js";
 import { fetchRepo } from "../src/fetchers/repo.js";
 import { handleError } from "../src/common/handle-error.js";
@@ -38,12 +37,10 @@ const getHtml = (repo) => {
 
 // @ts-ignore
 export default async (req, res) => {
-	guardAccess({ req, res });
-
-	const { username, repo, cache_seconds } = req.query;
+	const { repo, cache_seconds } = req.query;
 
 	try {
-		const repoData = await fetchRepo(username, repo);
+		const repoData = await fetchRepo(repo);
 		const cacheSeconds = resolveCacheSeconds({
 			requested: parseInt(cache_seconds, 10),
 			def: CACHE_TTL.PIN_CARD.DEFAULT,

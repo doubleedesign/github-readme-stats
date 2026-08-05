@@ -3,7 +3,6 @@ import { withRequestUrl } from "../../.storybook/decorators/with-request-url.js"
 
 const meta = {
 	args: {
-		username: "doubleedesign",
 		id: "6ff3645f081ae219edbf5d5d2e7f3dd1",
 	},
 	decorators: [
