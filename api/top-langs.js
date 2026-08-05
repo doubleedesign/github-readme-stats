@@ -1,12 +1,22 @@
 // @ts-check
-
-import { renderTopLanguages } from "../src/cards/top-languages.js";
 import { guardAccess } from "../src/common/access.js";
 import { CACHE_TTL, resolveCacheSeconds, setCacheHeaders } from "../src/common/cache.js";
 import { parseArray } from "../src/common/ops.js";
 import { CustomError } from "../src/common/error.js";
 import { fetchTopLanguages } from "../src/fetchers/top-languages.js";
 import { handleError } from "../src/common/handle-error.js";
+import { LanguagesCard } from "../src/components/LanguagesCard/LanguagesCard.ssr.js";
+
+const getHtml = (data, options) => {
+	const { layout, heading = 'Top Languages', langs_count = 10 } = options;
+
+	const card = new LanguagesCard();
+	card.heading = heading;
+	card.layout = layout;
+
+	return card.toString();
+};
+
 
 // @ts-ignore
 export default async (req, res) => {
@@ -47,7 +57,7 @@ export default async (req, res) => {
 		setCacheHeaders(res, cacheSeconds);
 		res.setHeader("Content-Type", "image/svg+xml");
 
-		const html = renderTopLanguages(queryResponse, {
+		const html = getHtml(queryResponse, {
 			heading,
 			layout,
 			langs_count: parseInt(langs_count, 10),

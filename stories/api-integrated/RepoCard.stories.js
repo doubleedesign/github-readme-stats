@@ -4,11 +4,7 @@ import { withRequestUrl } from "../../.storybook/decorators/with-request-url.js"
 const meta = {
 	args: {
 		username: "doubleedesign",
-		repo: "storybook-addon-accessibility-tree",
-		show_owner: false,
-		show_language: true,
-		show_stars: true,
-		show_forks: true,
+		repo: "storybook-addon-accessibility-tree"
 	},
 	argTypes: {
 		repo: {

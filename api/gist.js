@@ -1,5 +1,4 @@
 // @ts-check
-import { renderGistCard } from "../src/cards/gist.js";
 import { fetchGist } from "../src/fetchers/gist.js";
 import {
 	CACHE_TTL,
@@ -7,14 +6,39 @@ import {
 	setCacheHeaders,
 } from "../src/common/cache.js";
 import { guardAccess } from "../src/common/access.js";
-import { parseBoolean } from "../src/common/ops.js";
 import { handleError } from "../src/common/handle-error.js";
+import { parseEmojis } from "../src/common/ops.js";
+import { Card } from "../src/components/Card/Card.ssr.js";
+import { get_forks_badge_html, get_stars_badge_html, get_language_badge_html } from "../src/common/badges.js";
+
+
+export const getHtml = (gistData) => {
+	const { name, description, language, starCount, forkCount } = gistData;
+	let footerHtml = get_language_badge_html(language, []);
+
+	if (starCount > 0) {
+		footerHtml += get_stars_badge_html(starCount);
+	}
+
+	if (forkCount > 0) {
+		footerHtml +=  get_forks_badge_html(forkCount);
+	}
+
+	const card = new Card();
+	card.heading = name;
+	card.description = parseEmojis(description || "No description provided");
+	card.icon = "gist";
+	card.footer = footerHtml;
+
+	return card.toString();
+};
+
 
 // @ts-ignore
 export default async (req, res) => {
 	guardAccess({ req, res });
 
-	const { id, cache_seconds, show_owner } = req.query;
+	const { id, cache_seconds } = req.query;
 
 	try {
 		const gistData = await fetchGist(id);
@@ -28,9 +52,7 @@ export default async (req, res) => {
 		setCacheHeaders(res, cacheSeconds);
 		res.setHeader("Content-Type", "image/svg+xml");
 
-		const html = renderGistCard(gistData, {
-			show_owner: parseBoolean(show_owner),
-		});
+		const html = getHtml(gistData);
 
 		return res.send(html);
 	}

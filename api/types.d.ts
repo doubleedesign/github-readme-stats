@@ -1,13 +1,4 @@
-export type CommonOptions = {
-};
-
-export type RepoCardOptions = CommonOptions & {
-  show_owner: boolean;
-};
-
-export type GistCardOptions = RepoCardOptions;
-
-export type TopLangOptions = CommonOptions & {
+export type TopLangOptions = {
   layout: "default" | "compact" | "donut" | "donut-vertical" | "pie";
   heading: string;
   langs_count: number;
