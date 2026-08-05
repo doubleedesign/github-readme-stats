@@ -10,6 +10,7 @@ const router = express.Router();
 
 if (process.env.NODE_ENV === "development") {
 	app.use(cors({ origin: "*" }));
+	app.set('etag', false);
 }
 
 router.get("/pin", repoCard);

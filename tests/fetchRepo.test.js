@@ -66,7 +66,7 @@ describe("Test fetchRepo", () => {
       .reply(200, { data: { user: { repository: null }, organization: null } });
 
     await expect(fetchRepo("anuraghazra", "convoychat")).rejects.toThrow(
-      "User Repository Not found",
+      "Repository not found",
     );
   });
 
@@ -99,7 +99,7 @@ describe("Test fetchRepo", () => {
     });
 
     await expect(fetchRepo("anuraghazra", "convoychat")).rejects.toThrow(
-      "User Repository Not found",
+      "Repository Not found",
     );
   });
 });

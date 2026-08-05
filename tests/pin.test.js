@@ -6,7 +6,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import pin from "../api/pin.js";
 import { renderRepoCard } from "../src/cards/repo.js";
-import { renderError } from "../src/common/render.js";
+import { renderError } from "../src/common/error.js";
 import { CACHE_TTL, DURATIONS } from "../src/common/cache.js";
 
 const data_repo = {
@@ -118,7 +118,7 @@ describe("Test /api/pin", () => {
 
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
     expect(res.send).toHaveBeenCalledWith(
-      renderError({ message: "User Repository Not found" }),
+      renderError({ message: "Repository not found" }),
     );
   });
 

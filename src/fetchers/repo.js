@@ -98,7 +98,7 @@ const fetchRepo = async (username, reponame) => {
 
   if (isUser) {
     if (!data.user.repository || data.user.repository.isPrivate) {
-      throw new Error("User Repository Not found");
+      throw new Error("Repository not found");
     }
     return {
       ...data.user.repository,

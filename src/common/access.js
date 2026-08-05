@@ -1,18 +1,12 @@
 // @ts-check
-import { renderError } from "./render.js";
+import { handleError } from "./handle-error.js";
+import { CustomError } from "./error.js";
 
 const guardAccess = ({ req, res }) => {
 	if (req?.query?.username !== "doubleedesign") {
-		const result = res.send(
-			renderError({
-				message: "Access Denied",
-				secondaryMessage: "Please deploy your own instance",
-				renderOptions: {
-					show_repo_link: false,
-				},
-			}),
-		);
-		return { isPassed: false, result };
+		handleError(new CustomError("Access Denied", "ACCESS_DENIED"), res);
+
+		return { isPassed: false };
 	}
 
 	return { isPassed: true };

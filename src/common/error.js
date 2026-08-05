@@ -1,4 +1,5 @@
 // @ts-check
+import { Card } from "../components/Card/Card.ssr.js";
 
 /**
  * @type {string} A general message to ask user to try again later.
@@ -16,6 +17,7 @@ const SECONDARY_ERROR_MESSAGES = {
   USER_NOT_FOUND: "Make sure the provided username is not an organization",
   GRAPHQL_ERROR: TRY_AGAIN_LATER,
   GITHUB_REST_API_ERROR: TRY_AGAIN_LATER,
+  ACCESS_DENIED:  "Please deploy your own instance",
 };
 
 /**
@@ -73,7 +75,26 @@ const retrieveSecondaryMessage = (err) => {
     : undefined;
 };
 
+
+/**
+ * Renders error message on the card.
+ *
+ * @param {object} args Function arguments.
+ * @param {string} args.message Main error message.
+ * @param {string} [args.secondaryMessage=""] The secondary error message.
+ * @returns {string} The SVG markup.
+ */
+const renderError = ({ message, secondaryMessage = "" }) => {
+	const card = new Card();
+	card.heading = message;
+	card.description = secondaryMessage;
+	card.icon = "issues";
+
+	return card.toString();
+};
+
 export {
+  renderError,
   CustomError,
   MissingParamError,
   SECONDARY_ERROR_MESSAGES,
