@@ -8,9 +8,12 @@ export type RepoCardOptions = CommonOptions & {
 export type GistCardOptions = RepoCardOptions;
 
 export type TopLangOptions = CommonOptions & {
-  hide: string[];
   layout: "default" | "compact" | "donut" | "donut-vertical" | "pie";
   heading: string;
   langs_count: number;
-  stats_format: "percentages" | "bytes";
 };
+
+export type TopLangQueryOptions = {
+  exclude_langs: string[];
+  exclude_repos: string[];
+}

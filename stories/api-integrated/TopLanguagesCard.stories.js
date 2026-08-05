@@ -1,57 +1,61 @@
 const meta = {
-  args: {
-    username: 'doubleedesign',
-    exclude_repo: '',
-    langs_count: 10,
-    layout: 'compact',
-    card_width: 300,
-    hide: 'shell,blade,hack',
-    algorithm: 'byte_count'
-  },
-  argTypes: {
-    custom_title: {
-      control: { type: 'text' }
-    },
-    layout: {
-      control: { type: 'select' },
-      options: ['normal', 'compact', 'donut', 'donut-vertical', 'pie']
-    },
-    algorithm: {
-      control: { type: 'select' },
-      options: ['byte_count', 'repo_count', 'both']
-    }
-  }
+	args: {
+		username: "doubleedesign",
+		langs_count: 10,
+		exclude_langs: "shell,blade,hack",
+		exclude_repos: "",
+		algorithm: "byte_count",
+		layout: "default",
+	},
+	argTypes: {
+		heading: {
+			control: { type: "text" },
+		},
+		algorithm: {
+			control: { type: "select" },
+			options: ["byte_count", "repo_count", "both"],
+		},
+		layout: {
+			control: { type: "select" },
+			options: ["normal", "compact", "donut", "donut-vertical", "pie"],
+		},
+	},
 };
 export default meta;
 
 
 export const TopLanguagesCard = {
-  render: (args) => {
-    let algorithmParams = {};
-    switch (args.algorithm) {
-      case 'byte_count':
-        algorithmParams = {
-          size_weight: 1,
-          count_weight: 0
-        }
-        break;
-      case 'repo_count':
-        algorithmParams = {
-          size_weight: 0,
-          count_weight: 1,
-        };
-        break;
-      default:
-        algorithmParams = {
-          size_weight: 0.5,
-          count_weight: 0.5,
-        };
-        break;
-    }
+	render: (args) => {
+		let algorithmParams = {};
+		switch (args.algorithm) {
+			case "byte_count":
+				algorithmParams = {
+					size_weight: 1,
+					count_weight: 0,
+				};
+				break;
+			case "repo_count":
+				algorithmParams = {
+					size_weight: 0,
+					count_weight: 1,
+				};
+				break;
+			default:
+				algorithmParams = {
+					size_weight: 0.5,
+					count_weight: 0.5,
+				};
+				break;
+		}
 
-    const queryParams = new URLSearchParams({...args, ...algorithmParams}).toString();
-    const apiUrl = `http://localhost:9000/api/top-langs?${queryParams}`;
+		const queryParams = new URLSearchParams({ ...args, ...algorithmParams }).toString();
+		const apiUrl = `http://localhost:9000/api/top-langs?${queryParams}`;
 
-    return `<img src="${apiUrl}" />`;
-  },
+		// For debugging the source SVG response
+		fetch(apiUrl).then((response => response.text())).then((svg) => {
+			console.log(svg);
+		});
+
+		return `<img src="${apiUrl}" />`;
+	},
 };

@@ -20,12 +20,9 @@ export const GistCard = {
 		const apiUrl = `http://localhost:9000/api/gist/?${queryParams}`;
 
 		// For debugging the source SVG response
-		// fetch(apiUrl).then((response => {
-		// 	// eslint-disable-next-line no-mixed-spaces-and-tabs
-		//   return response.text();
-		// })).then((svg) => {
-		//   console.log(svg);
-		// });
+		fetch(apiUrl).then((response => response.text())).then((svg) => {
+			console.log(svg);
+		});
 
 		return `<img src="${apiUrl}" />`;
 	},

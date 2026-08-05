@@ -7,11 +7,11 @@ globalThis.document = virtualWindow.document;
 globalThis.HTMLElement = virtualWindow.HTMLElement;
 
 // Dynamically import component *after* the globals so it picks them up correctly
-await import("./Card.js");
+await import("./LanguagesCard.js");
 
 // Export a wrapper class that creates an instance of the custom element in the virtual DOM
-export class Card {
+export class LanguagesCard {
 	constructor() {
-		return window.document.createElement("x-card");
+		return window.document.createElement("x-languages");
 	}
 }
