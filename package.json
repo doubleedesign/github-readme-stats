@@ -15,7 +15,10 @@
 		"type": "git",
 		"url": "https://github.com/doubleedesign/github-readme-stats.git"
 	},
-	"author": "Leesa Ward",
+	"author": {
+		"name": "Leesa Ward",
+		"url": "https://github.com/doubleedesign"
+	},
 	"contributors": [
 		{
 			"name": "Anurag Hazra",
@@ -28,29 +31,31 @@
 		"test:update:snapshot": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u",
 		"test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.e2e.config.js",
 		"lint": "npx eslint --fix",
-		"server": "nodemon",
+		"server:dev": "nodemon",
+		"server": "node --experimental-transform-types express.ts",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@babel/eslint-parser": "^7.29.7",
 		"@doubleedesign/doublee-site-style": "github:doubleedesign/doublee-site-style",
+		"@eslint/js": "^9.39.2",
 		"@storybook/addon-a11y": "^10.5.3",
 		"@storybook/web-components-vite": "^10.5.2",
+		"@stylistic/eslint-plugin-js": "^2.13.0",
+		"@stylistic/eslint-plugin-ts": "^2.13.0",
 		"@testing-library/dom": "^10.4.1",
 		"@testing-library/jest-dom": "^6.9.1",
+		"@types/express": "^5.0.6",
+		"@types/node": "^26.1.2",
+		"@typescript-eslint/eslint-plugin": "^8.60.1",
+		"@typescript-eslint/parser": "^8.60.1",
 		"@uppercod/css-to-object": "^1.1.1",
 		"axios-mock-adapter": "^2.1.0",
 		"dotenv": "^17.4.2",
 		"eslint": "^9.39.2",
 		"eslint-plugin-storybook": "^10.5.2",
-		"@eslint/js": "^9.39.2",
-		"@stylistic/eslint-plugin-js": "^2.13.0",
-		"@stylistic/eslint-plugin-ts": "^2.13.0",
-		"@typescript-eslint/eslint-plugin": "^8.60.1",
-		"@typescript-eslint/parser": "^8.60.1",
-		"typescript-eslint": "^8.60.1",
-		"@babel/eslint-parser": "^7.29.7",
 		"express": "^5.2.1",
 		"globals": "^16.5.0",
 		"jest": "^30.2.0",
@@ -61,6 +66,7 @@
 		"parse-diff": "^0.11.1",
 		"prismjs": "^1.30.0",
 		"storybook": "^10.5.2",
+		"typescript-eslint": "^8.60.1",
 		"vite": "^8.1.5"
 	},
 	"dependencies": {

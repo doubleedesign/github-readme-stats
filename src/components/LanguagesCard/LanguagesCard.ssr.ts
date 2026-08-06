@@ -11,7 +11,10 @@ await import('./LanguagesCard.js');
 
 // Export a wrapper class that creates an instance of the custom element in the virtual DOM
 export class LanguagesCard {
+	declare heading: string;
+	declare layout: string;
+
 	constructor() {
-		return window.document.createElement('x-languages');
+		return window.document.createElement('x-languages') as unknown as LanguagesCard;
 	}
 }

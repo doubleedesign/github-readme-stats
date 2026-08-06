@@ -1,15 +1,28 @@
-import { Fetcher } from "./Fetcher.js";
-import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from "../constants.js";
-import { DURATIONS } from "../common/cache.js";
-import { gql } from "graphql-tag";
-import { LanguagesCard } from "../components/LanguagesCard/LanguagesCard.ssr.js";
+import { Fetcher } from './Fetcher.ts';
+import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from '../constants.js';
+import { DURATIONS } from '../common/cache.js';
+import { gql } from 'graphql-tag';
+import { LanguagesCard } from '../components/LanguagesCard/LanguagesCard.ssr.ts';
+import type { RepositoryData, TopLangData, TopLangsFetcherFields, TopLangsFetcherParams } from './types.ts';
 
-export class TopLangsFetcher extends Fetcher {
-	constructor(params) {
+
+export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields  {
+	variables = { login: USERNAME };
+	heading = 'Top Languages';
+	layout = 'default' as TopLangsFetcherParams['layout'];
+	langs_count = 10;
+	exclude_langs: TopLangsFetcherFields['exclude_langs'] = [];
+	exclude_repos: TopLangsFetcherFields['exclude_repos'] = [];
+	size_weight;
+	count_weight;
+	cache_seconds;
+	query = '';
+	data = {};
+
+	constructor(params: TopLangsFetcherParams) {
 		super();
-		this.variables.login = USERNAME;
-		this.heading = params.heading ?? "Top Languages";
-		this.layout = params.layout ?? "default";
+		this.heading = params.heading ?? 'Top Languages';
+		this.layout = params.layout ?? 'default';
 		this.langs_count = params.langs_count ?? 10;
 		this.exclude_langs = EXCLUDED_LANGUAGES;
 		this.exclude_repos = EXCLUDED_REPOS;
@@ -19,30 +32,30 @@ export class TopLangsFetcher extends Fetcher {
 
 		this.query = gql(`
             query userPublicRepos($login: String!) {
-                user(login: $login) {
-                    repositories(
-                        ownerAffiliations: OWNER
-                        isFork: false
-                        first: 100
-                        visibility: PUBLIC
-                        orderBy: { field: UPDATED_AT, direction: DESC }
-                    ) {
-                        nodes {
-                            name
-                            languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
-                                edges {
-                                    size
-                                    node {
-                                        color
-                                        name
-                                    }
+            user(login: $login) {
+                repositories(
+                    ownerAffiliations: OWNER
+                    isFork: false
+                    first: 100
+                    visibility: PUBLIC
+                    orderBy: { field: UPDATED_AT, direction: DESC }
+                ) {
+                    nodes {
+                        name
+                        languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
+                            edges {
+                                size
+                                node {
+                                    color
+                                    name
                                 }
                             }
                         }
                     }
                 }
             }
-		`).loc.source.body;
+        }
+        `)?.loc?.source.body ?? '';
 	}
 
 	async fetch() {
@@ -50,13 +63,13 @@ export class TopLangsFetcher extends Fetcher {
 		this.data = this._processUserRepos(response.user.repositories.nodes);
 	}
 
-	_processUserRepos(nodes) {
+	_processUserRepos(nodes: RepositoryData[]) {
 		let repoNodes;
 		let repoCount = 0;
 
 		// Filter and sort the repositories, flatten the list of language nodes, and reduce to a single object with language names as keys
 		repoNodes = nodes
-			.filter((node) => node.languages.edges.length > 0 && !this.exclude_repos.includes(node))
+			.filter((node) => node.languages.edges.length > 0 && !this.exclude_repos.includes(node.name))
 			.sort((a, b) => b.size - a.size)
 			.reduce((acc, curr) => curr.languages.edges.concat(acc), [])
 			.reduce((acc, prev) => {
@@ -70,11 +83,13 @@ export class TopLangsFetcher extends Fetcher {
 				if (acc[prev.node.name] && prev.node.name === acc[prev.node.name].name) {
 					langSize = prev.size + acc[prev.node.name].size;
 					repoCount += 1;
-				} else {
+				}
+				else {
 					// reset repoCount to 1
 					// language must exist in at least one repo to be detected
 					repoCount = 1;
 				}
+
 				return {
 					...acc, [prev.node.name]: {
 						name: prev.node.name,
@@ -94,10 +109,10 @@ export class TopLangsFetcher extends Fetcher {
 			.sort((a, b) => repoNodes[b].size - repoNodes[a].size)
 			.filter((key => !this.exclude_langs.includes(key.toLowerCase())))
 			.reduce((result, key) => {
-				result = this._maybeMergeResults(["JavaScript", "TypeScript"], key, repoNodes, result);
-				result = this._maybeMergeResults(["CSS", "SCSS"], key, repoNodes, result);
+				result = this._maybeMergeResults(['JavaScript', 'TypeScript'], key, repoNodes, result);
+				result = this._maybeMergeResults(['CSS', 'SCSS'], key, repoNodes, result);
 
-				if (!["JavaScript", "TypeScript", "CSS", "SCSS"].includes(key)) {
+				if (!['JavaScript', 'TypeScript', 'CSS', 'SCSS'].includes(key)) {
 					result[key] = repoNodes[key];
 				}
 
@@ -107,7 +122,7 @@ export class TopLangsFetcher extends Fetcher {
 
 	_maybeMergeResults(keysToMerge, key, repoNodes, result) {
 		if (keysToMerge.includes(key)) {
-			const newKey = keysToMerge.join("/");
+			const newKey = keysToMerge.join('/');
 
 			const ColourMap = {
 				// Give JS/TS the JS yellow for better contrast when sitting next to PHP
@@ -122,7 +137,8 @@ export class TopLangsFetcher extends Fetcher {
 				result[newKey] = {
 					name: newKey, color: ColourMap[key], size: repoNodes[key].size, count: repoNodes[key].count,
 				};
-			} else {
+			}
+			else {
 				result[newKey].size += repoNodes[key].size;
 				result[newKey].count += repoNodes[key].count;
 			}

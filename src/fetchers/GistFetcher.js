@@ -1,4 +1,4 @@
-import { Fetcher } from "./Fetcher.js";
+import { Fetcher } from "./Fetcher.ts";
 import { DURATIONS } from "../common/cache.js";
 import { gql } from "graphql-tag";
 import { LANGUAGE_COLORS } from "../constants.js";

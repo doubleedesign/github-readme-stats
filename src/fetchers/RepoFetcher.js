@@ -1,4 +1,4 @@
-import { Fetcher } from "./Fetcher.js";
+import { Fetcher } from "./Fetcher.ts";
 import { CustomError } from "../common/error.js";
 import { gql } from "graphql-tag";
 import { DURATIONS } from "../common/cache.js";
