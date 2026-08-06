@@ -1,5 +1,5 @@
-import { GistFetcher } from "../src/fetchers/GistFetcher.js";
-import { handleError } from "../src/common/handle-error.js";
+import { GistFetcher } from '../src/fetchers/GistFetcher.js';
+import { handleError } from '../src/common/handle-error.js';
 
 export default async (req, res) => {
 	const { id } = req.query;

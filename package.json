@@ -27,7 +27,7 @@
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
 		"test:update:snapshot": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u",
 		"test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.e2e.config.js",
-		"lint": "npx eslint --max-warnings 0 \"./src/**/*.js\" \"./tests/**/*.js\" \"./api/**/*.js\"",
+		"lint": "npx eslint --fix",
 		"server": "nodemon",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"

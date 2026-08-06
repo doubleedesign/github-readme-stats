@@ -97,7 +97,7 @@ export default [
 		}
 	},
 	{
-		files: ['./src/**/*.ts', './api/**/*.ts'],
+		files: ['./src/**/*.ts', './api/**/*.ts', './express.ts'],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {

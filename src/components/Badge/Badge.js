@@ -1,11 +1,11 @@
-import { BaseElement } from "../BaseElement.js";
-import { css } from "../utils.js";
-import { SVG_NAMESPACE } from "../../constants.js";
-import { icons } from "../../common/icons.js";
+import { BaseElement } from '../BaseElement.js';
+import { css } from '../utils.js';
+import { SVG_NAMESPACE } from '../../constants.js';
+import { icons } from '../../common/icons.js';
 
 export class Badge extends BaseElement {
 	static get observedAttributes() {
-		return ["icon", "label", "color", "testId"];
+		return ['icon', 'label', 'color', 'testId'];
 	}
 
 	getCss() {
@@ -42,52 +42,52 @@ export class Badge extends BaseElement {
 	}
 
 	get icon() {
-		return this.getAttribute("icon") || "";
+		return this.getAttribute('icon') || '';
 	}
 
 	set icon(value) {
-		this.setAttribute("icon", value);
+		this.setAttribute('icon', value);
 	}
 
 	get color() {
-		return this.getAttribute("color") || "#858585";
+		return this.getAttribute('color') || '#858585';
 	}
 
 	set color(value) {
-		this.setAttribute("color", value);
+		this.setAttribute('color', value);
 	}
 
 	get iconSvg() {
-		return this.getAttribute("icon") !== "" ? icons[this.getAttribute("icon") ?? "contribs"] : "";
+		return this.getAttribute('icon') !== '' ? icons[this.getAttribute('icon') ?? 'contribs'] : '';
 	}
 
 	get label() {
-		return this.getAttribute("label") || "";
+		return this.getAttribute('label') || '';
 	}
 
 	set label(value) {
-		this.setAttribute("label", value);
+		this.setAttribute('label', value);
 	}
 
 	get testId() {
-		return this.getAttribute("testId") || "";
+		return this.getAttribute('testId') || '';
 	}
 
 	set testId(value) {
-		this.setAttribute("testId", value);
+		this.setAttribute('testId', value);
 	}
 
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return "";
+			return '';
 		}
 
-		const wrapper = doc.createElement("span");
-		wrapper.setAttribute("data-testid", this.testId);
+		const wrapper = doc.createElement('span');
+		wrapper.setAttribute('data-testid', this.testId);
 
 		// Add the CSS inside to ensure it renders correctly when rendered from the backend
-		const style = doc.createElement("style");
+		const style = doc.createElement('style');
 		style.textContent = this.getCss();
 		wrapper.appendChild(style);
 
@@ -102,13 +102,13 @@ export class Badge extends BaseElement {
 
 		wrapper.appendChild(content);
 
-		this.innerHTML = "";
+		this.innerHTML = '';
 		this.appendChild(wrapper);
 
 		return wrapper;
 	}
 }
 
-if (typeof window !== "undefined" && "customElements" in window && !window.customElements.get("x-badge")) {
-	window.customElements.define("x-badge", Badge);
+if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-badge')) {
+	window.customElements.define('x-badge', Badge);
 }

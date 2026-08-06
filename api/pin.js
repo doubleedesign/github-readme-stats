@@ -1,5 +1,5 @@
-import { handleError } from "../src/common/handle-error.js";
-import { RepoFetcher } from "../src/fetchers/RepoFetcher.js";
+import { handleError } from '../src/common/handle-error.js';
+import { RepoFetcher } from '../src/fetchers/RepoFetcher.js';
 
 export default async (req, res) => {
 	const { repo } = req.query;

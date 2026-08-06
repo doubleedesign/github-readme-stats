@@ -1,11 +1,11 @@
-import { icons } from "../../common/icons.js";
-import { css } from "../utils.js";
-import { SVG_NAMESPACE } from "../../constants.js";
-import { BaseElement } from "../BaseElement.js";
+import { icons } from '../../common/icons.js';
+import { css } from '../utils.js';
+import { SVG_NAMESPACE } from '../../constants.js';
+import { BaseElement } from '../BaseElement.js';
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
-		return ["heading", "description", "width", "height", "icon", "beforeContent", "footer", "theme"];
+		return ['heading', 'description', 'width', 'height', 'icon', 'beforeContent', 'footer', 'theme'];
 	}
 
 	getCss() {
@@ -16,7 +16,7 @@ export class Card extends BaseElement {
 				font-family: "Segoe UI", system-ui, sans-serif;
 				--background-color: rgb(220 220 240 / 0.05);
 				--border-color: rgb(100 100 100 / 0.3);
-				--heading-color: ${this.theme === "colorful" ? "#845ec2" : "#767486"};
+				--heading-color: ${this.theme === 'colorful' ? '#845ec2' : '#767486'};
 				--body-color: #767486;
 			}
 
@@ -94,91 +94,91 @@ export class Card extends BaseElement {
 	}
 
 	get theme() {
-		return this.getAttribute("theme") || "colorful";
+		return this.getAttribute('theme') || 'colorful';
 	}
 
 	set theme(value) {
-		this.setAttribute("theme", value);
+		this.setAttribute('theme', value);
 	}
 
 	get beforeContent() {
-		return this.getAttribute("beforeContent") || "";
+		return this.getAttribute('beforeContent') || '';
 	}
 
 	set beforeContent(value) {
-		this.setAttribute("beforeContent", value);
+		this.setAttribute('beforeContent', value);
 	}
 
 	get heading() {
-		return this.getAttribute("heading") || "";
+		return this.getAttribute('heading') || '';
 	}
 
 	set heading(value) {
-		this.setAttribute("heading", value);
+		this.setAttribute('heading', value);
 	}
 
 	get description() {
-		return this.getAttribute("description") || "";
+		return this.getAttribute('description') || '';
 	}
 
 	set description(value) {
-		this.setAttribute("description", value);
+		this.setAttribute('description', value);
 	}
 
 	get width() {
-		return this.getAttribute("width") || "420";
+		return this.getAttribute('width') || '420';
 	}
 
 	set width(value) {
-		this.setAttribute("width", value);
+		this.setAttribute('width', value);
 	}
 
 	get height() {
-		return this.getAttribute("height") || "140"; // SVG viewbox doesn't support auto height
+		return this.getAttribute('height') || '140'; // SVG viewbox doesn't support auto height
 	}
 
 	set height(value) {
-		this.setAttribute("height", value);
+		this.setAttribute('height', value);
 	}
 
 	get icon() {
-		return this.getAttribute("icon") ?? "";
+		return this.getAttribute('icon') ?? '';
 	}
 
 	set icon(name) {
-		this.setAttribute("icon", name);
+		this.setAttribute('icon', name);
 	}
 
 	get footer() {
-		return this.getAttribute("footer") || "";
+		return this.getAttribute('footer') || '';
 	}
 
 	set footer(value) {
-		this.setAttribute("footer", value);
+		this.setAttribute('footer', value);
 	}
 
 	get prefixIcon() {
-		return this.getAttribute("icon") !== "" ? icons[this.getAttribute("icon") ?? "contribs"] : "";
+		return this.getAttribute('icon') !== '' ? icons[this.getAttribute('icon') ?? 'contribs'] : '';
 	}
 
 	get isTemplate() {
-		return this.getAttribute("isTemplate") === "true";
+		return this.getAttribute('isTemplate') === 'true';
 	}
 
 	set isTemplate(value) {
-		this.setAttribute("isTemplate", value);
+		this.setAttribute('isTemplate', value);
 	}
 
 	get isArchived() {
-		return this.getAttribute("isArchived") === "true";
+		return this.getAttribute('isArchived') === 'true';
 	}
 
 	set isArchived(value) {
-		this.setAttribute("isArchived", value);
+		this.setAttribute('isArchived', value);
 	}
 
 	renderTitle() {
-		const shouldShowTitle = this.getAttribute("heading") !== null && this.getAttribute("heading") !== "";
+		const shouldShowTitle = this.getAttribute('heading') !== null && this.getAttribute('heading') !== '';
 
 		return shouldShowTitle
 			? `
@@ -189,7 +189,7 @@ export class Card extends BaseElement {
 				<span class="card__title__label">${this.heading}</span>
 			</span>
 		`
-			: "";
+			: '';
 	}
 
 	renderDescription() {
@@ -197,47 +197,49 @@ export class Card extends BaseElement {
 	}
 
 	renderBeforeContent() {
-		const content = this.getAttribute("beforeContent");
-		return content ? `<div class="card__before-content">${content}</div>` : "";
+		const content = this.getAttribute('beforeContent');
+
+		return content ? `<div class="card__before-content">${content}</div>` : '';
 	}
 
 	renderFooter() {
-		const content = this.getAttribute("footer");
-		return content ? `<div class="card__footer">${content}</div>` : "";
+		const content = this.getAttribute('footer');
+
+		return content ? `<div class="card__footer">${content}</div>` : '';
 	}
 
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return "";
+			return '';
 		}
 
-		const wrapper = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
-		wrapper.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-		wrapper.setAttribute("width", this.width);
-		wrapper.setAttribute("height", this.height);
-		wrapper.setAttribute("viewBox", `0 0 ${this.width} ${this.height}`);
-		wrapper.setAttribute("aria-describedby", "card-description");
+		const wrapper = doc.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		wrapper.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+		wrapper.setAttribute('width', this.width);
+		wrapper.setAttribute('height', this.height);
+		wrapper.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+		wrapper.setAttribute('aria-describedby', 'card-description');
 
 		// Add the CSS inside the SVG to ensure it renders correctly when rendered from the backend
-		const style = doc.createElementNS(SVG_NAMESPACE, "style");
+		const style = doc.createElementNS(SVG_NAMESPACE, 'style');
 		style.textContent = this.getCss();
 		wrapper.appendChild(style);
 
-		const titleTag = doc.createElementNS(SVG_NAMESPACE, "title");
+		const titleTag = doc.createElementNS(SVG_NAMESPACE, 'title');
 		titleTag.textContent = this.heading;
 		wrapper.appendChild(titleTag);
 
 		// Create an inner wrapper that allows non-SVG HTML content
 		// Note: Must use SVG namespace here because foreignObject is case-sensitive
-		const innerWrapper = doc.createElementNS(SVG_NAMESPACE, "foreignObject");
-		innerWrapper.setAttribute("width", this.width);
-		innerWrapper.setAttribute("height", this.height);
+		const innerWrapper = doc.createElementNS(SVG_NAMESPACE, 'foreignObject');
+		innerWrapper.setAttribute('width', this.width);
+		innerWrapper.setAttribute('height', this.height);
 
 		// Put the content inside a normal HTML fragment so we can use things like flexbox layout
-		const content = doc.createElement("div");
-		content.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-		content.classList.add("card");
+		const content = doc.createElement('div');
+		content.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+		content.classList.add('card');
 		content.innerHTML = `
 			${this.renderBeforeContent()}
 			${this.renderTitle()}
@@ -248,13 +250,13 @@ export class Card extends BaseElement {
 		innerWrapper.appendChild(content);
 		wrapper.appendChild(innerWrapper);
 
-		this.innerHTML = "";
+		this.innerHTML = '';
 		this.appendChild(wrapper);
 
 		return wrapper;
 	}
 }
 
-if (typeof window !== "undefined" && "customElements" in window && !window.customElements.get("x-card")) {
-	window.customElements.define("x-card", Card);
+if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-card')) {
+	window.customElements.define('x-card', Card);
 }

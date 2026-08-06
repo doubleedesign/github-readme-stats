@@ -7,8 +7,8 @@
  * @description This function is currently rate limited to 1 request per 5 minutes.
  */
 
-import { request } from "../../src/common/http.js";
-import retryer from "../../src/common/retryer.js";
+import { request } from '../../src/common/http.js';
+import retryer from '../../src/common/retryer.js';
 
 export const RATE_LIMIT_SECONDS = 60 * 5; // 1 request per 5 minutes
 
@@ -20,21 +20,19 @@ export const RATE_LIMIT_SECONDS = 60 * 5; // 1 request per 5 minutes
  * @returns {Promise<import('axios').AxiosResponse>} The response.
  */
 const uptimeFetcher = (variables, token) => {
-  return request(
-    {
-      query: `
+	return request(
+		{
+			query: `
         query {
           rateLimit {
               remaining
           }
         }
         `,
-      variables,
-    },
-    {
-      Authorization: `bearer ${token}`,
-    },
-  );
+			variables,
+		},
+		{ Authorization: `bearer ${token}`, },
+	);
 };
 
 /**
@@ -56,18 +54,19 @@ const uptimeFetcher = (variables, token) => {
  * @see https://shields.io/endpoint.
  */
 const shieldsUptimeBadge = (up) => {
-  const schemaVersion = 1;
-  const isError = true;
-  const label = "Public Instance";
-  const message = up ? "up" : "down";
-  const color = up ? "brightgreen" : "red";
-  return {
-    schemaVersion,
-    label,
-    message,
-    color,
-    isError,
-  };
+	const schemaVersion = 1;
+	const isError = true;
+	const label = 'Public Instance';
+	const message = up ? 'up' : 'down';
+	const color = up ? 'brightgreen' : 'red';
+
+	return {
+		schemaVersion,
+		label,
+		message,
+		color,
+		isError,
+	};
 };
 
 /**
@@ -78,46 +77,49 @@ const shieldsUptimeBadge = (up) => {
  * @returns {Promise<void>} Nothing.
  */
 export default async (req, res) => {
-  let { type } = req.query;
-  type = type ? type.toLowerCase() : "boolean";
+	let { type } = req.query;
+	type = type ? type.toLowerCase() : 'boolean';
 
-  res.setHeader("Content-Type", "application/json");
+	res.setHeader('Content-Type', 'application/json');
 
-  try {
-    let PATsValid = true;
-    try {
-      await retryer(uptimeFetcher, {});
-    } catch (err) {
-      // Resolve eslint no-unused-vars
-      err;
+	try {
+		let PATsValid = true;
+		try {
+			await retryer(uptimeFetcher, {});
+		}
+		catch (err) {
+			// Resolve eslint no-unused-vars
+			err;
 
-      PATsValid = false;
-    }
+			PATsValid = false;
+		}
 
-    if (PATsValid) {
-      res.setHeader(
-        "Cache-Control",
-        `max-age=0, s-maxage=${RATE_LIMIT_SECONDS}`,
-      );
-    } else {
-      res.setHeader("Cache-Control", "no-store");
-    }
+		if (PATsValid) {
+			res.setHeader(
+				'Cache-Control',
+				`max-age=0, s-maxage=${RATE_LIMIT_SECONDS}`,
+			);
+		}
+		else {
+			res.setHeader('Cache-Control', 'no-store');
+		}
 
-    switch (type) {
-      case "shields":
-        res.send(shieldsUptimeBadge(PATsValid));
-        break;
-      case "json":
-        res.send({ up: PATsValid });
-        break;
-      default:
-        res.send(PATsValid);
-        break;
-    }
-  } catch (err) {
-    // Return fail boolean if something went wrong.
-    console.error(err);
-    res.setHeader("Cache-Control", "no-store");
-    res.send("Something went wrong: " + err.message);
-  }
+		switch (type) {
+			case 'shields':
+				res.send(shieldsUptimeBadge(PATsValid));
+				break;
+			case 'json':
+				res.send({ up: PATsValid });
+				break;
+			default:
+				res.send(PATsValid);
+				break;
+		}
+	}
+	catch (err) {
+		// Return fail boolean if something went wrong.
+		console.error(err);
+		res.setHeader('Cache-Control', 'no-store');
+		res.send('Something went wrong: ' + err.message);
+	}
 };

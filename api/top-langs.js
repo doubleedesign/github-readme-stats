@@ -1,10 +1,11 @@
-import { CustomError } from "../src/common/error.js";
-import { handleError } from "../src/common/handle-error.js";
-import { TopLangsFetcher } from "../src/fetchers/TopLangsFetcher.js";
+import { CustomError } from '../src/common/error.js';
+import { handleError } from '../src/common/handle-error.js';
+import { TopLangsFetcher } from '../src/fetchers/TopLangsFetcher.js';
 
 export default async (req, res) => {
-	if (req.query.layout !== undefined && (typeof req.query.layout !== "string" || !["default", "compact", "donut", "donut-vertical", "pie"].includes(req.query.layout))) {
-		return handleError(new CustomError("Invalid input", `${req.query.layout} is not a valid layout option`), res);
+	// eslint-disable-next-line max-len
+	if (req.query.layout !== undefined && (typeof req.query.layout !== 'string' || !['default', 'compact', 'donut', 'donut-vertical', 'pie'].includes(req.query.layout))) {
+		return handleError(new CustomError('Invalid input', `${req.query.layout} is not a valid layout option`), res);
 	}
 
 	const fetcher = new TopLangsFetcher(req.query);

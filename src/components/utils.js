@@ -18,13 +18,13 @@ export function kFormatter(num, precision) {
 	const abs = Math.abs(num);
 	const sign = Math.sign(num);
 
-	if (typeof precision === "number" && !isNaN(precision)) {
-		return (sign * (abs / 1000)).toFixed(precision) + "k";
+	if (typeof precision === 'number' && !isNaN(precision)) {
+		return (sign * (abs / 1000)).toFixed(precision) + 'k';
 	}
 
 	if (abs < 1000) {
 		return sign * abs;
 	}
 
-	return sign * parseFloat((abs / 1000).toFixed(1)) + "k";
+	return sign * parseFloat((abs / 1000).toFixed(1)) + 'k';
 }
