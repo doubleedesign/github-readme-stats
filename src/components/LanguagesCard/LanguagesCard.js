@@ -1,5 +1,6 @@
-import { SVG_NAMESPACE, css } from "../constants.js";
 import { BaseElement } from "../BaseElement.js";
+import { css } from "../utils.js";
+import { SVG_NAMESPACE } from "../../constants.js";
 
 export class LanguagesCard extends BaseElement {
 	static get observedAttributes() {

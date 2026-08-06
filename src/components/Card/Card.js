@@ -1,5 +1,6 @@
 import { icons } from "../../common/icons.js";
-import { SVG_NAMESPACE, css } from "../constants.js";
+import { css } from "../utils.js";
+import { SVG_NAMESPACE } from "../../constants.js";
 import { BaseElement } from "../BaseElement.js";
 
 export class Card extends BaseElement {

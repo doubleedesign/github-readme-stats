@@ -1,8 +1,5 @@
 import { queryByTestId } from "@testing-library/dom";
-import {
-  kFormatter,
-  renderError,
-} from "../src/common/utils.js";
+import { kFormatter } from "../src/components/utils.js";
 
 describe("Test utils.js", () => {
   it("should test kFormatter", () => {

@@ -1,14 +1,13 @@
 import { Fetcher } from "./Fetcher.js";
-import { Card } from "../components/Card/Card.ssr.js";
 import { DURATIONS } from "../common/cache.js";
 import { gql } from "graphql-tag";
-import { get_forks_badge_html, get_language_badge_html, get_stars_badge_html } from "../common/badges.js";
-import { parseEmojis } from "../common/ops.js";
+import { LANGUAGE_COLORS } from "../constants.js";
 
 export class GistFetcher extends Fetcher {
 	constructor(gistId) {
 		super();
 		this.variables.gistName = gistId;
+		this.icon = "gist";
 		this.cache_seconds = DURATIONS.TEN_DAY;
 
 		this.query = gql(`
@@ -42,14 +41,28 @@ export class GistFetcher extends Fetcher {
 			throw new Error("Gist not found");
 		}
 
-		const data = result.viewer.gist;
+		const { description, files, stargazerCount, forks } = result.viewer.gist;
 
 		this.data = {
-			name: data.files[Object.keys(data.files)[0]].name,
-			description: data.description,
-			language: this._getPrimaryLanguage(data.files),
-			starCount: data.stargazerCount,
-			forkCount: data.forks.totalCount,
+			name: files[Object.keys(files)[0]].name,
+			description,
+			primaryLanguage: this._getPrimaryLanguage(files),
+			languages: this._formatLanguages(files),
+			starCount: stargazerCount,
+			forkCount: forks.totalCount,
+		};
+	}
+
+	// Put the languages into the same format as a repository query result
+	_formatLanguages(files) {
+		return {
+			edges: files.map(file => ({
+				size: file.size,
+				node: {
+					name: file.language ? file.language.name : "Unknown",
+					color: LANGUAGE_COLORS[file.language ? file.language.name : "Unknown"] || "#858585",
+				}
+			}))
 		};
 	}
 
@@ -72,27 +85,6 @@ export class GistFetcher extends Fetcher {
 			}
 		}
 
-		return primaryLanguage;
-	}
-
-	getHtml() {
-		const { name, description, language, starCount, forkCount } = this.data;
-		let footerHtml = get_language_badge_html(language, []);
-
-		if (starCount > 0) {
-			footerHtml += get_stars_badge_html(starCount);
-		}
-
-		if (forkCount > 0) {
-			footerHtml +=  get_forks_badge_html(forkCount);
-		}
-
-		const card = new Card();
-		card.heading = name;
-		card.description = parseEmojis(description || "No description provided");
-		card.icon = "gist";
-		card.footer = footerHtml;
-
-		return card.toString();
+		return languages[primaryLanguage] ? { name: primaryLanguage } : null;
 	}
 }

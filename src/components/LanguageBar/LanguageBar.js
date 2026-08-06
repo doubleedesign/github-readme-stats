@@ -1,6 +1,6 @@
 import { BaseElement } from "../BaseElement.js";
-import { css, EXCLUDED_LANGUAGES } from "../constants.js";
-import languageColors from "../../common/languageColors.json" with { type: "json" };
+import { css } from "../utils.js";
+import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from "../../constants.js";
 
 export class LanguageBar extends BaseElement {
 	static get observedAttributes() {
@@ -51,7 +51,7 @@ export class LanguageBar extends BaseElement {
 	}
 
 	getColor(language) {
-		return languageColors[language] || "#858585";
+		return LANGUAGE_COLORS[language] || "#858585";
 	}
 
 	compile() {

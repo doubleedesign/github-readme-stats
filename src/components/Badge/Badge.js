@@ -1,5 +1,6 @@
 import { BaseElement } from "../BaseElement.js";
-import { css, SVG_NAMESPACE } from "../constants.js";
+import { css } from "../utils.js";
+import { SVG_NAMESPACE } from "../../constants.js";
 import { icons } from "../../common/icons.js";
 
 export class Badge extends BaseElement {

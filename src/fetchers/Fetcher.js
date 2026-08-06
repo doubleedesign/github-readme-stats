@@ -1,8 +1,10 @@
 import { request } from "../common/http.js";
 import retryer from "../common/retryer.js";
 import { DURATIONS, setCacheHeaders } from "../common/cache.js";
+import { CardFactory } from "../factories/CardFactory.js";
 
 export class Fetcher {
+	icon = "";
 	variables = {};
 	query = "";
 	data = {};
@@ -34,5 +36,9 @@ export class Fetcher {
 		}
 
 		return res.data.data;
+	}
+
+	getHtml() {
+		return CardFactory.generateCardHtml(this.icon, this.data);
 	}
 }
