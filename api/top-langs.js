@@ -1,64 +1,18 @@
-// @ts-check
-import { CACHE_TTL, resolveCacheSeconds, setCacheHeaders } from "../src/common/cache.js";
-import { parseArray } from "../src/common/ops.js";
 import { CustomError } from "../src/common/error.js";
-import { fetchTopLanguages } from "../src/fetchers/top-languages.js";
 import { handleError } from "../src/common/handle-error.js";
-import { LanguagesCard } from "../src/components/LanguagesCard/LanguagesCard.ssr.js";
+import { TopLangsFetcher } from "../src/fetchers/TopLangsFetcher.js";
 
-const getHtml = (data, options) => {
-	const { layout, heading = 'Top Languages', langs_count = 10 } = options;
-
-	const card = new LanguagesCard();
-	card.heading = heading;
-	card.layout = layout;
-
-	return card.toString();
-};
-
-
-// @ts-ignore
 export default async (req, res) => {
-	const {
-		username,
-		heading,
-		layout,
-		langs_count,
-		exclude_langs,
-		exclude_repos,
-		size_weight,
-		count_weight,
-		cache_seconds,
-	} = req.query;
-
-	if (layout !== undefined && (typeof layout !== "string" || !["default", "compact", "donut", "donut-vertical", "pie"].includes(layout))) {
-		handleError(new CustomError("Invalid input", `${layout} is not a valid layout option`), res);
+	if (req.query.layout !== undefined && (typeof req.query.layout !== "string" || !["default", "compact", "donut", "donut-vertical", "pie"].includes(req.query.layout))) {
+		return handleError(new CustomError("Invalid input", `${req.query.layout} is not a valid layout option`), res);
 	}
 
+	const fetcher = new TopLangsFetcher(req.query);
+
 	try {
-		const queryResponse = await fetchTopLanguages({
-			username,
-			exclude_repos: parseArray(exclude_repos),
-			exclude_langs: parseArray(exclude_langs),
-			size_weight,
-			count_weight,
-		});
-
-		const cacheSeconds = resolveCacheSeconds({
-			requested: parseInt(cache_seconds, 10),
-			def: CACHE_TTL.TOP_LANGS_CARD.DEFAULT,
-			min: CACHE_TTL.TOP_LANGS_CARD.MIN,
-			max: CACHE_TTL.TOP_LANGS_CARD.MAX,
-		});
-
-		setCacheHeaders(res, cacheSeconds);
-		res.setHeader("Content-Type", "image/svg+xml");
-
-		const html = getHtml(queryResponse, {
-			heading,
-			layout,
-			langs_count: parseInt(langs_count, 10),
-		});
+		await fetcher.fetch();
+		fetcher.setHeaders(res);
+		const html = fetcher.getHtml();
 
 		return res.send(html);
 	}
