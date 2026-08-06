@@ -1,85 +1,140 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
+import { ESLint } from 'eslint';
+import stylisticPluginJs from '@stylistic/eslint-plugin-js';
+import babelParser from '@babel/eslint-parser';
+import stylisticPluginTs from '@stylistic/eslint-plugin-ts';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 
-import globals from "globals";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-import jsdoc from "eslint-plugin-jsdoc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all,
-});
+const baseRules = {
+	'object-curly-newline': 'off',
+	'padding-line-between-statements': [
+		'error',
+		{
+			blankLine: 'always',
+			prev: '*',
+			next: 'return'
+		},
+	],
+	'no-whitespace-before-property': 'error',
+	'@stylistic/indent': ['error', 'tab', {
+		'SwitchCase': 1,
+		'FunctionExpression': {
+			'parameters': 1,
+			'body': 1
+		},
+		'MemberExpression': 1,
+		'offsetTernaryExpressions': true
+	}],
+	'@stylistic/quotes': [
+		'error',
+		'single'
+	],
+	'@stylistic/space-in-parens': 'off',
+	'@stylistic/array-bracket-spacing': 'off',
+	'@stylistic/object-curly-spacing': [
+		'error',
+		'always'
+	],
+	'@stylistic/computed-property-spacing': 'off',
+	'@stylistic/space-before-function-paren': 'off',
+	'@stylistic/no-nested-ternary': 'off',
+	'@stylistic/space-unary-ops': 'off',
+	'@stylistic/semi': [
+		'warn',
+		'always'
+	],
+	'@stylistic/brace-style': [
+		'warn',
+		'stroustrup',
+		{
+			'allowSingleLine': false
+		}
+	],
+	'max-len': [
+		'warn',
+		{
+			'comments': 160,
+			'code': 160,
+			'tabWidth': 4
+		}
+	],
+	'no-multiple-empty-lines': [
+		'error',
+		{
+			'max': 2,
+			'maxEOF': 1,
+			'maxBOF': 0
+		}
+	],
+	'block-spacing': 'error',
+	'@stylistic/object-curly-newline': ['error', {
+		ObjectExpression: { multiline: true, minProperties: 4 }, // object literals
+		ObjectPattern: 'never', // destructuring
+		ImportDeclaration: { multiline: true, minProperties: 8 },
+		ExportDeclaration: { multiline: true },
+	}]
+};
 
 export default [
-	...compat.extends("prettier"),
 	{
+		ignores: ['node_modules/**', '**/*.min.js', '**/*.dist.js'],
+	},
+	{
+		files: ['./src/components/**/*.js', './api/**/*.js'],
 		languageOptions: {
-			globals: {
-				...globals.node,
-				...globals.browser,
-				...globals.jest,
+			parser: babelParser,
+			parserOptions: {
+				requireConfigFile: false,
+				ecmaVersion: 'latest',
+				sourceType: 'module',
 			},
-			ecmaVersion: 2022,
-			sourceType: "module",
 		},
 		plugins: {
-			jsdoc,
+			'@stylistic': stylisticPluginJs
 		},
 		rules: {
-			"no-unexpected-multiline": "error",
-			"accessor-pairs": [
-				"error",
-				{
-					getWithoutSet: false,
-					setWithoutGet: true,
-				},
-			],
-			"block-scoped-var": "warn",
-			"consistent-return": "error",
-			curly: "error",
-			"no-alert": "error",
-			"no-caller": "error",
-			"no-warning-comments": [
-				"warn",
-				{
-					terms: ["TODO", "FIXME"],
-					location: "start",
-				},
-			],
-			"no-with": "warn",
-			radix: "warn",
-			"no-delete-var": "error",
-			"no-undef-init": "off",
-			"no-undef": "error",
-			"no-undefined": "off",
-			"no-unused-vars": "warn",
-			"no-use-before-define": "off",
-			"constructor-super": "error",
-			"no-class-assign": "error",
-			"no-const-assign": "error",
-			"no-dupe-class-members": "error",
-			"no-this-before-super": "error",
-			"object-shorthand": ["warn"],
-			"no-mixed-spaces-and-tabs": "warn",
-			"no-multiple-empty-lines": "warn",
-			"no-unneeded-ternary": "warn",
-			"keyword-spacing": [
-				"error",
-				{
-					before: true,
-					after: true,
-				},
-			],
-			"jsdoc/require-returns": "warn",
-			"jsdoc/require-returns-description": "warn",
-			"jsdoc/require-param-description": "warn",
-		},
+			...baseRules
+		}
 	},
-	...storybook.configs["flat/recommended"],
+	{
+		files: ['./src/**/*.ts', './api/**/*.ts'],
+		languageOptions: {
+			parser: tsParser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+			},
+		},
+		plugins: {
+			'@typescript-eslint': tsPlugin,
+			'@stylistic': stylisticPluginTs
+		},
+		rules: {
+			...baseRules,
+			'@stylistic/object-curly-newline': ['error', {
+				ObjectExpression: { multiline: true, minProperties: 4 }, // object literals
+				ObjectPattern: 'never', // destructuring
+				ImportDeclaration: { multiline: true, minProperties: 8 },
+				ExportDeclaration: { multiline: true },
+			}]
+		}
+	},
+	{
+		files: ['./src/**/*.stories.ts'],
+		languageOptions: {
+			parser: tsParser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+			},
+		},
+		plugins: {
+			'@typescript-eslint': tsPlugin,
+			'@stylistic': stylisticPluginTs
+		},
+		rules: {
+			...baseRules,
+			'@stylistic/object-curly-newline': 'off'
+		}
+	}
 ];
