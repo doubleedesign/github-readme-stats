@@ -1,4 +1,3 @@
-import { request } from '../common/http.ts';
 import retryer from '../common/retryer.ts';
 import { DURATIONS, setCacheHeaders } from '../common/cache.ts';
 import { CardFactory } from '../factories/CardFactory.js';
@@ -18,13 +17,19 @@ export class Fetcher implements FetcherFields {
 		}
 	}
 
-	_makeRequest(variables: Record<string, any>, token: string) {
-		const fetcher = async () => await request(
-			{ query: this.query, variables },
-			{ Authorization: `token ${token}` }
-		);
+	async _makeRequest(variables: Record<string, any>, token: string) {
+		const res = await fetch('https://api.github.com/graphql', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `token ${token}`,
+			},
+			body: JSON.stringify({ query: this.query, variables }),
+		});
 
-		return retryer(fetcher, variables);
+		if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
+		return res.json();
 	}
 
 	setHeaders(res: Response)  {

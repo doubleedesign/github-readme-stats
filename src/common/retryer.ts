@@ -2,7 +2,7 @@ import { CustomError, SECONDARY_ERROR_MESSAGE } from './error.ts';
 
 // Count the number of GitHub API tokens available.
 const PATs = Object.keys(process.env).filter((key) => /PAT_\d*$/.exec(key)).length;
-const RETRIES = process.env.NODE_ENV === 'test' ? 7 : (process.env.NODE_ENV === 'development' ? process.env.GITHUB_TOKEN : PATs);
+export const RETRIES = process.env.NODE_ENV === 'test' ? 7 : (process.env.NODE_ENV === 'development' ? process.env.GITHUB_TOKEN : PATs);
 
 type FetcherFunction = (variables: any, token: string, retries: number) => Promise<any>;
 
@@ -14,7 +14,7 @@ type FetcherFunction = (variables: any, token: string, retries: number) => Promi
  * @param {number} retries How many times to retry.
  * @returns {Promise<any>} The response from the fetcher function.
  */
-const retryer = async (fetcher: FetcherFunction, variables: object, retries: number = 0): Promise<any> => {
+export const retryer = async (fetcher: FetcherFunction, variables: object, retries: number = 0): Promise<any> => {
 	if (!RETRIES) {
 		throw new CustomError('No GitHub API tokens found', SECONDARY_ERROR_MESSAGE.NO_TOKENS);
 	}
@@ -98,5 +98,4 @@ const retryer = async (fetcher: FetcherFunction, variables: object, retries: num
 	}
 };
 
-export { retryer, RETRIES };
 export default retryer;
