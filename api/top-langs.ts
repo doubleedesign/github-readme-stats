@@ -1,7 +1,7 @@
-import { handleError } from '../src/common/handle-error.ts';
 import type { Request, Response } from 'express';
 import { TopLangsFetcher } from '../src/fetchers/TopLangsFetcher.ts';
 import type { TopLangsQueryOptions } from './types.ts';
+import { ErrorHandler } from '../src/common/ErrorHandler.ts';
 
 export default async (req: Request<TopLangsQueryOptions>, res: Response) => {
 	try {
@@ -20,7 +20,7 @@ export default async (req: Request<TopLangsQueryOptions>, res: Response) => {
 		return res.send(html);
 	}
 	catch (err) {
-		// @ts-expect-error TS2345: Argument of type unknown is not assignable to parameter of type Request
-		return handleError(err, res);
+		// @ts-expect-error TS2345: Argument of type unknown is not assignable to parameter of type Error
+		return (new ErrorHandler(err, res)).handleError();
 	}
 };

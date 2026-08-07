@@ -1,5 +1,3 @@
-import { CustomError, SECONDARY_ERROR_MESSAGE } from './error.ts';
-
 // Count the number of GitHub API tokens available.
 const PATs = Object.keys(process.env).filter((key) => /PAT_\d*$/.exec(key)).length;
 export const RETRIES = process.env.NODE_ENV === 'test' ? 7 : (process.env.NODE_ENV === 'development' ? process.env.GITHUB_TOKEN : PATs);
@@ -16,14 +14,11 @@ type FetcherFunction = (variables: any, token: string, retries: number) => Promi
  */
 export const retryer = async (fetcher: FetcherFunction, variables: object, retries: number = 0): Promise<any> => {
 	if (!RETRIES) {
-		throw new CustomError('No GitHub API tokens found', SECONDARY_ERROR_MESSAGE.NO_TOKENS);
+		throw new Error('No GitHub API tokens found');
 	}
 
 	if (retries > Number(RETRIES)) {
-		throw new CustomError(
-			'Downtime due to GitHub API rate limiting',
-			SECONDARY_ERROR_MESSAGE.MAX_RETRY
-		);
+		throw new Error('GitHub API rate limit exceeded');
 	}
 
 	try {

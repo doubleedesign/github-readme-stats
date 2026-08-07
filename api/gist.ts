@@ -1,5 +1,5 @@
 import { GistFetcher } from '../src/fetchers/GistFetcher.ts';
-import { handleError } from '../src/common/handle-error.ts';
+import { ErrorHandler } from '../src/common/ErrorHandler.ts';
 import type { Request, Response } from 'express';
 import type { GistQueryOptions } from './types.ts';
 
@@ -20,7 +20,7 @@ export default async (req: Request<GistQueryOptions>, res: Response) => {
 		return res.send(html);
 	}
 	catch (err) {
-		// @ts-expect-error TS2345: Argument of type unknown is not assignable to parameter of type Request
-		return handleError(err, res);
+		// @ts-expect-error TS2345: Argument of type unknown is not assignable to parameter of type Error
+		return (new ErrorHandler(err, res)).handleError();
 	}
 };

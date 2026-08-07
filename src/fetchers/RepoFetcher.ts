@@ -1,5 +1,4 @@
 import { Fetcher } from './Fetcher.ts';
-import { CustomError } from '../common/error.ts';
 import { gql } from 'graphql-tag';
 import { DURATIONS } from '../common/cache.ts';
 import { USERNAME } from '../constants.js';
@@ -55,8 +54,7 @@ export class RepoFetcher extends Fetcher implements RepoFetcherFields {
 
 
 		if (!data.user.repository || data.user.repository.isPrivate) {
-			// eslint-disable-next-line max-len
-			throw new CustomError('Repository not found', `The repository <em>${this.variables.repo}</em> could not be found. It may be private, or may not exist at all.`);
+			throw new Error('Repository not found');
 		}
 
 		this.data = {
