@@ -19,10 +19,12 @@ export class Fetcher implements FetcherFields {
 	}
 
 	_makeRequest(variables: Record<string, any>, token: string) {
-		return request(
+		const fetcher = () => request(
 			{ query: this.query, variables },
 			{ Authorization: `token ${token}` }
 		);
+
+		return retryer(fetcher, variables);
 	}
 
 	setHeaders(res: Response)  {

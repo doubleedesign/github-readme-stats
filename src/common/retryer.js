@@ -28,7 +28,7 @@ const retryer = async (fetcher, variables, retries = 0) => {
     throw new CustomError("No GitHub API tokens found", CustomError.NO_TOKENS);
   }
 
-  if (retries > RETRIES) {
+  if (retries > Number(RETRIES)) {
     throw new CustomError(
       "Downtime due to GitHub API rate limiting",
       CustomError.MAX_RETRY,

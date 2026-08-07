@@ -10,8 +10,7 @@ const TRY_AGAIN_LATER = "Please try again later";
  * @type {Object<string, string>} A map of error types to secondary error messages.
  */
 const SECONDARY_ERROR_MESSAGES = {
-  MAX_RETRY:
-    "You can deploy own instance or wait until public will be no longer limited",
+  MAX_RETRY: "Too many requests",
   NO_TOKENS:
     'Local: Please add an env variable called GITHUB_TOKEN in your .env file and add your GitHub Personal Access token there. Prod: Please add an env variable called PAT_1 with your GitHub token in Vercel',
   USER_NOT_FOUND: "Make sure the provided username is not an organization",
