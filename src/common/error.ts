@@ -9,6 +9,8 @@ export enum SECONDARY_ERROR_MESSAGE {
 	GRAPHQL_ERROR = 'GraphQL API error. Please check your GitHub token\'s permissions and ensure it has access to the required data.',
 	GITHUB_REST_API_ERROR = 'GitHub REST API error. Please check your GitHub token\'s permissions and ensure it has access to the required data.',
 	ACCESS_DENIED = 'Please deploy your own instance',
+	UNKNOWN_ERROR = 'An unknown error occurred.',
+	INVALID_LAYOUT = 'Invalid layout option. Please use one of the following: default, compact, donut, donut-vertical, pie.',
 }
 
 /**
@@ -52,10 +54,10 @@ export const retrieveSecondaryMessage = (err: Error): string | undefined => {
  * @param {SECONDARY_ERROR_MESSAGE} args.secondaryMessage The secondary error message.
  * @returns {string} The SVG markup.
  */
-export const renderError = ({ message, secondaryMessage }: { message: string, secondaryMessage: SECONDARY_ERROR_MESSAGE }): string => {
+export const renderError = ({ message, secondaryMessage }: { message: string, secondaryMessage?: SECONDARY_ERROR_MESSAGE }): string => {
 	const card = new Card();
 	card.heading = message;
-	card.description = secondaryMessage;
+	card.description = secondaryMessage ?? '';
 	card.icon = 'issues';
 	card.theme = 'mono';
 

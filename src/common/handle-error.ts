@@ -1,4 +1,4 @@
-import { renderError, retrieveSecondaryMessage } from './error.ts';
+import { renderError, SECONDARY_ERROR_MESSAGE } from './error.ts';
 import { setErrorCacheHeaders } from './cache.ts';
 import type { Request, Response } from 'express';
 
@@ -10,17 +10,14 @@ export function handleError(err: Request, res: Response) {
 
 	if (err instanceof Error) {
 		return res.send(
-			renderError({
-				message: err.message,
-				secondaryMessage: retrieveSecondaryMessage(err)
-			}),
+			renderError({ message: err.message, })
 		);
 	}
 
 	return res.send(
 		renderError({
 			message: 'Something went wrong',
-			secondaryMessage: 'An unknown error occurred',
+			secondaryMessage: SECONDARY_ERROR_MESSAGE.UNKNOWN_ERROR,
 		}),
 	);
 }
