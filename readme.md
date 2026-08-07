@@ -96,21 +96,8 @@ Selecting the right scopes for your token is important in case you want to displ
 
 </details>
 
-### Environment variables
-
-Optional environment variables can be used to customise the behaviour of your instance:
-
-| Name          | Description                                                                                                                                                                                                                                                                                            | Supported values                             |
-|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| CACHE_SECONDS | Sets the cache duration in seconds for the generated cards. This variable takes precedence over the default cache timings for the public instance. If this variable is not set, the default cache duration is 24 hours (86,400 seconds).                                                               | Any positive integer or 0 to disable caching |
-| EXCLUDE_REPO  | A comma-separated list of repositories that will be excluded from stats and top languages cards on your instance. This allows repository exclusion without exposing repository names in public URLs. This enhances privacy for self-hosted instances that include private repositories in stats cards. | Comma-separated repository names             |
-
-
-See [the Vercel documentation](https://vercel.com/docs/concepts/projects/environment-variables) on adding these environment variables to your Vercel instance.
-
 > [!IMPORTANT]
-> Remember to redeploy your instance after making any changes to the environment variables so that the updates take effect. 
- 
+> Remember to redeploy your instance after making any changes to the environment variables so that the updates take effect.
 
 ---
 ## Local Development
@@ -127,3 +114,18 @@ See [the Vercel documentation](https://vercel.com/docs/concepts/projects/environ
     ```
 4. Run `npm run server` to start the server in dev mode
 5. Run `npm run storybook` to start Storybook in your default browser.
+
+## Testing GraphQL queries
+
+You can test GraphQL queries using a client such as [Hoppscotch](https://hoppscotch.io/).
+
+You can use the same GitHub Personal Access Token that you use in the application. Go to the "Authorization" tab, select "Bearer" and paste it in there.
+
+### Troubleshooting 
+Connection error messages can be cryptic, such as `Invalid or incomplete introspection result. Ensure that you are passing "data" property of introspection response and no "errors" was returned alongside: undefined.` actually being caused by an invalid GitHub token. 
+
+You can test if the issue is your token from your terminal:
+
+```powershell
+curl -X POST https://api.github.com/graphql -H "Authorization: Bearer YOUR_TOKEN_HERE" -H "Content-Type: application/json" -d '{"query":"{ viewer { login } }"}'
+```
