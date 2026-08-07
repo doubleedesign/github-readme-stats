@@ -27,6 +27,20 @@ export type TopLangsFetcherFields = FetcherFields & TopLangsFetcherParams & {
 	data: TopLangData;
 };
 
+export type GistFetcherFields = FetcherFields & {
+	variables: {
+		gistName: string;
+	}
+};
+
+export type RepoFetcherFields = FetcherFields & {
+	variables: {
+		login: string;
+		repo: string;
+	};
+	icon: string;
+};
+
 
 export type GistData = {
 	name: string;

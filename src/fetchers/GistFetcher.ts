@@ -1,13 +1,16 @@
-import { Fetcher } from "./Fetcher.ts";
-import { DURATIONS } from "../common/cache.js";
-import { gql } from "graphql-tag";
-import { LANGUAGE_COLORS } from "../constants.js";
+import { Fetcher } from './Fetcher.ts';
+import { DURATIONS } from '../common/cache.js';
+import { gql } from 'graphql-tag';
+import { LANGUAGE_COLORS } from '../constants.js';
+import type { GistFetcherFields } from './types.ts';
 
-export class GistFetcher extends Fetcher {
-	constructor(gistId) {
+export class GistFetcher extends Fetcher implements GistFetcherFields{
+	variables = { gistName: '' };
+
+	constructor(gistId: string) {
 		super();
 		this.variables.gistName = gistId;
-		this.icon = "gist";
+		this.icon = 'gist';
 		this.cache_seconds = DURATIONS.TEN_DAY;
 
 		this.query = gql(`
@@ -32,13 +35,13 @@ export class GistFetcher extends Fetcher {
                     }
                 }
             }
-		`).loc.source.body;
+		`).loc?.source.body ?? '';
 	}
 	
 	async fetch() {
 		const result = await super.fetch(this.variables);
 		if (!result.viewer.gist) {
-			throw new Error("Gist not found");
+			throw new Error('Gist not found');
 		}
 
 		const { description, files, stargazerCount, forks } = result.viewer.gist;
@@ -59,8 +62,8 @@ export class GistFetcher extends Fetcher {
 			edges: files.map(file => ({
 				size: file.size,
 				node: {
-					name: file.language ? file.language.name : "Unknown",
-					color: LANGUAGE_COLORS[file.language ? file.language.name : "Unknown"] || "#858585",
+					name: file.language ? file.language.name : 'Unknown',
+					color: LANGUAGE_COLORS[file.language ? file.language.name : 'Unknown'] || '#858585',
 				}
 			}))
 		};
@@ -72,7 +75,8 @@ export class GistFetcher extends Fetcher {
 			if (file.language) {
 				if (languages[file.language.name]) {
 					languages[file.language.name] += file.size;
-				} else {
+				}
+				else {
 					languages[file.language.name] = file.size;
 				}
 			}

@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import repoCard from './api/pin.js';
+import repoCard from './api/pin.ts';
 import langCard from './api/top-langs.ts';
-import gistCard from './api/gist.js';
+import gistCard from './api/gist.ts';
 import express from 'express';
 // @ts-expect-error TS7016: Could not find a declaration file for module cors.
 import cors from 'cors';

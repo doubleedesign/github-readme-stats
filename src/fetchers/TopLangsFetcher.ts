@@ -115,7 +115,7 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 		this.data = Object.fromEntries(sorted);
 	}
 
-	_maybeMergeResults(keysToMerge, key, repoNodes, result) {
+	_maybeMergeResults(keysToMerge: string[], key: string, repoNodes, result) {
 		if (keysToMerge.includes(key)) {
 			const newKey = keysToMerge.join('/');
 
