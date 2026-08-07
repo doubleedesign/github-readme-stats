@@ -1,9 +1,7 @@
 const meta = {
 	args: {
 		langs_count: 10,
-		exclude_langs: "shell,blade,hack",
-		exclude_repos: "",
-		algorithm: "byte_count",
+		algorithm: "both",
 		layout: "default",
 	},
 	argTypes: {

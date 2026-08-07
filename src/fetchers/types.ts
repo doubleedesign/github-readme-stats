@@ -6,13 +6,18 @@ export type FetcherFields = {
 	cache_seconds?: number;
 };
 
-// Values that can be passed intoto the TopLangsFetcher constructor
+export enum LanguageRankingAlgorithm {
+	BYTE_COUNT = 'byte_count',
+	REPO_COUNT = 'repo_count',
+	BOTH = 'both',
+}
+
+// Values that can be passed into the TopLangsFetcher constructor
 export type TopLangsFetcherParams = {
-	layout: 'default' | 'compact' | 'donut' | 'donut-vertical' | 'pie';
+	layout?: 'default' | 'compact' | 'donut' | 'donut-vertical' | 'pie';
 	heading?: string;
 	langs_count?: number;
-	size_weight?: 0 | 0.5 | 1;
-	count_weight?: 0 | 0.5 | 1;
+	algorithm?: LanguageRankingAlgorithm;
 };
 
 // All fields of the TopLangsFetcher class
@@ -61,4 +66,16 @@ export type Lang = {
 	size: number;
 };
 
-export type TopLangData = Record<string, Lang>;
+type LangData = {
+	/** Byte count across all repos */
+	bytes: number;
+	/** Number of repos containing the language */
+	count: number;
+	/** Weighted size based on the size_weight and count_weight parameters */
+	size: number;
+};
+
+/**
+ * Language name + counts.
+ */
+export type TopLangData = Record<string, LangData>;

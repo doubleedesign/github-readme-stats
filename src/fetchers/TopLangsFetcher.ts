@@ -3,21 +3,26 @@ import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from '../constants.js';
 import { DURATIONS } from '../common/cache.js';
 import { gql } from 'graphql-tag';
 import { LanguagesCard } from '../components/LanguagesCard/LanguagesCard.ssr.ts';
-import type { RepositoryData, TopLangData, TopLangsFetcherFields, TopLangsFetcherParams } from './types.ts';
+import {
+	LanguageRankingAlgorithm,
+	type RepositoryData,
+	type TopLangData,
+	type TopLangsFetcherFields,
+	type TopLangsFetcherParams,
+} from './types.ts';
 
 
-export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields  {
+export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 	variables = { login: USERNAME };
 	heading = 'Top Languages';
-	layout = 'default' as TopLangsFetcherParams['layout'];
-	langs_count = 10;
+	layout;
+	langs_count;
 	exclude_langs: TopLangsFetcherFields['exclude_langs'] = [];
 	exclude_repos: TopLangsFetcherFields['exclude_repos'] = [];
-	size_weight;
-	count_weight;
+	algorithm;
 	cache_seconds;
 	query = '';
-	data = {};
+	data: TopLangData = {};
 
 	constructor(params: TopLangsFetcherParams) {
 		super();
@@ -26,98 +31,88 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields  {
 		this.langs_count = params.langs_count ?? 10;
 		this.exclude_langs = EXCLUDED_LANGUAGES;
 		this.exclude_repos = EXCLUDED_REPOS;
-		this.size_weight = params.size_weight ?? 1;
-		this.count_weight = params.count_weight ?? 0;
+		this.algorithm = params.algorithm ?? LanguageRankingAlgorithm.BOTH;
 		this.cache_seconds = DURATIONS.ONE_DAY;
 
 		this.query = gql(`
-            query userPublicRepos($login: String!) {
-            user(login: $login) {
-                repositories(
-                    ownerAffiliations: OWNER
-                    isFork: false
-                    first: 100
-                    visibility: PUBLIC
-                    orderBy: { field: UPDATED_AT, direction: DESC }
-                ) {
-                    nodes {
-                        name
-                        languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
-                            edges {
-                                size
-                                node {
-                                    color
-                                    name
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        `)?.loc?.source.body ?? '';
+			query userPublicRepos($login: String!) {
+				user(login: $login) {
+					repositories(
+						ownerAffiliations: OWNER
+						isFork: false
+						first: 100
+						visibility: PUBLIC
+						orderBy: { field: UPDATED_AT, direction: DESC }
+					) {
+						nodes {
+							name
+							languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
+								edges {
+									size
+									node {
+										color
+										name
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		`)?.loc?.source.body ?? '';
 	}
 
 	async fetch() {
 		const response = await super.fetch(this.variables);
-		this.data = this._processUserRepos(response.user.repositories.nodes);
+		this._processUserRepos(response.user.repositories.nodes);
+		this._sort();
+
+		console.log(this.data);
 	}
 
 	_processUserRepos(nodes: RepositoryData[]) {
-		let repoNodes;
-		let repoCount = 0;
+		const result: TopLangData = {};
 
-		// Filter and sort the repositories, flatten the list of language nodes, and reduce to a single object with language names as keys
-		repoNodes = nodes
-			.filter((node) => node.languages.edges.length > 0 && !this.exclude_repos.includes(node.name))
-			.sort((a, b) => b.size - a.size)
-			.reduce((acc, curr) => curr.languages.edges.concat(acc), [])
-			.reduce((acc, prev) => {
-				// get the size of the language (bytes)
-				let langSize = prev.size;
+		nodes.forEach((repo) => {
+			if (this.exclude_repos.includes(repo.name)) {
+				return;
+			}
 
-				// FIXME I don't think this is right, the order shouldn't matter
-				// if we already have the language in the accumulator
-				// and the current language name is same as previous name,
-				// add the size to the language size and increase repoCount.
-				if (acc[prev.node.name] && prev.node.name === acc[prev.node.name].name) {
-					langSize = prev.size + acc[prev.node.name].size;
-					repoCount += 1;
-				}
-				else {
-					// reset repoCount to 1
-					// language must exist in at least one repo to be detected
-					repoCount = 1;
+			repo.languages.edges.forEach((edge) => {
+				const langName = edge.node.name;
+				if (!langName) return;
+				if (EXCLUDED_LANGUAGES.includes(langName.toLowerCase())) return;
+
+				if (!result[langName]) {
+					result[langName] = { bytes: 0, count: 0, size: 0 };
 				}
 
-				return {
-					...acc, [prev.node.name]: {
-						name: prev.node.name,
-						color: prev.node.color,
-						size: langSize,
-						count: repoCount,
-					},
-				};
-			}, {});
-
-		// comparison index calculation
-		Object.keys(repoNodes).forEach((name) => {
-			repoNodes[name].size = Math.pow(repoNodes[name].size, this.size_weight) * Math.pow(repoNodes[name].count, this.count_weight);
+				result[langName].bytes += edge.size;
+				result[langName].count += 1;
+			});
 		});
 
-		return Object.keys(repoNodes)
-			.sort((a, b) => repoNodes[b].size - repoNodes[a].size)
-			.filter((key => !this.exclude_langs.includes(key.toLowerCase())))
-			.reduce((result, key) => {
-				result = this._maybeMergeResults(['JavaScript', 'TypeScript'], key, repoNodes, result);
-				result = this._maybeMergeResults(['CSS', 'SCSS'], key, repoNodes, result);
+		// Comparison index calculation - needs to happen after all byte and repo counts are done
+		// Source: https://github.com/anuraghazra/github-readme-stats/commit/5577bbf07fae7f0e2fcbed24042a59e5442434dc
+		let size_weight = this.algorithm === LanguageRankingAlgorithm.BYTE_COUNT ? 1 : 0;
+		let count_weight = this.algorithm === LanguageRankingAlgorithm.REPO_COUNT ? 1 : 0;
+		if(this.algorithm === LanguageRankingAlgorithm.BOTH) {
+			size_weight = 0.5;
+			count_weight = 0.5;
+		}
+		for (const langName in result) {
+			result[langName]!.size = Math.pow(result[langName]!.bytes, size_weight) * Math.pow(result[langName]!.count, count_weight);
+		}
 
-				if (!['JavaScript', 'TypeScript', 'CSS', 'SCSS'].includes(key)) {
-					result[key] = repoNodes[key];
-				}
+		this.data = result;
+	};
 
-				return result;
-			}, {});
+	_sort() {
+		const sorted = Object.entries(this.data).sort(([, a], [, b]) => {
+			return b.size - a.size;
+		});
+
+		this.data = Object.fromEntries(sorted);
 	}
 
 	_maybeMergeResults(keysToMerge, key, repoNodes, result) {
