@@ -1,21 +1,16 @@
-// @ts-check
-
-import axios from 'axios';
-
 /**
- * Send GraphQL request to GitHub API.
- *
- * @param {import('axios').AxiosRequestConfig['data']} data Request data.
- * @param {import('axios').AxiosRequestConfig['headers']} headers Request headers.
- * @returns {Promise<any>} Request response.
+ * Send GraphQL request to the GitHub API.
+ * @param {object} data - The GraphQL query (as a string) and variables.
+ * @param {HeadersInit} headers - The request headers, including auth (bearer token).
+ * @returns {Promise<any>} The response.
  */
-const request = (data, headers) => {
-	return axios({
-		url: 'https://api.github.com/graphql', 
-		method: 'post',
+export async function request(data: object, headers: HeadersInit): Promise<any> {
+	const res = await fetch('https://api.github.com/graphql', {
+		method: 'POST',
 		headers,
-		data,
+		body: JSON.stringify(data),
 	});
-};
+	if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-export { request };
+	return await res.json();
+}

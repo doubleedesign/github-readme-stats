@@ -52,7 +52,6 @@
 		"@typescript-eslint/eslint-plugin": "^8.60.1",
 		"@typescript-eslint/parser": "^8.60.1",
 		"@uppercod/css-to-object": "^1.1.1",
-		"axios-mock-adapter": "^2.1.0",
 		"dotenv": "^17.4.2",
 		"eslint": "^9.39.2",
 		"eslint-plugin-storybook": "^10.5.2",
@@ -71,7 +70,6 @@
 	},
 	"dependencies": {
 		"@happy-dom/global-registrator": "^20.11.1",
-		"axios": "^1.15.2",
 		"cors": "^2.8.6",
 		"emoji-name-map": "^2.0.3",
 		"github-username-regex": "^1.0.0",

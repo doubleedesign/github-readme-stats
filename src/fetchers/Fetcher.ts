@@ -19,7 +19,7 @@ export class Fetcher implements FetcherFields {
 	}
 
 	_makeRequest(variables: Record<string, any>, token: string) {
-		const fetcher = () => request(
+		const fetcher = async () => await request(
 			{ query: this.query, variables },
 			{ Authorization: `token ${token}` }
 		);
@@ -39,7 +39,7 @@ export class Fetcher implements FetcherFields {
 			console.error(res.data.errors);
 		}
 
-		return res.data.data;
+		return res.data;
 	}
 
 	getHtml() {
