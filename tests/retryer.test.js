@@ -2,7 +2,7 @@
 
 import { describe, expect, it, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
-import { RETRIES, retryer } from "../src/common/retryer.js";
+import { RETRIES, retryer } from "../src/common/retryer.ts";
 
 const fetcher = jest.fn((variables, token) => {
   console.log(variables, token);

@@ -1,5 +1,5 @@
-import { CustomError } from '../src/common/error.js';
-import { handleError } from '../src/common/handle-error.js';
+import { CustomError } from '../src/common/error.ts';
+import { handleError } from '../src/common/handle-error.ts';
 import type { Request, Response } from 'express';
 import { TopLangsFetcher } from '../src/fetchers/TopLangsFetcher.ts';
 import type { TopLangsQueryOptions } from './types.ts';

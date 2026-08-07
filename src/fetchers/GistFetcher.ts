@@ -1,5 +1,5 @@
 import { Fetcher } from './Fetcher.ts';
-import { DURATIONS } from '../common/cache.js';
+import { DURATIONS } from '../common/cache.ts';
 import { gql } from 'graphql-tag';
 import { LANGUAGE_COLORS } from '../constants.js';
 import type { GistFetcherFields } from './types.ts';

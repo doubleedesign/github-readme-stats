@@ -1,5 +1,5 @@
 import { BaseElement } from '../BaseElement.js';
-import { css } from '../utils.js';
+import { css } from '../utils.ts';
 import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../../constants.js';
 
 export class LanguageBar extends BaseElement {

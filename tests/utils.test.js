@@ -1,7 +1,7 @@
 import { queryByTestId } from "@testing-library/dom";
-import { kFormatter } from "../src/components/utils.js";
+import { kFormatter } from "../src/components/utils.ts";
 
-describe("Test utils.js", () => {
+describe("Test utils.ts", () => {
   it("should test kFormatter", () => {
     expect(kFormatter(1)).toBe(1);
     expect(kFormatter(-1)).toBe(-1);

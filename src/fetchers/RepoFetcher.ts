@@ -1,7 +1,7 @@
 import { Fetcher } from './Fetcher.ts';
-import { CustomError } from '../common/error.js';
+import { CustomError } from '../common/error.ts';
 import { gql } from 'graphql-tag';
-import { DURATIONS } from '../common/cache.js';
+import { DURATIONS } from '../common/cache.ts';
 import { USERNAME } from '../constants.js';
 import type { RepoFetcherFields } from './types.ts';
 

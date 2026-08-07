@@ -1,5 +1,5 @@
 import { GistFetcher } from '../src/fetchers/GistFetcher.ts';
-import { handleError } from '../src/common/handle-error.js';
+import { handleError } from '../src/common/handle-error.ts';
 import type { Request, Response } from 'express';
 import type { GistQueryOptions } from './types.ts';
 

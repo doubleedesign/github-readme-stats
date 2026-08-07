@@ -1,5 +1,5 @@
 import { icons } from '../../common/icons.js';
-import { css } from '../utils.js';
+import { css } from '../utils.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
 import { BaseElement } from '../BaseElement.js';
 

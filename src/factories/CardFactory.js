@@ -1,9 +1,8 @@
-import { Card } from "../components/Card/Card.ssr.js";
+import { Card } from "../components/Card/Card.ssr.ts";
 import { Badge } from "../components/Badge/Badge.js";
 import { LanguageBar } from "../components/LanguageBar/LanguageBar.js";
 import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from "../constants.js";
-import { kFormatter } from "../components/utils.js";
-import { parseEmojis } from "../common/ops.js";
+import { kFormatter, parseEmojis } from "../components/utils.ts";
 
 export class CardFactory {
 

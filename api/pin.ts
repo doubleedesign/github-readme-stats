@@ -1,4 +1,4 @@
-import { handleError } from '../src/common/handle-error.js';
+import { handleError } from '../src/common/handle-error.ts';
 import { RepoFetcher } from '../src/fetchers/RepoFetcher.ts';
 import type { Request, Response } from 'express';
 import type { RepoQueryOptions } from './types.ts';

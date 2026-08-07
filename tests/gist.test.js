@@ -6,8 +6,8 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import gist from "../api/gist.js";
 import { renderGistCard } from "../src/cards/gist.js";
-import { renderError } from "../src/common/error.js";
-import { CACHE_TTL, DURATIONS } from "../src/common/cache.js";
+import { renderError } from "../src/common/error.ts";
+import { DURATIONS } from "../src/common/cache.ts";
 
 const gist_data = {
   data: {

@@ -1,6 +1,6 @@
 import { Fetcher } from './Fetcher.ts';
 import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from '../constants.js';
-import { DURATIONS } from '../common/cache.js';
+import { DURATIONS } from '../common/cache.ts';
 import { gql } from 'graphql-tag';
 import { LanguagesCard } from '../components/LanguagesCard/LanguagesCard.ssr.ts';
 import {
