@@ -5,7 +5,13 @@ export const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 // Default excluded languages for badges, language bar, etc.
 export const EXCLUDED_LANGUAGES = ['mdx', 'shell', 'blade', 'hack'];
 
-export const EXCLUDED_REPOS = [];
+export const EXCLUDED_REPOS = [
+	// These repos are auto-generated from the Comet Components monorepo, and so are duplicate code and should be excluded from stats
+	'comet-components-launchpad',
+	'comet-components-image',
+	'comet-components-responsive-panels',
+	'comet-components-file-group'
+];
 
 export const LANGUAGE_COLORS = {
 	'ASP.NET': '#9400ff', 
