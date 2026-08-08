@@ -44,10 +44,17 @@ docs/** linguist-documentation
 vendor/** linguist-vendored
 ```
 
-You can also override the language that specific file types are interpreted as in that repo:
+You can also override the language that specific file types are interpreted as in that repo. For example, I have a repo where the Blade files contain very little PHP and are mostly HTML, so to treat them as the latter I use:
 
 ```gitattributes
 *.blade.php linguist-language=HTML
+```
+
+And for some repos that use [Styled Components](https://styled-components.com/), I set those files to be interpreted as CSS like so:
+
+```gitattributes
+*.style.ts linguist-language=css
+*.style.tsx linguist-language=css
 ```
 
 ## Deployment
