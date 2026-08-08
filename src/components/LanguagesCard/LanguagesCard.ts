@@ -1,10 +1,18 @@
-import { BaseElement } from '../BaseElement.js';
+import { BaseElement } from '../BaseElement.ts';
 import { css } from '../utils.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
+import { TopLangsLayout } from '../types.ts';
+import '../LanguageBar/LanguageBar.ts';
+
+export type LanguagesCardProps = {
+	heading: string;
+	layout?: TopLangsLayout;
+	segments?: string; // JSON stringified array of LanguageSegment[]
+};
 
 export class LanguagesCard extends BaseElement {
 	static get observedAttributes() {
-		return ['heading', 'layout'];
+		return ['heading', 'layout', 'segments'];
 	}
 
 	getCss() {
@@ -22,7 +30,6 @@ export class LanguagesCard extends BaseElement {
 			.card {
 				display: flex;
 				flex-direction: column;
-				align-items: flex-start;
 				border: 1px solid var(--border-color);
 				border-radius: 0.25rem;
 				background-color: var(--background-color);
@@ -43,7 +50,6 @@ export class LanguagesCard extends BaseElement {
 
 			.card__title {
 				display: flex;
-				align-items: center;
 				gap: 0.5rem;
 				margin-block-end: 0.5rem;
 				font-size: 1rem;
@@ -63,11 +69,19 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get layout() {
-		return this.getAttribute('layout') || 'default';
+		return this.getAttribute('layout') as TopLangsLayout || TopLangsLayout.DEFAULT;
 	}
 
-	set layout(value) {
+	set layout(value: TopLangsLayout) {
 		this.setAttribute('layout', value);
+	}
+
+	get segments() {
+		return JSON.parse(this.getAttribute('segments') || '[]');
+	}
+
+	set segments(value) {
+		(typeof value !== 'string') ? this.setAttribute('segments', JSON.stringify(value)) : this.setAttribute('segments', value);
 	}
 
 	get width() {
@@ -88,16 +102,22 @@ export class LanguagesCard extends BaseElement {
 		` : '';
 	}
 
+	renderSegments() {
+		if(this.layout === 'compact' && this.segments.length > 0) {
+			return `<x-langbar segments='${JSON.stringify(this.segments)}'></x-langbar>`;
+		}
+	}
+
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return '';
+			return null;
 		}
 
 		const wrapper = doc.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		wrapper.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-		wrapper.setAttribute('width', this.width);
-		wrapper.setAttribute('height', this.height);
+		wrapper.setAttribute('width', String(this.width));
+		wrapper.setAttribute('height', String(this.height));
 		wrapper.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
 
 		// Add the CSS inside the SVG to ensure it renders correctly when rendered from the backend
@@ -112,8 +132,8 @@ export class LanguagesCard extends BaseElement {
 		// Create an inner wrapper that allows non-SVG HTML content
 		// Note: Must use SVG namespace here because foreignObject is case-sensitive
 		const innerWrapper = doc.createElementNS(SVG_NAMESPACE, 'foreignObject');
-		innerWrapper.setAttribute('width', this.width);
-		innerWrapper.setAttribute('height', this.height);
+		innerWrapper.setAttribute('width', String(this.width));
+		innerWrapper.setAttribute('height', String(this.height));
 
 		// Put the content inside a normal HTML fragment so we can use things like flexbox layout
 		const content = doc.createElement('div');
@@ -121,7 +141,7 @@ export class LanguagesCard extends BaseElement {
 		content.classList.add('card');
 		content.innerHTML = `
 			${this.renderTitle()}
-
+			${this.renderSegments()}
 		`;
 
 		innerWrapper.appendChild(content);

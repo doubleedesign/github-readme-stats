@@ -1,5 +1,5 @@
 import { Fetcher } from './Fetcher.ts';
-import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from '../constants.js';
+import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME, LANGUAGE_COLORS } from '../constants.js';
 import { DURATIONS } from '../common/cache.ts';
 import { gql } from 'graphql-tag';
 import { LanguagesCard } from '../components/LanguagesCard/LanguagesCard.ssr.ts';
@@ -10,6 +10,8 @@ import {
 	type TopLangsFetcherFields,
 	type TopLangsFetcherParams,
 } from './types.ts';
+import type { LanguageSegment } from '../components/types.ts';
+import type { LangData } from './types.ts';
 
 
 export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
@@ -66,8 +68,7 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 		const response = await super.fetch(this.variables);
 		this._processUserRepos(response.user.repositories.nodes);
 		this._sort();
-
-		console.log(this.data);
+		this._trim();
 	}
 
 	_processUserRepos(nodes: RepositoryData[]) {
@@ -115,39 +116,57 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 		this.data = Object.fromEntries(sorted);
 	}
 
-	_maybeMergeResults(keysToMerge: string[], key: string, repoNodes, result) {
+	_trim() {
+		this.data = Object.fromEntries(Object.entries(this.data).slice(0, this.langs_count));
+	}
+
+	_maybeMergeResults(keysToMerge: string[], key: string, repoNodes: Record<string, LangData>, result: Record<string, LangData>) {
 		if (keysToMerge.includes(key)) {
 			const newKey = keysToMerge.join('/');
 
 			const ColourMap = {
 				// Give JS/TS the JS yellow for better contrast when sitting next to PHP
 				// and similar for CSS/SCSS - use SCSS's pink because it's less likely to be similar to adjacent languages
-				JavaScript: repoNodes.JavaScript.color,
-				TypeScript: repoNodes.JavaScript.color,
-				CSS: repoNodes.SCSS.color,
-				SCSS: repoNodes.SCSS.color,
+				JavaScript: LANGUAGE_COLORS['JavaScript'],
+				TypeScript: LANGUAGE_COLORS['JavaScript'],
+				CSS: LANGUAGE_COLORS['SCSS'],
+				SCSS: LANGUAGE_COLORS['SCSS'],
 			};
 
 			if (!result[newKey]) {
 				result[newKey] = {
+					// @ts-expect-error TS7053: Element implicitly has an any type
 					name: newKey, color: ColourMap[key], size: repoNodes[key].size, count: repoNodes[key].count,
 				};
 			}
 			else {
-				result[newKey].size += repoNodes[key].size;
-				result[newKey].count += repoNodes[key].count;
+				result[newKey].size += repoNodes?.[key]?.size || 0;
+				result[newKey].count += repoNodes?.[key]?.count || 1;
 			}
 		}
 
 		return result;
 	}
 
+	_getPercentages(): LanguageSegment[] {
+		const totalSize = Object.values(this.data).reduce((acc, lang) => acc + lang.size, 0);
+
+		return Object.entries(this.data).map(([lang, data]) => {
+			const percentage = totalSize > 0 ? (data.size / totalSize) * 100 : 0;
+
+			return {
+				name: lang,
+				size: percentage
+			};
+		});
+
+	}
+
 	getHtml() {
 		const card = new LanguagesCard();
 		card.heading = this.heading;
-		card.layout = this.layout;
-
-		console.log(this.data);
+		card.layout = this.layout as LanguagesCard['layout'];
+		card.segments = JSON.stringify(this._getPercentages());
 
 		return card.toString();
 	}

@@ -1,12 +1,14 @@
 import { Card } from '../components/Card/Card.ssr.ts';
-import { Badge } from '../components/Badge/Badge.js';
-import { LanguageBar } from '../components/LanguageBar/LanguageBar.js';
+import { Badge } from '../components/Badge/Badge.ts';
+import { LanguageBar } from '../components/LanguageBar/LanguageBar.ts';
 import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../constants.js';
 import { kFormatter, parseEmojis } from '../components/utils.ts';
+import { icons } from '../common/icons.js';
+import type { RepositoryData, GistData, CardData } from '../fetchers/types.ts';
 
 export class CardFactory {
 
-	static _languageBar(languages) {
+	static _languageBar(languages: CardData['languages']['edges']) {
 		if (!languages || languages.length === 0 || !Array.isArray(languages)) {
 			return '';
 		}
@@ -20,7 +22,7 @@ export class CardFactory {
 		return bar.toString();
 	}
 
-	static _languageBadge(primary, others) {
+	static _languageBadge(primary: string|null, others: CardData['languages']['edges']) {
 		if (!primary || !others || others.length === 0 || !Array.isArray(others)) {
 			return '';
 		}
@@ -31,7 +33,7 @@ export class CardFactory {
 		let allNames = [primary, ...othersNames];
 
 		if (EXCLUDED_LANGUAGES.includes(primary.toLowerCase())) {
-			primary = others.length > 0 ? allNames[0] : null;
+			primary = others.length > 0 ? (allNames[0] ?? null) : null;
 			allNames = allNames.slice(1);
 		}
 
@@ -77,14 +79,15 @@ export class CardFactory {
 
 		const badge = new Badge();
 		badge.icon = 'circle';
-		badge.label = label;
-		badge.color = LANGUAGE_COLORS[allNames[0]] || '#858585';
+		badge.label = label ?? '';
+		// @ts-expect-error TS7053: Element implicitly has an any type
+		badge.color = allNames[0] ? LANGUAGE_COLORS[allNames[0]] : '#858585';
 		badge.testId = 'languages';
 
 		return badge.toString();
 	}
 
-	static _starsBadge(count) {
+	static _starsBadge(count: number) {
 		const badge = new Badge();
 		badge.icon = 'star';
 		badge.label = kFormatter(count);
@@ -93,7 +96,7 @@ export class CardFactory {
 		return badge.toString();
 	}
 
-	static _forksBadge(count) {
+	static _forksBadge(count: number) {
 		const badge = new Badge();
 		badge.icon = 'fork';
 		badge.label = kFormatter(count);
@@ -102,7 +105,7 @@ export class CardFactory {
 		return badge.toString();
 	}
 
-	static generateCardHtml(icon, data) {
+	static generateCardHtml(icon: keyof typeof icons, data: RepositoryData|GistData) {
 		const { name, description, primaryLanguage, languages, starCount, forkCount } = data;
 
 		let footerHtml = this._languageBadge(primaryLanguage?.name, languages?.edges);

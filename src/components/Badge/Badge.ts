@@ -1,7 +1,14 @@
-import { BaseElement } from '../BaseElement.js';
+import { BaseElement } from '../BaseElement.ts';
 import { css } from '../utils.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
 import { icons } from '../../common/icons.js';
+
+export type BadgeProps = {
+	icon: string;
+	label: string;
+	color?: string;
+	testId?: string;
+};
 
 export class Badge extends BaseElement {
 	static get observedAttributes() {
@@ -58,6 +65,7 @@ export class Badge extends BaseElement {
 	}
 
 	get iconSvg() {
+		// @ts-ignore
 		return this.getAttribute('icon') !== '' ? icons[this.getAttribute('icon') ?? 'contribs'] : '';
 	}
 
@@ -80,7 +88,7 @@ export class Badge extends BaseElement {
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return '';
+			return null;
 		}
 
 		const wrapper = doc.createElement('span');

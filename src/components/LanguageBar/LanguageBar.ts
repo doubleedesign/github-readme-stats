@@ -1,6 +1,11 @@
-import { BaseElement } from '../BaseElement.js';
+import { BaseElement } from '../BaseElement.ts';
 import { css } from '../utils.ts';
 import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../../constants.js';
+import type { LanguageSegment } from '../types.ts';
+
+export type LanguageBarProps = {
+	segments: string; // JSON stringified array of LanguageSegment[]
+};
 
 export class LanguageBar extends BaseElement {
 	static get observedAttributes() {
@@ -41,29 +46,31 @@ export class LanguageBar extends BaseElement {
 		}
 
 		const data = JSON.parse(segmentsAttr);
-		const refinedData = data.filter(segment => !EXCLUDED_LANGUAGES.includes(segment.name.toLowerCase()));
 
-		const totalSize = refinedData.reduce((sum, segment) => sum + segment.size, 0);
+		const refinedData = data.filter((segment: LanguageSegment) => !EXCLUDED_LANGUAGES.includes(segment.name.toLowerCase()));
 
-		return refinedData.map(segment => ({
+		const totalSize = refinedData.reduce((sum: number, segment: LanguageSegment) => sum + segment.size, 0);
+
+		return refinedData.map((segment: LanguageSegment) => ({
 			name: segment.name,
 			size:  (segment.size / totalSize) * 100
 		}));
 	}
 
-	getColor(language) {
+	getColor(language: string) {
+		// @ts-expect-error TS7053: Element implicitly has an any type
 		return LANGUAGE_COLORS[language] || '#858585';
 	}
 
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return '';
+			return null;
 		}
 
 		const segments = this.parseSegments();
 		if (segments.length === 0) {
-			return '';
+			return null;
 		}
 
 		const wrapper = doc.createElement('div');
@@ -77,7 +84,7 @@ export class LanguageBar extends BaseElement {
 		const innerWrapper = doc.createElement('div');
 		innerWrapper.classList.add('language-bar');
 
-		segments.forEach(segment => {
+		segments.forEach((segment: LanguageSegment)  => {
 			const element = doc.createElement('span');
 			element.className = 'language-bar__segment';
 			element.style.width = `${segment.size}%`;

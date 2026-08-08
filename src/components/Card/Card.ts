@@ -1,7 +1,20 @@
 import { icons } from '../../common/icons.js';
 import { css } from '../utils.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
-import { BaseElement } from '../BaseElement.js';
+import { BaseElement } from '../BaseElement.ts';
+
+export type CardProps = {
+	heading: string;
+	description: string;
+	width?: number;
+	height?: number;
+	icon?: string;
+	beforeContent?: string;
+	footer?: string;
+	theme?: 'colorful' | 'mono';
+	isTemplate?: boolean;
+	isArchived?: boolean;
+};
 
 export class Card extends BaseElement {
 	static get observedAttributes() {
@@ -158,6 +171,7 @@ export class Card extends BaseElement {
 	}
 
 	get prefixIcon() {
+		// @ts-ignore
 		return this.getAttribute('icon') !== '' ? icons[this.getAttribute('icon') ?? 'contribs'] : '';
 	}
 
@@ -166,7 +180,7 @@ export class Card extends BaseElement {
 	}
 
 	set isTemplate(value) {
-		this.setAttribute('isTemplate', value);
+		this.setAttribute('isTemplate', String(value));
 	}
 
 	get isArchived() {
@@ -174,7 +188,7 @@ export class Card extends BaseElement {
 	}
 
 	set isArchived(value) {
-		this.setAttribute('isArchived', value);
+		this.setAttribute('isArchived', String(value));
 	}
 
 	renderTitle() {
@@ -211,7 +225,7 @@ export class Card extends BaseElement {
 	compile() {
 		const doc = this.localDocument;
 		if (!doc) {
-			return '';
+			return null;
 		}
 
 		const wrapper = doc.createElementNS('http://www.w3.org/2000/svg', 'svg');

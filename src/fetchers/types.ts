@@ -41,22 +41,10 @@ export type RepoFetcherFields = FetcherFields & {
 	icon: string;
 };
 
-
-export type GistData = {
+export type CardData = {
 	name: string;
 	description: string | null;
 	language: string | null;
-	starsCount: number;
-	forksCount: number;
-};
-
-export type RepositoryData = {
-	name: string;
-	isPrivate: boolean;
-	isArchived: boolean;
-	isTemplate: boolean;
-	stargazers: { totalCount: number };
-	description: string;
 	primaryLanguage: {
 		color: string;
 		name: string;
@@ -74,13 +62,24 @@ export type RepositoryData = {
 	starCount: number;
 };
 
+
+export type GistData = CardData & {
+};
+
+export type RepositoryData = CardData & {
+	isPrivate: boolean;
+	isArchived: boolean;
+	isTemplate: boolean;
+	stargazers: { totalCount: number };
+};
+
 export type Lang = {
 	name: string;
 	color: string;
 	size: number;
 };
 
-type LangData = {
+export type LangData = {
 	/** Byte count across all repos */
 	bytes: number;
 	/** Number of repos containing the language */

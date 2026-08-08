@@ -1,6 +1,6 @@
 import retryer from '../common/retryer.ts';
 import { DURATIONS, setCacheHeaders } from '../common/cache.ts';
-import { CardFactory } from '../factories/CardFactory.js';
+import { CardFactory } from '../factories/CardFactory.ts';
 import type { FetcherFields } from './types.ts';
 import type { Response } from 'express';
 

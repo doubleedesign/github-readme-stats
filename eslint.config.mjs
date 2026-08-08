@@ -120,7 +120,7 @@ export default [
 		}
 	},
 	{
-		files: ['./src/**/*.stories.ts'],
+		files: ['./**/*.stories.ts'],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {
