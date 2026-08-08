@@ -2,14 +2,13 @@ import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../B
 import { type LanguageSegment } from '../types.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
 
-export type DonutProps = LanguageGroupComponentProps & {
+export type PieProps = LanguageGroupComponentProps & {
 	chartWidth?: number;
-	strokeWidth?: number;
 };
 
-export class LanguageDonut extends BaseLanguageGroupElement {
+export class LanguagePie extends BaseLanguageGroupElement {
 	static get observedAttributes() {
-		return ['segments', 'chartWidth', 'strokeWidth'];
+		return ['segments', 'chartWidth'];
 	}
 
 	get chartWidth() {
@@ -20,22 +19,14 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 		this.setAttribute('width', value.toString());
 	}
 
-	get strokeWidth() {
-		return parseInt(this.getAttribute('strokeWidth') || '12', 10);
-	}
-
-	set strokeWidth(value: number) {
-		this.setAttribute('strokeWidth', value.toString());
-	}
-
 	/**
-	 * Create the SVG paths for the language donut chart.
-	 * @param {number} cx Donut center x-position.
-	 * @param {number} cy Donut center y-position.
-	 * @param {number} radius Donut arc Radius.
-	 *
-	 * @returns {{name: string, path: string, percent: number}[]}  Array of language names + data to use for SVG path elements
-	 */
+     * Create the SVG paths for the language pie chart.
+     * @param {number} cx Pie center x-position.
+     * @param {number} cy Pie center y-position.
+     * @param {number} radius Pie arc Radius.
+     *
+     * @returns {{name: string, path: string, percent: number}[]}  Array of language names + data to use for SVG path elements
+     */
 	createPaths(cx: number, cy: number, radius: number): { name: string; path: string; percent: number; }[] {
 		const paths: { name: string; path: string; percent: number; }[] = [];
 		let startAngle = 0;
@@ -52,7 +43,7 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 			paths.push({
 				name: segment.name,
 				percent: segment.size,
-				path: `M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArc} 0 ${endPoint.x} ${endPoint.y}`
+				path: `M ${cx} ${cy} L ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArc} 0 ${endPoint.x} ${endPoint.y} Z`
 			});
 
 			startAngle = endAngle;
@@ -69,7 +60,7 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 
 		const centerX = this.chartWidth / 2;
 		const centerY = this.chartWidth / 2;
-		const radius = centerX - this.strokeWidth;
+		const radius = 45;
 		const langPaths = this.createPaths(centerX, centerY, radius);
 
 		if(segments.length === 1) {
@@ -77,14 +68,11 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 
 			return `
 				<svg width="${this.chartWidth}" height="${this.chartWidth}">
-					<circle data-testid="lang-donut" 
+					<circle data-testid="lang-slice" 
 						cx="${centerX}" 
 						cy="${centerY}" 
 						r="${radius}" 
-						stroke="${color}"
-						fill="none" 
-						stroke-width="${this.strokeWidth}" 
-						size="100"
+						fill="${color}"
 					/>
 				</svg>
 			`;
@@ -95,16 +83,17 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 
 			return `
 				<path
-					data-testid="lang-donut"
-					size="${segment.percent}"
+					data-testid="lang-slice"
 					d="${segment.path}"
-					stroke="${color}"
-					fill="none"
-					stroke-width="${this.strokeWidth}">
-				</path>
+					fill="${color}"
+					stroke="#fff"
+					stroke-width="2px"
+					stroke-opacity="0.5"
+				/>
 			`;
 		}).join('');
-	};
+	}
+
 
 	compile() {
 		const doc = this.localDocument;
@@ -127,6 +116,6 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 	}
 }
 
-if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-donut')) {
-	window.customElements.define('x-donut', LanguageDonut);
+if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-pie')) {
+	window.customElements.define('x-pie', LanguagePie);
 }

@@ -51,4 +51,27 @@ export class BaseLanguageGroupElement extends BaseElement {
 		// @ts-expect-error TS7053: Element implicitly has an any type
 		return LANGUAGE_COLORS[language] || '#858585';
 	}
+
+
+	degreesToRadians(angleInDegrees: number) {
+		return angleInDegrees * (Math.PI / 180.0);
+	}
+
+	/**
+     * Convert polar coordinates to Cartesian coordinates.
+     * @param {number} centerX Center x coordinate.
+     * @param {number} centerY Center y coordinate.
+     * @param {number} radius Radius of the circle.
+     * @param {number} angleInDegrees Angle in degrees.
+     *
+     * @returns {{x: number, y: number}} Cartesian coordinates.
+     */
+	polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number): { x: number; y: number; } {
+		const rads = this.degreesToRadians(angleInDegrees);
+
+		return {
+			x: centerX + radius * Math.cos(rads),
+			y: centerY + radius * Math.sin(rads),
+		};
+	};
 }
