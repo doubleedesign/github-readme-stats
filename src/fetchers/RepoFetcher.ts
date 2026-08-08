@@ -59,7 +59,7 @@ export class RepoFetcher extends Fetcher implements RepoFetcherFields {
 
 		this.data = {
 			...data.user.repository,
-			starCount: data.user.repository.stargazers.totalCount,
+			starCount: data.user.repository?.stargazers?.totalCount ?? 0
 		};
 	}
 }

@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"types": ["node", "jest"],
+		"rewriteRelativeImportExtensions": false,
+		"verbatimModuleSyntax": false,
+		"esModuleInterop": true,
+		"isolatedModules": true
+	}
+}

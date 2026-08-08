@@ -53,9 +53,7 @@ const setCacheHeaders = (res: Response, cacheSeconds: number) => {
 
 	res.setHeader(
 		'Cache-Control',
-		`max-age=${cacheSeconds}, ` +
-      `s-maxage=${cacheSeconds}, ` +
-      `stale-while-revalidate=${DURATIONS.ONE_DAY}`,
+		`max-age=${cacheSeconds}, s-maxage=${cacheSeconds}, stale-while-revalidate=${cacheSeconds}`,
 	);
 };
 

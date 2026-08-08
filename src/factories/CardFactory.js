@@ -1,14 +1,14 @@
-import { Card } from "../components/Card/Card.ssr.ts";
-import { Badge } from "../components/Badge/Badge.js";
-import { LanguageBar } from "../components/LanguageBar/LanguageBar.js";
-import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from "../constants.js";
-import { kFormatter, parseEmojis } from "../components/utils.ts";
+import { Card } from '../components/Card/Card.ssr.ts';
+import { Badge } from '../components/Badge/Badge.js';
+import { LanguageBar } from '../components/LanguageBar/LanguageBar.js';
+import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../constants.js';
+import { kFormatter, parseEmojis } from '../components/utils.ts';
 
 export class CardFactory {
 
 	static _languageBar(languages) {
 		if (!languages || languages.length === 0 || !Array.isArray(languages)) {
-			return "";
+			return '';
 		}
 
 		const bar = new LanguageBar();
@@ -21,8 +21,8 @@ export class CardFactory {
 	}
 
 	static _languageBadge(primary, others) {
-		if (!primary) {
-			return "";
+		if (!primary || !others || others.length === 0 || !Array.isArray(others)) {
+			return '';
 		}
 
 		// Order the others by size
@@ -69,35 +69,35 @@ export class CardFactory {
 		let label = allNames[0];
 		if(allNames.length > 1) {
 			const nextTwo = allNames.slice(1, 3);
-			label += `, ${nextTwo.join(", ")}`;
+			label += `, ${nextTwo.join(', ')}`;
 			if (allNames.length > 2) {
 				label += ` +${allNames.length - 2}`;
 			}
 		}
 
 		const badge = new Badge();
-		badge.icon = "circle";
+		badge.icon = 'circle';
 		badge.label = label;
-		badge.color = LANGUAGE_COLORS[allNames[0]] || "#858585";
-		badge.testId = "languages";
+		badge.color = LANGUAGE_COLORS[allNames[0]] || '#858585';
+		badge.testId = 'languages';
 
 		return badge.toString();
 	}
 
 	static _starsBadge(count) {
 		const badge = new Badge();
-		badge.icon = "star";
+		badge.icon = 'star';
 		badge.label = kFormatter(count);
-		badge.testId = "stargazers";
+		badge.testId = 'stargazers';
 
 		return badge.toString();
 	}
 
 	static _forksBadge(count) {
 		const badge = new Badge();
-		badge.icon = "fork";
+		badge.icon = 'fork';
 		badge.label = kFormatter(count);
-		badge.testId = "forkcount";
+		badge.testId = 'forkcount';
 
 		return badge.toString();
 	}
@@ -116,9 +116,9 @@ export class CardFactory {
 		}
 
 		const card = new Card();
-		card.beforeContent = languages?.edges ? this._languageBar(languages.edges) : "";
+		card.beforeContent = languages?.edges ? this._languageBar(languages.edges) : '';
 		card.heading = name;
-		card.description = parseEmojis(description || "No description provided");
+		card.description = parseEmojis(description || 'No description provided');
 		card.icon = icon;
 		card.footer = footerHtml;
 

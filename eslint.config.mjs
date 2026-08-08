@@ -80,7 +80,7 @@ export default [
 		ignores: ['node_modules/**', '**/*.min.js', '**/*.dist.js'],
 	},
 	{
-		files: ['./src/components/**/*.js', './api/**/*.js'],
+		files: ['./**/*.js'],
 		languageOptions: {
 			parser: babelParser,
 			parserOptions: {
@@ -97,7 +97,7 @@ export default [
 		}
 	},
 	{
-		files: ['./src/**/*.ts', './api/**/*.ts', './express.ts'],
+		files: ['./**/*.ts'],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {

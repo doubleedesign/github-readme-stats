@@ -17,7 +17,7 @@ export function css(strings: any, ...values: any[]) {
  * @param {number=} precision The number of decimal places to include.
  * @returns {string|number} The formatted number.
  */
-export function kFormatter(num: number, precision: number | undefined): string {
+export function kFormatter(num: number, precision?: number): string {
 	const abs = Math.abs(num);
 	const sign = Math.sign(num);
 
