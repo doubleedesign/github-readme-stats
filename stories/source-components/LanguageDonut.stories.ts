@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import '../../src/components/Donut/LanguageDonut.ts';
-import { type DonutProps } from '../../src/components/Donut/LanguageDonut.ts';
+import '../../src/components/LanguageDonut/LanguageDonut.ts';
+import { type DonutProps } from '../../src/components/LanguageDonut/LanguageDonut.ts';
 
 const meta: Meta<DonutProps> = {
 	component: 'x-donut',
