@@ -1,8 +1,10 @@
 import { BaseElement } from '../BaseElement.ts';
 import { css } from '../utils.ts';
-import { SVG_NAMESPACE, LANGUAGE_COLORS } from '../../constants.js';
+import { SVG_NAMESPACE } from '../../constants.js';
 import { TopLangsLayout } from '../types.ts';
 import '../LanguageBar/LanguageBar.ts';
+import '../LanguageDonut/LanguageDonut.ts';
+import '../LanguagePie/LanguagePie.ts';
 
 export type LanguagesCardProps = {
 	heading: string;
@@ -61,6 +63,12 @@ export class LanguagesCard extends BaseElement {
 				color: var(--heading-color);
 			}
 
+            x-donut,
+            x-pie {
+                display: block;
+                margin-inline: auto;
+            }
+
 		`;
 	}
 
@@ -113,8 +121,12 @@ export class LanguagesCard extends BaseElement {
 			return `<x-langbar segments='${JSON.stringify(this.segments)}'></x-langbar>`;
 		}
 
-		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.DONUT_VERTICAL) {
+		if(this.layout === TopLangsLayout.DONUT) {
+			return `<x-donut segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-donut>`;
+		}
 
+		if(this.layout === TopLangsLayout.PIE) {
+			return `<x-pie segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-pie>`;
 		}
 	}
 

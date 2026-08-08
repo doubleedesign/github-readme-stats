@@ -12,11 +12,11 @@ export class LanguagePie extends BaseLanguageGroupElement {
 	}
 
 	get chartWidth() {
-		return parseInt(this.getAttribute('width') || '100', 10);
+		return parseInt(this.getAttribute('chartWidth') || '100', 10);
 	}
 
 	set chartWidth(value: number) {
-		this.setAttribute('width', value.toString());
+		this.setAttribute('chartWidth', value.toString());
 	}
 
 	/**
@@ -60,7 +60,7 @@ export class LanguagePie extends BaseLanguageGroupElement {
 
 		const centerX = this.chartWidth / 2;
 		const centerY = this.chartWidth / 2;
-		const radius = 45;
+		const radius = this.chartWidth / 2;
 		const langPaths = this.createPaths(centerX, centerY, radius);
 
 		if(segments.length === 1) {

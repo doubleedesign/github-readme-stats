@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LanguageRankingAlgorithm } from '../../src/fetchers/types.ts';
 import { TopLangsLayout } from '../../src/components/types.ts';
 import type { TopLangsQueryOptions } from '../../api/types.ts';
+import { withRequestUrl } from '../../.storybook/decorators/with-request-url.js';
 
 const meta: Meta<TopLangsQueryOptions> = {
 	args: {
@@ -25,6 +26,9 @@ const meta: Meta<TopLangsQueryOptions> = {
 			control: { type: 'number' },
 		}
 	},
+	decorators: [
+		withRequestUrl({ base: 'http://localhost:9000/api/top-langs/' }),
+	]
 };
 
 export default meta;

@@ -13,11 +13,11 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 	}
 
 	get chartWidth() {
-		return parseInt(this.getAttribute('width') || '100', 10);
+		return parseInt(this.getAttribute('chartWidth') || '100', 10);
 	}
 
 	set chartWidth(value: number) {
-		this.setAttribute('width', value.toString());
+		this.setAttribute('chartWidth', value.toString());
 	}
 
 	get strokeWidth() {
