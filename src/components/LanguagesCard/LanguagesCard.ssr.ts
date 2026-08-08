@@ -14,7 +14,11 @@ await import('./LanguagesCard.ts');
 export class LanguagesCard implements LanguagesCardProps {
 	declare heading: string;
 	declare layout: TopLangsLayout;
-	declare segments: string; // JSON string of LanguageSegment[]
+	/**
+	 * Stringified array of LanguageSegment[]
+	 * @see {import('./types').LanguageSegment}
+	 **/
+	declare segments: string;
 
 	constructor() {
 		return window.document.createElement('x-languages') as unknown as LanguagesCard;

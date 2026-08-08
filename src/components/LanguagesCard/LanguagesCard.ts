@@ -1,13 +1,17 @@
 import { BaseElement } from '../BaseElement.ts';
 import { css } from '../utils.ts';
-import { SVG_NAMESPACE } from '../../constants.js';
+import { SVG_NAMESPACE, LANGUAGE_COLORS } from '../../constants.js';
 import { TopLangsLayout } from '../types.ts';
 import '../LanguageBar/LanguageBar.ts';
 
 export type LanguagesCardProps = {
 	heading: string;
 	layout?: TopLangsLayout;
-	segments?: string; // JSON stringified array of LanguageSegment[]
+	/**
+	 * Stringified array of LanguageSegment[]
+	 * @see {import('./types').LanguageSegment}
+	 **/
+	segments?: string;
 };
 
 export class LanguagesCard extends BaseElement {
@@ -103,8 +107,14 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	renderSegments() {
-		if(this.layout === 'compact' && this.segments.length > 0) {
+		if(this.segments.length < 1) return;
+
+		if(this.layout === TopLangsLayout.COMPACT) {
 			return `<x-langbar segments='${JSON.stringify(this.segments)}'></x-langbar>`;
+		}
+
+		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.DONUT_VERTICAL) {
+
 		}
 	}
 
@@ -114,8 +124,8 @@ export class LanguagesCard extends BaseElement {
 			return null;
 		}
 
-		const wrapper = doc.createElementNS('http://www.w3.org/2000/svg', 'svg');
-		wrapper.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+		const wrapper = doc.createElementNS(SVG_NAMESPACE, 'svg');
+		wrapper.setAttribute('xmlns', SVG_NAMESPACE);
 		wrapper.setAttribute('width', String(this.width));
 		wrapper.setAttribute('height', String(this.height));
 		wrapper.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);

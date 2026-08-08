@@ -1,15 +1,12 @@
 # GitHub Readme Stats (Refined)
 
-This is a version of [GitHub Readme Stats by Anurag Hazra](https://github.com/anuraghazra/github-readme-stats) that I have stripped back and modified to meet my own needs. 
+This is a version of [GitHub Readme Stats by Anurag Hazra](https://github.com/anuraghazra/github-readme-stats) that I have stripped back and modified to meet my own needs.
 
-Some parts have been entirely refactored (e.g., consolidating data fetching and processing from multiple files per type into one `Fetcher` class per type) or rewritten (e.g., using custom web components to generate the cards), others have been reused as-is or with minor modifications (e.g., the top languages algorithm, caching, API request implementation with retries, error handling); some have been removed (stats card, Wakatime card, some card options/variations I don't intend to use).
+Some parts have been entirely refactored (e.g., consolidating data fetching and processing from multiple files per type into one `Fetcher` class per type) or rewritten (e.g., using custom web components to generate the cards), others have been reused as-is or with minor modifications (e.g., the top languages algorithm, caching, API request implementation with retries, error handling, much of the donut and pie chart rendering logic); some have been removed (stats card, Wakatime card, themes, some card options/variations I don't intend to use).
 
-The general design of the cards is based on the original, with some enhancements (e.g., language bar and listing multiple languages on repo cards; adding support for languages to Gist cards; line clamping of repo descriptions to ensure consistent height of cards). I have also refactored everything to use TypeScript and added Storybook for local development and testing.
+The general design of the cards is based on the original, with some enhancements (e.g., language bar and listing multiple languages on repo cards; adding support for languages to Gist cards; line clamping of repo descriptions to ensure consistent height of cards; single colour scheme that _mostly_ works with both light and dark modes). I have also refactored everything to use TypeScript and added Storybook for local development and testing.
 
 You are welcome to fork and use this project as you see fit, but support is not guaranteed. That said, I'd love to see what you do with it!
-
-> [!NOTE]
-> The author of the original project recommends the successor project [GitHub Stats Extended](https://github.com/stats-organization/github-stats-extended).
 
 ## Usage
 
