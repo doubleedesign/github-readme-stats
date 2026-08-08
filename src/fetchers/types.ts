@@ -1,3 +1,5 @@
+import type { TopLangsLayout } from '../components/types.ts';
+
 export type FetcherFields = {
 	variables: Record<string, any>;
 	query: string;
@@ -14,7 +16,7 @@ export enum LanguageRankingAlgorithm {
 
 // Values that can be passed into the TopLangsFetcher constructor
 export type TopLangsFetcherParams = {
-	layout?: 'default' | 'compact' | 'donut' | 'donut-vertical' | 'pie';
+	layout?: TopLangsLayout;
 	heading?: string;
 	langs_count?: number;
 	algorithm?: LanguageRankingAlgorithm;
