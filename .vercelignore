@@ -1,7 +1,4 @@
-.devcontainer
 .github
-.vscode
-benchmarks
 coverage
 scripts
 tests
@@ -9,6 +6,4 @@ tests
 **/*.md
 **/*.svg
 .eslintrc.json
-.prettierignore
-.pretterrc.json
 codecov.yml
