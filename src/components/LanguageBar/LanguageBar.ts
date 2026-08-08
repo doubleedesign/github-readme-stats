@@ -53,7 +53,7 @@ export class LanguageBar extends BaseLanguageGroupElement {
 			element.className = 'language-bar__segment';
 			element.style.width = `${segment.size}%`;
 			element.style.backgroundColor = this.getColor(segment.name);
-			element.title = `${segment.name}: ${segment.size.toFixed(2)}%`;
+			element.title = `${segment.name}: ${segment.size}%`;
 			innerWrapper.appendChild(element);
 		});
 

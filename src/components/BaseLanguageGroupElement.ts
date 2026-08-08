@@ -43,7 +43,7 @@ export class BaseLanguageGroupElement extends BaseElement {
 
 		return refinedData.map((segment: LanguageSegment) => ({
 			name: segment.name,
-			size:  (segment.size / totalSize) * 100
+			size: Number((segment.size / totalSize) * 100).toFixed(2)
 		}));
 	}
 
