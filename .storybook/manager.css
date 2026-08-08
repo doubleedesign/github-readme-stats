@@ -632,6 +632,10 @@
   margin-top: 1px;
 }
 
+#storybook-panel-root .docblock-argstable-body td {
+	vertical-align: middle;
+}
+
 #storybook-panel-root .docblock-argstable-body td:has(button) {
   letter-spacing: unset;
   text-transform: none;
