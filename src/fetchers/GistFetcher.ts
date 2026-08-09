@@ -1,8 +1,8 @@
 import { Fetcher } from './Fetcher.ts';
 import { DURATIONS } from '../common/cache.ts';
 import { gql } from 'graphql-tag';
-import { LANGUAGE_COLORS } from '../constants.js';
 import type { GistFetcherFields } from './types.ts';
+import { getLanguageColor } from '../components/utils.ts';
 
 export class GistFetcher extends Fetcher implements GistFetcherFields{
 	variables = { gistName: '' };
@@ -63,7 +63,7 @@ export class GistFetcher extends Fetcher implements GistFetcherFields{
 				size: file.size,
 				node: {
 					name: file.language ? file.language.name : 'Unknown',
-					color: LANGUAGE_COLORS[file.language ? file.language.name : 'Unknown'] || '#858585',
+					color: getLanguageColor(file.language ? file.language.name : 'Unknown'),
 				}
 			}))
 		};

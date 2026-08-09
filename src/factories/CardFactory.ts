@@ -1,8 +1,8 @@
 import { Card } from '../components/Card/Card.ssr.ts';
 import { Badge } from '../components/Badge/Badge.ts';
 import { LanguageBar } from '../components/LanguageBar/LanguageBar.ts';
-import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../constants.js';
-import { kFormatter, parseEmojis } from '../components/utils.ts';
+import { EXCLUDED_LANGUAGES } from '../constants.js';
+import { kFormatter, parseEmojis, getLanguageColor } from '../components/utils.ts';
 import { icons } from '../common/icons.js';
 import type { RepositoryData, GistData, CardData } from '../fetchers/types.ts';
 
@@ -80,8 +80,7 @@ export class CardFactory {
 		const badge = new Badge();
 		badge.icon = 'circle';
 		badge.label = label ?? '';
-		// @ts-expect-error TS7053: Element implicitly has an any type
-		badge.color = allNames[0] ? LANGUAGE_COLORS[allNames[0]] : '#858585';
+		badge.color = getLanguageColor(allNames[0]);
 		badge.testId = 'languages';
 
 		return badge.toString();

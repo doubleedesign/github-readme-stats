@@ -62,9 +62,10 @@ export class LanguagesCard extends BaseElement {
 			}
 			
 			.card__chart {
-				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				align-items: center;
+				display: flex;
+				flex-wrap: nowrap;
+                align-items: center;
+				justify-content: space-between;
 				margin-block-start: 0.5rem;
 			}
 			
@@ -87,7 +88,7 @@ export class LanguagesCard extends BaseElement {
             x-donut,
             x-pie {
                 display: block;
-                margin-inline: auto;
+                margin-inline: 0;
 				line-height: 0;
             }
 		`;
@@ -118,7 +119,7 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get width() {
-		return 300;
+		return 360;
 	}
 
 	get height() {
@@ -172,7 +173,7 @@ export class LanguagesCard extends BaseElement {
 			return `
 				<div class="card__chart">
 					<x-list segments='${JSON.stringify(this.segments)}' layout="narrow"></x-list>
-					<x-donut segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-donut>
+					<x-donut segments='${JSON.stringify(this.segments)}' chartWidth="140"></x-donut>
 				</div>
 			`;
 		}
@@ -181,7 +182,7 @@ export class LanguagesCard extends BaseElement {
 			return `
 				<div class="card__chart">
 					<x-list segments='${JSON.stringify(this.segments)}' layout="narrow"></x-list>
-					<x-pie segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-pie>
+					<x-pie segments='${JSON.stringify(this.segments)}' chartWidth="140"></x-pie>
 				</div>
 			`;
 		}

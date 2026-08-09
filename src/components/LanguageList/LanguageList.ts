@@ -34,8 +34,9 @@ export class LanguageList extends BaseLanguageGroupElement {
                 display: ${this.layout === 'wide' ? 'grid' : 'flex'};
 				grid-template-columns: repeat(2, 1fr);
 				flex-direction: column;
-				gap: 0.5rem;
-				grid-gap: 0.5rem;
+				gap: 0.25rem;
+				grid-row-gap: 0.25rem;
+				grid-column-gap: 1.5rem;
 			}
 			
 			.language-list__item {
@@ -44,7 +45,7 @@ export class LanguageList extends BaseLanguageGroupElement {
 				display: flex;
 				align-items: center;
 				gap: 0.25rem;
-				line-height: 1;
+				line-height: 1.25;
 			}
 
             .language-list__item__indicator {
@@ -53,6 +54,24 @@ export class LanguageList extends BaseLanguageGroupElement {
 				display: inline-block;
 				border-radius: 50%;
 			}
+			
+			.language-list__item__label {
+				display: flex;
+				gap: 0.25rem;
+				flex-grow: 1;
+				
+              	span:first-child {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    word-break: break-all;
+                    overflow: hidden;
+                }
+				
+				span:last-child {
+					margin-inline-start: ${this.layout === 'wide' ? 'auto' : '0'};
+				}
+            }
 		`;
 	}
 
@@ -85,7 +104,7 @@ export class LanguageList extends BaseLanguageGroupElement {
 
 			const text = doc.createElement('span');
 			text.classList.add('language-list__item__label');
-			text.innerHTML = `${segment.name}: ${segment.size}%`;
+			text.innerHTML = `<span>${segment.name}</span> <span>${segment.size}%</span>`;
 
 			const element = doc.createElement('li');
 			element.className = 'language-list__item';

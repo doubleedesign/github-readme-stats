@@ -1,5 +1,6 @@
 // @ts-expect-error TS7016: Could not find a declaration file for module emoji-name-map.
 import toEmoji from 'emoji-name-map';
+import { LANGUAGE_COLORS } from '../constants.js';
 
 /**
  * Process template literal containing CSS.
@@ -8,6 +9,22 @@ import toEmoji from 'emoji-name-map';
  */
 export function css(strings: any, ...values: any[]) {
 	return String.raw({ raw: strings }, ...values);
+}
+
+export function getLanguageColor(lang?: string): string {
+	if(!lang) {
+		return '#858585';
+	}
+
+	if(lang.includes('&')) {
+		const langs: string[] = lang.split('&').map(l => l.trim());
+
+		// @ts-expect-error TS2538: Type undefined cannot be used as an index type.
+		return LANGUAGE_COLORS[langs[0]] || LANGUAGE_COLORS[langs[1]] || '#858585';
+	}
+
+	// @ts-expect-error TS7053: Element implicitly has an any type
+	return LANGUAGE_COLORS[lang] || '#858585';
 }
 
 /**

@@ -1,6 +1,7 @@
 import { BaseElement } from './BaseElement.ts';
 import type { LanguageSegment, Coordinates } from './types.ts';
-import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../constants.js';
+import { EXCLUDED_LANGUAGES } from '../constants.js';
+import { getLanguageColor } from './utils.ts';
 
 export type LanguageGroupComponentProps = {
 	/**
@@ -50,10 +51,8 @@ export class BaseLanguageGroupElement extends BaseElement {
 	}
 
 	getColor(language: string) {
-		// @ts-expect-error TS7053: Element implicitly has an any type
-		return LANGUAGE_COLORS[language] || '#858585';
+		return getLanguageColor(language);
 	}
-
 
 	degreesToRadians(angleInDegrees: number) {
 		return angleInDegrees * (Math.PI / 180.0);

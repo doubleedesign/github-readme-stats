@@ -1,5 +1,5 @@
 import { Fetcher } from './Fetcher.ts';
-import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME, LANGUAGE_COLORS } from '../constants.js';
+import { EXCLUDED_LANGUAGES, EXCLUDED_REPOS, USERNAME } from '../constants.js';
 import { DURATIONS } from '../common/cache.ts';
 import { gql } from 'graphql-tag';
 import { LanguagesCard } from '../components/LanguagesCard/LanguagesCard.ssr.ts';
@@ -11,8 +11,6 @@ import {
 	type TopLangsFetcherParams,
 } from './types.ts';
 import { type LanguageSegment, TopLangsLayout } from '../components/types.ts';
-import type { LangData } from './types.ts';
-
 
 export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 	variables = { login: USERNAME };
@@ -67,6 +65,9 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 	async fetch() {
 		const response = await super.fetch(this.variables);
 		this._processUserRepos(response.user.repositories.nodes);
+		this._mergeLanguages(['JavaScript', 'TypeScript']);
+		this._mergeLanguages(['CSS', 'SCSS']);
+		this._addNormalizedSizes();
 		this._sort();
 		this._trim();
 	}
@@ -93,6 +94,20 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 			});
 		});
 
+		this.data = result;
+	};
+
+	_mergeLanguages(langs: string[]) {
+		const mergedName = langs.join(' & ');
+		const mergedBytes = langs.reduce((sum, lang) => sum + (this.data[lang]?.bytes || 0), 0);
+		const mergedCount = langs.reduce((sum, lang) => sum + (this.data[lang]?.count || 0), 0);
+
+		this.data[mergedName] = { bytes: mergedBytes, count: mergedCount, size: 0 };
+
+		langs.forEach(lang => delete this.data[lang]);
+	}
+
+	_addNormalizedSizes() {
 		// Comparison index calculation - needs to happen after all byte and repo counts are done
 		// Source: https://github.com/anuraghazra/github-readme-stats/commit/5577bbf07fae7f0e2fcbed24042a59e5442434dc
 		let size_weight = this.algorithm === LanguageRankingAlgorithm.BYTE_COUNT ? 1 : 0;
@@ -101,12 +116,11 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 			size_weight = 0.5;
 			count_weight = 0.5;
 		}
-		for (const langName in result) {
-			result[langName]!.size = Math.pow(result[langName]!.bytes, size_weight) * Math.pow(result[langName]!.count, count_weight);
-		}
 
-		this.data = result;
-	};
+		for (const langName in this.data) {
+			this.data[langName]!.size = Math.pow(this.data[langName]!.bytes, size_weight) * Math.pow(this.data[langName]!.count, count_weight);
+		}
+	}
 
 	_sort() {
 		const sorted = Object.entries(this.data).sort(([, a], [, b]) => {
@@ -118,34 +132,6 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 
 	_trim() {
 		this.data = Object.fromEntries(Object.entries(this.data).slice(0, this.langs_count));
-	}
-
-	_maybeMergeResults(keysToMerge: string[], key: string, repoNodes: Record<string, LangData>, result: Record<string, LangData>) {
-		if (keysToMerge.includes(key)) {
-			const newKey = keysToMerge.join('/');
-
-			const ColourMap = {
-				// Give JS/TS the JS yellow for better contrast when sitting next to PHP
-				// and similar for CSS/SCSS - use SCSS's pink because it's less likely to be similar to adjacent languages
-				JavaScript: LANGUAGE_COLORS['JavaScript'],
-				TypeScript: LANGUAGE_COLORS['JavaScript'],
-				CSS: LANGUAGE_COLORS['SCSS'],
-				SCSS: LANGUAGE_COLORS['SCSS'],
-			};
-
-			if (!result[newKey]) {
-				result[newKey] = {
-					// @ts-expect-error TS7053: Element implicitly has an any type
-					name: newKey, color: ColourMap[key], size: repoNodes[key].size, count: repoNodes[key].count,
-				};
-			}
-			else {
-				result[newKey].size += repoNodes?.[key]?.size || 0;
-				result[newKey].count += repoNodes?.[key]?.count || 1;
-			}
-		}
-
-		return result;
 	}
 
 	_getPercentages(): LanguageSegment[] {
