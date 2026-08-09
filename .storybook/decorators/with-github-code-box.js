@@ -9,7 +9,7 @@ function htmlToString(html) {
 		.replace(/'/g, '&#039;');
 }
 
-export const withGithubCodeBox = (Story, context) => {
+export const withGithubCodeBox = (cardType) => (Story, context) => {
 	const queryParams = new URLSearchParams(context.args).toString();
 	const apiUrl = context.args.repo
 		? `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`
@@ -17,12 +17,17 @@ export const withGithubCodeBox = (Story, context) => {
 	const linkUrl = context.args.repo
 		? `https://github.com/${context.args.username}/${context.args.repo}`
 		: `https://gist.github.com/${context.args.username}/${context.args.id}`;
+	let altText = cardType === 'repo' ? context.args.repo : 'Gist preview';
 
-	const code = htmlToString(`
-		<a href="${linkUrl}">
-			<img alt="${context.args.repo}" src="${apiUrl}" />
-		</a>
-	`);
+	const code = cardType === 'topLangs'
+		? htmlToString(`
+			<img alt="My Top Languages from GitHub stats" src="${apiUrl}" />
+		`)
+		: htmlToString(`
+			<a href="${linkUrl}">
+				<img alt="${altText}" src="${apiUrl}" />
+			</a>
+		`);
 
 	setTimeout(() => {
 		const codeBlocks = document.querySelectorAll('.github-code code');

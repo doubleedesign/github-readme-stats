@@ -50,8 +50,10 @@ export class LanguagesCard extends BaseElement {
 
 			.card__title {
 				font-size: 1rem;
+				line-height: 1.4;
 				font-weight: 600;
 				color: var(--heading-color);
+				margin-block-end: 0.5rem;
                 /** Truncate text to 1 line with ellipsis */
                 display: -webkit-box;
                 -webkit-line-clamp: 1;
@@ -62,8 +64,12 @@ export class LanguagesCard extends BaseElement {
 			.card__chart {
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
-				margin-block-start: 1rem;
 				align-items: center;
+				margin-block-start: 0.5rem;
+			}
+			
+			.card__chart:not(:first-child) {
+				margin-block-start: 0.75rem;
 			}
 			
 			x-barchart {
@@ -116,35 +122,37 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get height() {
+		const cardPadding = 36;
+		const headingHeight = (16 * 1.4) + 8; // font-size * line-height + margin-block-end
+
 		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.PIE) {
 			// Approximation of the list height based on LanguageList's hardcoded values
-			const textHeight = this.segments.length * 20;
+			const textHeight = this.segments.length * 12;
+			const gaps = (this.segments.length - 1) * 8;
 			const chartHeight = 120;
-			const finalGraphicHeight = Math.max(textHeight, chartHeight) + 8;
-
-			const cardPadding = 36;
+			const finalGraphicHeight = Math.max((textHeight + gaps + 12), chartHeight);
 			const contentHeight = finalGraphicHeight + cardPadding;
 
-			return this.heading !== '' ? contentHeight + 32 : contentHeight;
+			return this.heading !== '' ? contentHeight + headingHeight : contentHeight;
 		}
 
 		if(this.layout === TopLangsLayout.BAR) {
 			// Approximation of bar chart height
-			const chartHeight = (this.segments.length * 32);
-			const cardPadding = 36;
+			const chartHeight = this.segments.length * 32;
+
 			const contentHeight = chartHeight + cardPadding;
 
-			return this.heading !== '' ? contentHeight + 32 : contentHeight;
+			return this.heading !== '' ? contentHeight + headingHeight : contentHeight;
 		}
 
 		// Default = Compact layout
 		// Approximation of the list height based on LanguageList's hardcoded values
-		const textHeight = Math.ceil((this.segments.length / 2)) * 16;
-		const barHeight = 8 + 20;
-		const cardPadding = 36;
-		const contentHeight = textHeight + barHeight + cardPadding;
+		const rows = Math.ceil(this.segments.length / 2);
+		const textHeight = (rows * 16) - 4; // account for the grid gap by adding to all rows except the last one
+		const barHeight = 8 + 16;
+		const contentHeight = textHeight + barHeight + cardPadding + 16;
 
-		return this.heading !== '' ? contentHeight + 32 : contentHeight;
+		return this.heading !== '' ? contentHeight + headingHeight : contentHeight;
 	}
 
 	renderTitle() {

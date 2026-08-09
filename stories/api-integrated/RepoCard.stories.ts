@@ -26,7 +26,7 @@ const meta: Meta<RepoQueryOptions> = {
 	},
 	decorators: [
 		withRequestUrl({ base: 'http://localhost:9000/api/pin/' }),
-		withGithubCodeBox,
+		withGithubCodeBox('repo')
 	],
 };
 

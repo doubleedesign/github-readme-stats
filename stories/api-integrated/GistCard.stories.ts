@@ -9,7 +9,7 @@ const meta: Meta<GistQueryOptions> = {
 	},
 	decorators: [
 		withRequestUrl({ base: 'http://localhost:9000/api/gist/' }),
-		withGithubCodeBox,
+		withGithubCodeBox('gist')
 	],
 };
 
