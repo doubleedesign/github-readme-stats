@@ -7,6 +7,9 @@ export type LanguageBarProps = LanguageGroupComponentProps & {
 };
 
 export class LanguageBar extends BaseLanguageGroupElement {
+	static get observedAttributes() {
+		return ['segments', 'strokeWidth'];
+	}
 
 	getCss() {
 		return css`
@@ -31,7 +34,7 @@ export class LanguageBar extends BaseLanguageGroupElement {
 		return parseInt(this.getAttribute('strokeWidth') || '4', 10);
 	}
 
-	set strokeWidth(value: number) {
+	set strokeWidth(value: number|string) {
 		this.setAttribute('strokeWidth', value.toString());
 	}
 

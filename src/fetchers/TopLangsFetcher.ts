@@ -10,15 +10,15 @@ import {
 	type TopLangsFetcherFields,
 	type TopLangsFetcherParams,
 } from './types.ts';
-import type { LanguageSegment } from '../components/types.ts';
+import { type LanguageSegment, TopLangsLayout } from '../components/types.ts';
 import type { LangData } from './types.ts';
 
 
 export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 	variables = { login: USERNAME };
 	heading = 'Top Languages';
-	layout;
-	langs_count;
+	layout = TopLangsLayout.COMPACT;
+	langs_count= 10;
 	exclude_langs: TopLangsFetcherFields['exclude_langs'] = [];
 	exclude_repos: TopLangsFetcherFields['exclude_repos'] = [];
 	algorithm;
@@ -29,7 +29,7 @@ export class TopLangsFetcher extends Fetcher implements TopLangsFetcherFields {
 	constructor(params: TopLangsFetcherParams) {
 		super();
 		this.heading = params.heading ?? 'Top Languages';
-		this.layout = params.layout ?? 'default';
+		this.layout = params.layout ?? TopLangsLayout.COMPACT;
 		this.langs_count = params.langs_count ?? 10;
 		this.exclude_langs = EXCLUDED_LANGUAGES;
 		this.exclude_repos = EXCLUDED_REPOS;

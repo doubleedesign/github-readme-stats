@@ -4,7 +4,7 @@ export type LanguageSegment = {
 };
 
 export enum TopLangsLayout {
-	DEFAULT = 'default',
+	BAR = 'bar',
 	COMPACT = 'compact',
 	DONUT = 'donut',
 	PIE = 'pie',

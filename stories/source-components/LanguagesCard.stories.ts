@@ -7,7 +7,7 @@ const meta: Meta<LanguagesCardProps> = {
 	component: 'x-languages', 
 	args: {
 		heading: 'Top Languages',
-		layout: TopLangsLayout.DEFAULT,
+		layout: TopLangsLayout.COMPACT,
 		segments: JSON.stringify([
 			{ name: 'JavaScript', size: 2653 },
 			{ name: 'PHP', size: 1260 },

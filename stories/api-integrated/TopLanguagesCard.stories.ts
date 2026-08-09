@@ -7,8 +7,9 @@ import { withRequestUrl } from '../../.storybook/decorators/with-request-url.js'
 const meta: Meta<TopLangsQueryOptions> = {
 	args: {
 		langs_count: 10,
+		heading: 'Top Languages',
 		algorithm: LanguageRankingAlgorithm.BOTH,
-		layout: TopLangsLayout.DEFAULT
+		layout: TopLangsLayout.COMPACT
 	},
 	argTypes: {
 		heading: {

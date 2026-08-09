@@ -41,10 +41,12 @@ export class BaseLanguageGroupElement extends BaseElement {
 		const refinedData = data.filter((segment: LanguageSegment) => !EXCLUDED_LANGUAGES.includes(segment.name.toLowerCase()));
 		const totalSize = refinedData.reduce((sum: number, segment: LanguageSegment) => sum + segment.size, 0);
 
-		return refinedData.map((segment: LanguageSegment) => ({
-			name: segment.name,
-			size: Number((segment.size / totalSize) * 100).toFixed(2)
-		}));
+		return refinedData
+			.map((segment: LanguageSegment) => ({
+				name: segment.name,
+				size: Number((segment.size / totalSize) * 100).toFixed(2)
+			}))
+			.sort((a: LanguageSegment, b: LanguageSegment) => b.size - a.size);
 	}
 
 	getColor(language: string) {

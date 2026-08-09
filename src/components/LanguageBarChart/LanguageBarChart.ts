@@ -2,21 +2,13 @@ import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../B
 import type { LanguageSegment } from '../types.ts';
 import { css } from '../utils.ts';
 
-export type LanguageListProps = LanguageGroupComponentProps & {
-	layout: 'narrow' | 'wide';
+export type BarChartProps = LanguageGroupComponentProps & {
+	strokeWidth?: number;
 };
 
-export class LanguageList extends BaseLanguageGroupElement {
+export class LanguageBarChart extends BaseLanguageGroupElement {
 	static get observedAttributes() {
-		return ['segments', 'layout'];
-	}
-
-	get layout() {
-		return this.getAttribute('layout') || 'narrow';
-	}
-
-	set layout(value: string) {
-		this.setAttribute('layout', value);
+		return ['segments', 'strokeWidth'];
 	}
 
 	getCss() {
@@ -27,33 +19,40 @@ export class LanguageList extends BaseLanguageGroupElement {
                 --body-color: #767486;
             }
 			
-			.language-list {
+			.language-bar-chart {
+				width: 100%;
 				margin: 0;
 				padding: 0;
-				max-width: 300px;
-                display: ${this.layout === 'wide' ? 'grid' : 'flex'};
-				grid-template-columns: repeat(2, 1fr);
+				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
-				grid-gap: 0.5rem;
 			}
 			
-			.language-list__item {
+			.language-bar-chart__item {
 				font-size: 0.75rem;
 				color: var(--body-color);
 				display: flex;
-				align-items: center;
+				flex-direction: column;
 				gap: 0.25rem;
-				line-height: 1;
 			}
 
-            .language-list__item__indicator {
-				height: 0.5rem;
-				width: 0.5rem;
+            .language-bar-chart__item__indicator {
+				height: ${this.strokeWidth}px;
 				display: inline-block;
-				border-radius: 50%;
+			}
+
+            .language-bar-chart__item__label {
+				line-height: 1;
 			}
 		`;
+	}
+
+	get strokeWidth() {
+		return parseInt(this.getAttribute('strokeWidth') || '8', 10);
+	}
+
+	set strokeWidth(value: number) {
+		this.setAttribute('strokeWidth', value.toString());
 	}
 
 	compile() {
@@ -61,14 +60,13 @@ export class LanguageList extends BaseLanguageGroupElement {
 		if (!doc) {
 			return null;
 		}
-
 		const segments = this.parseSegments();
 		if (segments.length === 0) {
 			return null;
 		}
 
 		const wrapper = doc.createElement('div');
-		wrapper.setAttribute('data-testid', 'language-list');
+		wrapper.setAttribute('data-testid', 'language-bar-chart');
 
 		// Add the CSS inside to ensure it renders correctly when rendered from the backend
 		const style = doc.createElement('style');
@@ -76,20 +74,21 @@ export class LanguageList extends BaseLanguageGroupElement {
 		wrapper.appendChild(style);
 
 		const innerWrapper = doc.createElement('ul');
-		innerWrapper.classList.add('language-list');
+		innerWrapper.classList.add('language-bar-chart');
 
 		segments.forEach((segment: LanguageSegment)  => {
-			const dot = doc.createElement('span');
-			dot.classList.add('language-list__item__indicator');
-			dot.style.backgroundColor = `${this.getColor(segment.name)}`;
+			const bar = doc.createElement('span');
+			bar.classList.add('language-bar-chart__item__indicator');
+			bar.style.backgroundColor = `${this.getColor(segment.name)}`;
+			bar.style.width = `${segment.size}%`;
 
 			const text = doc.createElement('span');
-			text.classList.add('language-list__item__label');
+			text.classList.add('language-bar-chart__item__label');
 			text.innerHTML = `${segment.name}: ${segment.size}%`;
 
 			const element = doc.createElement('li');
-			element.className = 'language-list__item';
-			element.appendChild(dot);
+			element.className = 'language-bar-chart__item';
+			element.appendChild(bar);
 			element.appendChild(text);
 
 			innerWrapper.appendChild(element);
@@ -104,7 +103,6 @@ export class LanguageList extends BaseLanguageGroupElement {
 	}
 }
 
-
-if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-list')) {
-	window.customElements.define('x-list', LanguageList);
+if (typeof window !== 'undefined' && 'customElements' in window && !window.customElements.get('x-barchart')) {
+	window.customElements.define('x-barchart', LanguageBarChart);
 }

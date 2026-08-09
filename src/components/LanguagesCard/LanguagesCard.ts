@@ -6,6 +6,7 @@ import '../LanguageBar/LanguageBar.ts';
 import '../LanguageDonut/LanguageDonut.ts';
 import '../LanguagePie/LanguagePie.ts';
 import '../LanguageList/LanguageList.ts';
+import '../LanguageBarChart/LanguageBarChart.ts';
 
 export type LanguagesCardProps = {
 	heading: string;
@@ -47,13 +48,6 @@ export class LanguagesCard extends BaseElement {
 				margin: 0;
 			}
 
-			text,
-			span {
-				display: block;
-				color: var(--body-color);
-				line-height: 1.4;
-			}
-
 			.card__title {
 				font-size: 1rem;
 				font-weight: 600;
@@ -70,6 +64,12 @@ export class LanguagesCard extends BaseElement {
 				grid-template-columns: repeat(2, 1fr);
 				margin-block-start: 1rem;
 				align-items: center;
+			}
+			
+			x-barchart {
+				display: block;
+				width: 100%;
+                margin-block-start: 0.5rem;
 			}
 			
 			x-langbar {
@@ -96,7 +96,7 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get layout() {
-		return this.getAttribute('layout') as TopLangsLayout || TopLangsLayout.DEFAULT;
+		return this.getAttribute('layout') as TopLangsLayout || TopLangsLayout.COMPACT;
 	}
 
 	set layout(value: TopLangsLayout) {
@@ -116,16 +116,6 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get height() {
-		if (this.layout === TopLangsLayout.COMPACT) {
-			// Approximation of the list height based on LanguageList's hardcoded values
-			const textHeight = (this.segments.length / 2) * 24;
-			const barHeight = 16;
-			const cardPadding = 36;
-			const contentHeight = textHeight + barHeight + cardPadding;
-
-			return this.heading !== '' ? contentHeight + 32 : contentHeight;
-		}
-
 		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.PIE) {
 			// Approximation of the list height based on LanguageList's hardcoded values
 			const textHeight = this.segments.length * 20;
@@ -138,7 +128,23 @@ export class LanguagesCard extends BaseElement {
 			return this.heading !== '' ? contentHeight + 32 : contentHeight;
 		}
 
-		return 300;
+		if(this.layout === TopLangsLayout.BAR) {
+			// Approximation of bar chart height
+			const chartHeight = (this.segments.length * 32);
+			const cardPadding = 36;
+			const contentHeight = chartHeight + cardPadding;
+
+			return this.heading !== '' ? contentHeight + 32 : contentHeight;
+		}
+
+		// Default = Compact layout
+		// Approximation of the list height based on LanguageList's hardcoded values
+		const textHeight = Math.ceil((this.segments.length / 2)) * 16;
+		const barHeight = 8 + 20;
+		const cardPadding = 36;
+		const contentHeight = textHeight + barHeight + cardPadding;
+
+		return this.heading !== '' ? contentHeight + 32 : contentHeight;
 	}
 
 	renderTitle() {
@@ -153,13 +159,6 @@ export class LanguagesCard extends BaseElement {
 
 	renderSegments() {
 		if(this.segments.length < 1) return;
-
-		if(this.layout === TopLangsLayout.COMPACT) {
-			return `
-				<x-langbar segments='${JSON.stringify(this.segments)}' strokeWidth="8"></x-langbar>
-				<x-list segments='${JSON.stringify(this.segments)}' layout="wide"></x-list>
-			`;
-		}
 
 		if(this.layout === TopLangsLayout.DONUT) {
 			return `
@@ -178,6 +177,18 @@ export class LanguagesCard extends BaseElement {
 				</div>
 			`;
 		}
+
+		if(this.layout === TopLangsLayout.BAR) {
+			return `
+				<x-barchart segments='${JSON.stringify(this.segments)}'></x-barchart>
+			`;
+		}
+
+		// Default = Compact layout
+		return `
+			<x-langbar segments='${JSON.stringify(this.segments)}' strokeWidth="8"></x-langbar>
+			<x-list segments='${JSON.stringify(this.segments)}' layout="wide"></x-list>
+		`;
 	}
 
 	compile() {
