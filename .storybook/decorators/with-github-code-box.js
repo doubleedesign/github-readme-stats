@@ -11,17 +11,25 @@ function htmlToString(html) {
 
 export const withGithubCodeBox = (cardType) => (Story, context) => {
 	const queryParams = new URLSearchParams(context.args).toString();
-	const apiUrl = context.args.repo
+	let apiUrl = context.args.repo
 		? `https://github-readme-stats-doubleedesign.vercel.app/api/pin/?${queryParams}`
 		: `https://github-readme-stats-doubleedesign.vercel.app/api/gist/?${queryParams}`;
-	const linkUrl = context.args.repo
+	let linkUrl = context.args.repo
 		? `https://github.com/${context.args.username}/${context.args.repo}`
 		: `https://gist.github.com/${context.args.username}/${context.args.id}`;
 	let altText = cardType === 'repo' ? context.args.repo : 'Gist preview';
 
+	if (cardType === 'topLangs') {
+		apiUrl = `https://github-readme-stats-doubleedesign.vercel.app/api/top-langs/?${queryParams}`;
+		linkUrl = 'https://github.com/doubleedesign/github-readme-stats';
+		altText = 'My Top Languages from GitHub stats';
+	}
+
 	const code = cardType === 'topLangs'
 		? htmlToString(`
-			<img alt="My Top Languages from GitHub stats" src="${apiUrl}" />
+			<a href="${linkUrl}">
+				<img alt="${altText}" src="${apiUrl}" />
+			</a>
 		`)
 		: htmlToString(`
 			<a href="${linkUrl}">

@@ -18,7 +18,11 @@ Documentation for the cards and options available is via Storybook when developi
 
 ### Language stats algorithm
 
-The following algorithm is used to calculate the languages percentages on the Top Languages card:
+> [!IMPORTANT]
+> The Top Languages card currently looks at the content of public repositories that you own, including archives but not including forks, and excluding any languages and repositories specified in the `src/constants.js` file. It also merges specific languages into one count.
+> To adjust what is counted and which languages get merged, you will need to adjust the GraphQL query and/or refinement methods in `src/fetchers/TopLanguagesFetcher.ts`.
+
+The following algorithm is used to calculate the language percentages:
 
 ```js
 ranking_index = (byte_count ^ size_weight) * (repo_count ^ count_weight)
