@@ -5,6 +5,7 @@ import { TopLangsLayout } from '../types.ts';
 import '../LanguageBar/LanguageBar.ts';
 import '../LanguageDonut/LanguageDonut.ts';
 import '../LanguagePie/LanguagePie.ts';
+import '../LanguageList/LanguageList.ts';
 
 export type LanguagesCardProps = {
 	heading: string;
@@ -34,8 +35,6 @@ export class LanguagesCard extends BaseElement {
 			}
 
 			.card {
-				display: flex;
-				flex-direction: column;
 				border: 1px solid var(--border-color);
 				border-radius: 0.25rem;
 				background-color: var(--background-color);
@@ -43,8 +42,9 @@ export class LanguagesCard extends BaseElement {
 				max-width: 100%;
 				height: ${this.height}px;
 				box-sizing: border-box;
-				padding: 1.25rem 1.5rem 1rem;
+				padding: 1rem 1.5rem;
 				position: relative;
+				margin: 0;
 			}
 
 			text,
@@ -55,20 +55,35 @@ export class LanguagesCard extends BaseElement {
 			}
 
 			.card__title {
-				display: flex;
-				gap: 0.5rem;
-				margin-block-end: 0.5rem;
 				font-size: 1rem;
 				font-weight: 600;
 				color: var(--heading-color);
+                /** Truncate text to 1 line with ellipsis */
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+			}
+			
+			.card__chart {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				margin-block-start: 1rem;
+				align-items: center;
+			}
+			
+			x-langbar {
+				display: block;
+				margin-block-start: 0.5rem;
+				margin-block-end: 0.75rem;
 			}
 
             x-donut,
             x-pie {
                 display: block;
                 margin-inline: auto;
+				line-height: 0;
             }
-
 		`;
 	}
 
@@ -101,6 +116,28 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get height() {
+		if (this.layout === TopLangsLayout.COMPACT) {
+			// Approximation of the list height based on LanguageList's hardcoded values
+			const textHeight = (this.segments.length / 2) * 24;
+			const barHeight = 16;
+			const cardPadding = 36;
+			const contentHeight = textHeight + barHeight + cardPadding;
+
+			return this.heading !== '' ? contentHeight + 32 : contentHeight;
+		}
+
+		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.PIE) {
+			// Approximation of the list height based on LanguageList's hardcoded values
+			const textHeight = this.segments.length * 20;
+			const chartHeight = 120;
+			const finalGraphicHeight = Math.max(textHeight, chartHeight) + 8;
+
+			const cardPadding = 36;
+			const contentHeight = finalGraphicHeight + cardPadding;
+
+			return this.heading !== '' ? contentHeight + 32 : contentHeight;
+		}
+
 		return 300;
 	}
 
@@ -108,9 +145,9 @@ export class LanguagesCard extends BaseElement {
 		const shouldShowTitle = this.getAttribute('heading') !== null && this.getAttribute('heading') !== '';
 
 		return shouldShowTitle ? `
-			<span class="card__title" data-testid="card__title">
+			<figcaption class="card__title" data-testid="card__title">
 				${this.heading}
-			</span>
+			</figcaption>
 		` : '';
 	}
 
@@ -118,15 +155,28 @@ export class LanguagesCard extends BaseElement {
 		if(this.segments.length < 1) return;
 
 		if(this.layout === TopLangsLayout.COMPACT) {
-			return `<x-langbar segments='${JSON.stringify(this.segments)}'></x-langbar>`;
+			return `
+				<x-langbar segments='${JSON.stringify(this.segments)}' strokeWidth="8"></x-langbar>
+				<x-list segments='${JSON.stringify(this.segments)}' layout="wide"></x-list>
+			`;
 		}
 
 		if(this.layout === TopLangsLayout.DONUT) {
-			return `<x-donut segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-donut>`;
+			return `
+				<div class="card__chart">
+					<x-list segments='${JSON.stringify(this.segments)}' layout="narrow"></x-list>
+					<x-donut segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-donut>
+				</div>
+			`;
 		}
 
 		if(this.layout === TopLangsLayout.PIE) {
-			return `<x-pie segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-pie>`;
+			return `
+				<div class="card__chart">
+					<x-list segments='${JSON.stringify(this.segments)}' layout="narrow"></x-list>
+					<x-pie segments='${JSON.stringify(this.segments)}' chartWidth="120"></x-pie>
+				</div>
+			`;
 		}
 	}
 
@@ -158,7 +208,7 @@ export class LanguagesCard extends BaseElement {
 		innerWrapper.setAttribute('height', String(this.height));
 
 		// Put the content inside a normal HTML fragment so we can use things like flexbox layout
-		const content = doc.createElement('div');
+		const content = doc.createElement('figure');
 		content.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
 		content.classList.add('card');
 		content.innerHTML = `
