@@ -2,7 +2,6 @@ import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../B
 import type { LanguageSegment } from '../types.ts';
 import { css } from '../utils.ts';
 
-
 export type LanguageBarProps = LanguageGroupComponentProps;
 
 export class LanguageBar extends BaseLanguageGroupElement {

@@ -9,3 +9,8 @@ export enum TopLangsLayout {
 	DONUT = 'donut',
 	PIE = 'pie',
 }
+
+export type Coordinates = {
+	x: number;
+	y: number;
+};

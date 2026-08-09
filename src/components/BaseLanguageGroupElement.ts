@@ -1,5 +1,5 @@
 import { BaseElement } from './BaseElement.ts';
-import type { LanguageSegment } from './types.ts';
+import type { LanguageSegment, Coordinates } from './types.ts';
 import { EXCLUDED_LANGUAGES, LANGUAGE_COLORS } from '../constants.js';
 
 export type LanguageGroupComponentProps = {
@@ -59,19 +59,18 @@ export class BaseLanguageGroupElement extends BaseElement {
 
 	/**
      * Convert polar coordinates to Cartesian coordinates.
-     * @param {number} centerX Center x coordinate.
-     * @param {number} centerY Center y coordinate.
+     * @param {Coordinates} center Center coordinates.
      * @param {number} radius Radius of the circle.
      * @param {number} angleInDegrees Angle in degrees.
      *
-     * @returns {{x: number, y: number}} Cartesian coordinates.
+     * @returns {Coordinates} Cartesian coordinates.
      */
-	polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number): { x: number; y: number; } {
+	polarToCartesian(center: Coordinates, radius: number, angleInDegrees: number): Coordinates {
 		const rads = this.degreesToRadians(angleInDegrees);
 
 		return {
-			x: centerX + radius * Math.cos(rads),
-			y: centerY + radius * Math.sin(rads),
+			x: center.x + radius * Math.cos(rads),
+			y: center.x + radius * Math.sin(rads),
 		};
 	};
 }

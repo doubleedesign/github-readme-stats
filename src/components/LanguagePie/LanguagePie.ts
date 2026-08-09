@@ -1,15 +1,16 @@
 import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../BaseLanguageGroupElement.ts';
-import { type LanguageSegment } from '../types.ts';
+import type { LanguageSegment, Coordinates } from '../types.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
 import { Path } from '../../factories/Path.ts';
 
 export type PieProps = LanguageGroupComponentProps & {
 	chartWidth?: number;
+	strokeWidth?: number;
 };
 
 export class LanguagePie extends BaseLanguageGroupElement {
 	static get observedAttributes() {
-		return ['segments', 'chartWidth'];
+		return ['segments', 'chartWidth', 'strokeWidth'];
 	}
 
 	get chartWidth() {
@@ -20,15 +21,22 @@ export class LanguagePie extends BaseLanguageGroupElement {
 		this.setAttribute('chartWidth', value.toString());
 	}
 
+	get strokeWidth() {
+		return parseInt(this.getAttribute('strokeWidth') || '1', 10);
+	}
+
+	set strokeWidth(value: number) {
+		this.setAttribute('strokeWidth', value.toString());
+	}
+
 	/**
      * Create the SVG paths for the language pie chart.
-     * @param {number} cx Pie center x-position.
-     * @param {number} cy Pie center y-position.
+     * @param {Coordinates} center Pie center coordinates.
      * @param {number} radius Pie arc Radius.
      *
      * @returns {{name: string, path: string, percent: number}[]}  Array of language names + data to use for SVG path elements
      */
-	createPaths(cx: number, cy: number, radius: number): { name: string; path: string; percent: number; }[] {
+	createPaths(center: Coordinates, radius: number): { name: string; path: string; percent: number; }[] {
 		const paths: { name: string; path: string; percent: number; }[] = [];
 		let startAngle = 0;
 		let endAngle = 0;
@@ -37,14 +45,20 @@ export class LanguagePie extends BaseLanguageGroupElement {
 
 		parsedSegments.forEach((segment: LanguageSegment) => {
 			endAngle = 3.6 * segment.size + startAngle;
-			const startPoint = this.polarToCartesian(cx, cy, radius, endAngle - 90); // rotate pie 90 degrees counter-clockwise.
-			const endPoint = this.polarToCartesian(cx, cy, radius, startAngle - 90); // rotate donut 90 degrees counter-clockwise.
-			const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+			const startPoint = this.polarToCartesian(center, radius, endAngle - 90); // rotate to put the first slice at 12 o'clock position
+			const endPoint = this.polarToCartesian(center, radius, startAngle - 90); // rotate to put the first slice at 12 o'clock position
+			const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
+
+			const path = new Path(segment.name)
+				.from(center)
+				.lineTo(startPoint)
+				.arcTo(radius, radius, 0, largeArcFlag, 0, endPoint)
+				.closePath();
 
 			paths.push({
 				name: segment.name,
 				percent: segment.size,
-				path: new Path().from(cx, cy).lineTo(startPoint.x, startPoint.y).arcTo(radius, radius, 0, largeArc, 0, endPoint.x, endPoint.y).closePath().toString()
+				path: path.toString(),
 			});
 
 			startAngle = endAngle;
@@ -61,8 +75,7 @@ export class LanguagePie extends BaseLanguageGroupElement {
 
 		const centerX = this.chartWidth / 2;
 		const centerY = this.chartWidth / 2;
-		const radius = this.chartWidth / 2;
-		const langPaths = this.createPaths(centerX, centerY, radius);
+		const radius = centerX - this.strokeWidth;
 
 		if(segments.length === 1) {
 			const color = this.getColor(segments[0]!.name);
@@ -79,14 +92,18 @@ export class LanguagePie extends BaseLanguageGroupElement {
 			`;
 		}
 
+		const langPaths = this.createPaths({ x: centerX, y: centerY }, radius);
+
 		return langPaths.map((segment, index) => {
 			const color = this.getColor(segment.name);
 
 			return `
 				<path
-					data-testid="lang-slice"
+					data-testid="lang-slice--${segment.name}"
 					d="${segment.path}"
 					fill="${color}"
+					stroke="#E5E5E5"
+					stroke-width="${this.strokeWidth}"
 				/>
 			`;
 		}).join('');
