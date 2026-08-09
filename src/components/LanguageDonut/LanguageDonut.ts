@@ -22,7 +22,7 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 	}
 
 	get strokeWidth() {
-		return parseInt(this.getAttribute('strokeWidth') || '12', 10);
+		return parseInt(this.getAttribute('strokeWidth') || '16', 10);
 	}
 
 	set strokeWidth(value: number) {

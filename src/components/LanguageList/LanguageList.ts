@@ -40,7 +40,7 @@ export class LanguageList extends BaseLanguageGroupElement {
 			}
 			
 			.language-list__item {
-				font-size: 0.75rem;
+                font-size: 0.85rem;
 				color: var(--body-color);
 				display: flex;
 				align-items: center;

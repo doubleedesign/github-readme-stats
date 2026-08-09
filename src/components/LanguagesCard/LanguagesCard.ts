@@ -32,7 +32,7 @@ export class LanguagesCard extends BaseElement {
 				--background-color: rgb(220 220 240 / 0.05);
 				--border-color: rgb(100 100 100 / 0.3);
 				--heading-color: #767486;
-				--body-color: #767486;
+                --body-color: #767486;
 			}
 
 			.card {
@@ -128,9 +128,9 @@ export class LanguagesCard extends BaseElement {
 
 		if(this.layout === TopLangsLayout.DONUT || this.layout === TopLangsLayout.PIE) {
 			// Approximation of the list height based on LanguageList's hardcoded values
-			const textHeight = this.segments.length * 12;
+			const textHeight = this.segments.length * 14;
 			const gaps = (this.segments.length - 1) * 8;
-			const chartHeight = 120;
+			const chartHeight = 140;
 			const finalGraphicHeight = Math.max((textHeight + gaps + 12), chartHeight);
 			const contentHeight = finalGraphicHeight + cardPadding;
 

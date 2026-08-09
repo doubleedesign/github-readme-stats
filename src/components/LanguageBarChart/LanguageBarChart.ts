@@ -29,7 +29,7 @@ export class LanguageBarChart extends BaseLanguageGroupElement {
 			}
 			
 			.language-bar-chart__item {
-				font-size: 0.75rem;
+                font-size: 0.85rem;
 				color: var(--body-color);
 				display: flex;
 				flex-direction: column;
