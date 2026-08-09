@@ -1,6 +1,7 @@
 import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../BaseLanguageGroupElement.ts';
 import { type LanguageSegment } from '../types.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
+import { Path } from '../../factories/Path.ts';
 
 export type PieProps = LanguageGroupComponentProps & {
 	chartWidth?: number;
@@ -36,14 +37,14 @@ export class LanguagePie extends BaseLanguageGroupElement {
 
 		parsedSegments.forEach((segment: LanguageSegment) => {
 			endAngle = 3.6 * segment.size + startAngle;
-			const startPoint = this.polarToCartesian(cx, cy, radius, endAngle - 90); // rotate donut 90 degrees counter-clockwise.
+			const startPoint = this.polarToCartesian(cx, cy, radius, endAngle - 90); // rotate pie 90 degrees counter-clockwise.
 			const endPoint = this.polarToCartesian(cx, cy, radius, startAngle - 90); // rotate donut 90 degrees counter-clockwise.
 			const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
 
 			paths.push({
 				name: segment.name,
 				percent: segment.size,
-				path: `M ${cx} ${cy} L ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArc} 0 ${endPoint.x} ${endPoint.y} Z`
+				path: new Path().from(cx, cy).lineTo(startPoint.x, startPoint.y).arcTo(radius, radius, 0, largeArc, 0, endPoint.x, endPoint.y).closePath().toString()
 			});
 
 			startAngle = endAngle;
@@ -86,9 +87,6 @@ export class LanguagePie extends BaseLanguageGroupElement {
 					data-testid="lang-slice"
 					d="${segment.path}"
 					fill="${color}"
-					stroke="#fff"
-					stroke-width="2px"
-					stroke-opacity="0.5"
 				/>
 			`;
 		}).join('');

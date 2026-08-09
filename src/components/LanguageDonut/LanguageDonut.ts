@@ -1,6 +1,7 @@
 import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../BaseLanguageGroupElement.ts';
 import { type LanguageSegment } from '../types.ts';
 import { SVG_NAMESPACE } from '../../constants.js';
+import { Path } from '../../factories/Path.ts';
 
 export type DonutProps = LanguageGroupComponentProps & {
 	chartWidth?: number;
@@ -52,7 +53,7 @@ export class LanguageDonut extends BaseLanguageGroupElement {
 			paths.push({
 				name: segment.name,
 				percent: segment.size,
-				path: `M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArc} 0 ${endPoint.x} ${endPoint.y}`
+				path: new Path().from(startPoint.x, startPoint.y).arcTo(radius, radius, 0, largeArc, 0, endPoint.x, endPoint.y).toString()
 			});
 
 			startAngle = endAngle;
