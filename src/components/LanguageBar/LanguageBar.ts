@@ -2,7 +2,9 @@ import { BaseLanguageGroupElement, type LanguageGroupComponentProps } from '../B
 import type { LanguageSegment } from '../types.ts';
 import { css } from '../utils.ts';
 
-export type LanguageBarProps = LanguageGroupComponentProps;
+export type LanguageBarProps = LanguageGroupComponentProps & {
+	strokeWidth?: number;
+};
 
 export class LanguageBar extends BaseLanguageGroupElement {
 
@@ -15,7 +17,7 @@ export class LanguageBar extends BaseLanguageGroupElement {
 			
 			.language-bar {
 				display: flex;
-				height: 0.25rem;
+				height: ${this.strokeWidth}px;
 			}
 			
 			.language-bar__segment {
@@ -23,6 +25,14 @@ export class LanguageBar extends BaseLanguageGroupElement {
 				height: 100%;
             }
 		`;
+	}
+
+	get strokeWidth() {
+		return parseInt(this.getAttribute('strokeWidth') || '4', 10);
+	}
+
+	set strokeWidth(value: number) {
+		this.setAttribute('strokeWidth', value.toString());
 	}
 
 	compile() {
