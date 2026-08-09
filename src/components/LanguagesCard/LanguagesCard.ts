@@ -119,7 +119,7 @@ export class LanguagesCard extends BaseElement {
 	}
 
 	get width() {
-		return 360;
+		return 420;
 	}
 
 	get height() {
